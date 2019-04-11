@@ -1,5 +1,5 @@
 {
-  "name": "acss",
+  "name": "aliascss",
   "version": "3.0.0",
   "description": "Extended version of ACSS,  css clasnames post processor that uses full post define classnames",
   "main": "index.js",
@@ -40,6 +40,7 @@
     "chai": "*",
     "eslint": "^5.16.0",
     "mocha": "*",
+    "unminified-webpack-plugin": "^2.0.0",
     "webpack": "*",
     "webpack-cli": "*"
   }

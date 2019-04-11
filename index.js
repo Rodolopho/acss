@@ -4,8 +4,9 @@ var sass=require('node-sass');
 
 //MAKES CSS STATEMENTS
 // const statementMaker=require('./src/statementMaker.js');
-const statementMaker=require('./lib/statementMaker.js');
+require('./lib/statementMaker.js');
 const dist=path.join(__dirname,"dist",'acss.js');
+// console.log(statementMaker);
 
 
 let acssCompiler={
@@ -17,6 +18,9 @@ let acssCompiler={
 	},
 
 	classList:[],
+	statementMaker:statementMaker,
+	style:function(a){ return this.statementMaker.groupForStyle(a)},
+	styleJs:function(a,b){ return this.statementMaker.groupForJs(a,b)},
 	input:null,
 	output:null,
 	regClass:/[\s]+class[\s]*=[\s]*['|"][\s]*([-|_|A-Za-z0-9|\s]+)[\s]*['|"]/, //[1]
@@ -59,9 +63,9 @@ let acssCompiler={
 				if(classList.length){
 					
 					// compileStatement=`\n/* AliasCSS : These are classnames compiled  from ${path.basename(file)}*/\n\n`,
-					classList.forEach(function(e){
+					classList.forEach((e)=>{
 
-						if((statement=statementMaker.make(e))!==false){
+						if((statement=this.statementMaker.make(e))!==false){
 							
 							compileStatement+=statement+"\n";
 						}
@@ -70,14 +74,15 @@ let acssCompiler={
 
 				}
 				for(let key in groups){
-						let gpStatement=statementMaker.group(groups[key],key);
+						let gpStatement=this.statementMaker.group(groups[key],key);
 						compileStatement+=gpStatement+"\n";
 				}
 				return compileStatement;
 	},
 	compileStyleSheetRaw:function(file){
+		// console.log(this);
 		let content=fs.readFileSync(file, 'utf-8');
-		let acssStm=statementMaker.styleSheetCompiler(content);
+		let acssStm=this.statementMaker.styleSheetCompiler(content);
 
 		try{
 				var result=sass.renderSync({
