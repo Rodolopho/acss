@@ -4918,6 +4918,9 @@ closeEditor:function(){
 	    var ele=document.getElementById("quickChangeBox");
 	    if(ele) ele.parentNode.removeChild(ele);
 },
+appendCss:function(str,group){
+	this.classPrinter.appendToStyleTag(this.statementMaker.fromString(str,group));
+},
 addCustom:function(a,b,c){
 this.statementMaker.addCustom(a,b,c);
 },
