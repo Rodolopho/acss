@@ -22,7 +22,7 @@ export let matcher={
 			call:color
 		},
 		length:{
-			match:/(([-]?[a-z])+)(([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|cv))+)/,
+			match:/^(([-]?[a-z])+)(([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|cv))+)/,
 			call:length
 		},
 

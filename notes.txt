@@ -1,0 +1,40 @@
+#classname defination
+-------------------------------------------------------------------
+semantic                         |   shortform
+-----------------------------------------------------------
+color-red						| c-red
+color-fffeee					| c-fffeee
+background-color-orange			| bgc-orange
+
+background-linear-gradient45deg-c-red-c-blue  | bglg45deg-c-red-c-blue //required color to be identified by c-
+
+--hover-color-fffeee			| -h-c-fffeee
+
+font-size12px					| fs12px
+margin-left-12px				| ml-12px  //margin-left:-12px
+margin-left12px				    | ml12px  //margin-left:12px
+
+border-left-color-grey          | blc-grey
+border-width2px					| bw2px
+border-color-ccc				| bc-ccc
+border-style-dotted				| bsdt
+border1px-dotted-green			| b1px-dt-green
+
+font-family-arial				|ff-arial
+font-family-verdana-tahoma-serif|ff-verdana-tahoma-serif
+font-family-space_font			|ff-space_font
+font-family-verdana-The_Times_New_Roman-serif | ff-verdana-the_Times_New_Roman-serif
+
+transform-rotate45deg			|tfr45deg
+transform-rotate-45deg			|tfr-45deg
+transform-rotateX-45deg			|tfrx-45deg
+transform-scale2				|tfs2
+transform-scale-0d2_0d5			|tfs-0d2_0d5
+transform-scaleX-2				|tfsx-2
+transform-translate20px_30px	|tft20px_30px
+transform-translateX-30p	    |tftx-30px
+transform-skew45deg			    |tfsk45deg
+transform-matrix0d4_0_0_0_0d1_-0d5 | tfm0d4_0_0_0_0d1_-0d5
+
+perspective300px				| pers300px
+

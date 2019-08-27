@@ -1,8 +1,9 @@
 export default function color(color,custom){
+	if(color.match(/[-_]/)) color=color.split(/[_-]/)[1];
+	
 	if(typeof custom === "object"){
 		if(custom.hasOwnProperty(color)) return custom[color];
 	}
-	if(color.match(/[-_]/)) color=color.split(/[_-]/)[1];
 
 	//hexadecimal
 	if(/^[0-9a-fA-F]{3,6}$/.test(color)){

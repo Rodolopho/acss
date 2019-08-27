@@ -45,12 +45,12 @@ let alias={
 	//gradient
 	lg:"linear-gradient",
 	"linear-gradient":"linear-gradient",
-	rg:"radical-gradient",
-	"radical-gradient":"radical-gradient",
+	rg:"radial-gradient",
+	"radial-gradient":"radical-gradient",
 	rlg:"repeating-linear-gradient",
 	"repeating-linear-gradient":"repeating-linear-gradient",
-	rrg:"repeating-radical-gradient",
-	"repeating-radical-gradient":"radical-gradient",
+	rrg:"repeating-radial-gradient",
+	"repeating-radial-gradient":"radical-gradient",
 	//direction ((to-)?(right|left|top|bottom)?(right|left|top|bottom))|([t]?[rltb]?[rltb])(?=[0-9-])
 	"r":"right", 
 	"right":"right",
