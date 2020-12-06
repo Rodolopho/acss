@@ -286,7 +286,7 @@ var oldElement="";
     }
 };
 document.getElementById("quickChangeClose").onclick=function(){
-    if (confirm('Are you sure you want to close Acss Live Editor?\n You can reopen by typing openAcssLiveEditor(); in console')) {
+    if (confirm('Are you sure you want to close Acss Live Editor?\n You can reopen by typing ACSS.liveEditor(); in console')) {
     // Save it!
     var ele=document.getElementById("quickChangeBox");
     ele.parentNode.removeChild(ele);

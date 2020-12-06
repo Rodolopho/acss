@@ -2651,7 +2651,7 @@ function number(str,custom){
 // CONCATENATED MODULE: ./src/compilers/font.js
 function font(str){
 	let holder="";
-	str.split(/-/).forEach((e)=>{
+	str.split(/--/).forEach((e)=>{
 		if(e.search(/_/)!==-1){
 			holder+="\""+e.replace(/_/g," ")+"\" ,";
 		}else{
@@ -3401,7 +3401,7 @@ let propertyAlias={
 		"outline-width"  :"outline-width",//--------
 		"op":"object-position",//-----------
 		"object-position":"object-position",//-----------
-		"p"  :"padding",
+		"padding"  :"padding",
 		"p"  :"padding",
 		"pb"  :"padding-bottom",
 		"padding-bottom"  :"padding-bottom",
@@ -3547,6 +3547,8 @@ bog12:"-webkit-ordinal-group:12",
 bog13:"-webkit-ordinal-group:13",
 bog14:"-webkit-ordinal-group:14",
 
+
+//----------------------col unit
 ml1col :"margin-left: 8.333333%",
 ml2col :"margin-left: 16.666667%",
 ml3col :"margin-left: 25%",
@@ -3558,6 +3560,7 @@ ml8col :"margin-left: 66.666667%",
 ml9col :"margin-left: 75%",
 ml10col :"margin-left: 83.333333%",
 ml11col :"margin-left: 91.666667%",
+ml12col :"margin-left: 100%",
 
 mr1col :"margin-right: 8.333333%",
 mr2col :"margin-right: 16.666667%",
@@ -3570,6 +3573,84 @@ mr8col :"margin-right: 66.666667%",
 mr9col :"margin-right: 75%",
 mr10col :"margin-right: 83.333333%",
 mr11col :"margin-right: 91.666667%",
+mr12col :"margin-right: 100%",
+
+"ml-1col" :"margin-left: -8.333333%",
+"ml-2col" :"margin-left: -16.666667%",
+"ml-3col" :"margin-left: -25%",
+"ml-4col" :"margin-left: -33.333333%",
+"ml-5col" :"margin-left: -41.666667%",
+"ml-6col" :"margin-left: -50%",
+"ml-7col" :"margin-left: -58.333333%",
+"ml-8col" :"margin-left: -66.666667%",
+"ml-9col" :"margin-left: -75%",
+"ml-10col" :"margin-left: -83.333333%",
+"ml-11col" :"margin-left: -91.666667%",
+
+"mr-1col" :"margin-right: -8.333333%",
+"mr-2col" :"margin-right: -16.666667%",
+"mr-3col" :"margin-right: -25%",
+"mr-4col" :"margin-right: -33.333333%",
+"mr-5col" :"margin-right: -41.666667%",
+"mr-6col" :"margin-right: -50%",
+"mr-7col" :"margin-right: -58.333333%",
+"mr-8col" :"margin-right: -66.666667%",
+"mr-9col" :"margin-right: -75%",
+"mr-10col" :"margin-right: -83.333333%",
+"mr-11col" :"margin-right: -91.666667%",
+"mr-12col" :"margin-right: -100%",
+
+
+"margin-left1col" :"margin-left: 8.333333%",
+"margin-left2col" :"margin-left: 16.666667%",
+"margin-left3col" :"margin-left: 25%",
+"margin-left4col" :"margin-left: 33.333333%",
+"margin-left5col" :"margin-left: 41.666667%",
+"margin-left6col" :"margin-left: 50%",
+"margin-left7col" :"margin-left: 58.333333%",
+"margin-left8col" :"margin-left: 66.666667%",
+"margin-left9col" :"margin-left: 75%",
+"margin-left10col" :"margin-left: 83.333333%",
+"margin-left11col" :"margin-left: 91.666667%",
+"margin-left12col ":"margin-left: 100%",
+
+"margin-right1col" :"margin-right: 8.333333%",
+"margin-right2col" :"margin-right: 16.666667%",
+"margin-right3col" :"margin-right: 25%",
+"margin-right4col" :"margin-right: 33.333333%",
+"margin-right5col" :"margin-right: 41.666667%",
+"margin-right6col" :"margin-right: 50%",
+"margin-right7col" :"margin-right: 58.333333%",
+"margin-right8col" :"margin-right: 66.666667%",
+"margin-right9col" :"margin-right: 75%",
+"margin-right10col" :"margin-right: 83.333333%",
+"margin-right11col" :"margin-right: 91.666667%",
+"margin-right12col" :"margin-right: 100%",
+
+"margin-left-1col" :"margin-left: -8.333333%",
+"margin-left-2col" :"margin-left: -16.666667%",
+"margin-left-3col" :"margin-left: -25%",
+"margin-left-4col" :"margin-left: -33.333333%",
+"margin-left-5col" :"margin-left: -41.666667%",
+"margin-left-6col" :"margin-left: -50%",
+"margin-left-7col" :"margin-left: -58.333333%",
+"margin-left-8col" :"margin-left: -66.666667%",
+"margin-left-9col" :"margin-left: -75%",
+"margin-left-10col" :"margin-left: -83.333333%",
+"margin-left-11col" :"margin-left: -91.666667%",
+
+"margin-right-1col" :"margin-right: -8.333333%",
+"margin-right-2col" :"margin-right: -16.666667%",
+"margin-right-3col" :"margin-right: -25%",
+"margin-right-4col" :"margin-right: -33.333333%",
+"margin-right-5col" :"margin-right: -41.666667%",
+"margin-right-6col" :"margin-right: -50%",
+"margin-right-7col" :"margin-right: -58.333333%",
+"margin-right-8col" :"margin-right: -66.666667%",
+"margin-right-9col" :"margin-right: -75%",
+"margin-right-10col" :"margin-right: -83.333333%",
+"margin-right-11col" :"margin-right: -91.666667%",
+"margin-right-12col" :"margin-right: -100%",
 
 w1col :"width: 8.333333%",
 w2col :"width: 16.666667%",
@@ -3583,6 +3664,18 @@ w9col :"width: 75%",
 w10col :"width: 83.333333%",
 w11col :"width: 91.666667%",
 w12col :"width: 100%",
+width1col :"width: 8.333333%",
+width2col :"width: 16.666667%",
+width3col :"width: 25%",
+width4col :"width: 33.333333%",
+width5col :"width: 41.666667%",
+width6col :"width: 50%",
+width7col :"width: 58.333333%",
+width8col :"width: 66.666667%",
+width9col :"width: 75%",
+width10col :"width: 83.333333%",
+width11col :"width: 91.666667%",
+width12col :"width: 100%",
 
 xw1col :"max-width: 8.333333%",
 xw2col :"max-width: 16.666667%",
@@ -3597,6 +3690,19 @@ xw10col :"max-width: 83.333333%",
 xw11col :"max-width: 91.666667%",
 xw12col :"max-width: 100%",
 
+"max-width1col" :"max-width: 8.333333%",
+"max-width2col" :"max-width: 16.666667%",
+"max-width3col" :"max-width: 25%",
+"max-width4col" :"max-width: 33.333333%",
+"max-width5col" :"max-width: 41.666667%",
+"max-width6col" :"max-width: 50%",
+"max-width7col" :"max-width: 58.333333%",
+"max-width8col" :"max-width: 66.666667%",
+"max-width9col" :"max-width: 75%",
+"max-width10col" :"max-width: 83.333333%",
+"max-width11col" :"max-width: 91.666667%",
+"max-width12col" :"max-width: 100%",
+
 mw1col :"min-width: 8.333333%",
 mw2col :"min-width: 16.666667%",
 mw3col :"min-width: 25%",
@@ -3610,9 +3716,22 @@ mw10col :"min-width: 83.333333%",
 mw11col :"min-width: 91.666667%",
 mw12col :"min-width: 100%",
 
+"min-width1col" :"min-width: 8.333333%",
+"min-width2col" :"min-width: 16.666667%",
+"min-width3col" :"min-width: 25%",
+"min-width4col" :"min-width: 33.333333%",
+"min-width5col" :"min-width: 41.666667%",
+"min-width6col" :"min-width: 50%",
+"min-width7col" :"min-width: 58.333333%",
+"min-width8col" :"min-width: 66.666667%",
+"min-width9col" :"min-width: 75%",
+"min-width10col" :"min-width: 83.333333%",
+"min-width11col" :"min-width: 91.666667%",
+"min-width12col" :"min-width: 100%",
+//--------col unit end
 
 
-
+//------------row unit ------------
 h1row :"height: 8.333333vh",
 h2row :"height: 16.666667vh",
 h3row :"height: 25vh",
@@ -3625,6 +3744,19 @@ h9row :"height: 75vh",
 h10row :"height: 83.333333vh",
 h11row :"height: 91.666667vh",
 h12row :"height: 100vh",
+
+"height1row" :"height: 8.333333vh",
+"height2row" :"height: 16.666667vh",
+"height3row" :"height: 25vh",
+"height4row" :"height: 33.333333vh",
+"height5row" :"height: 41.666667vh",
+"height6row" :"height: 50vh",
+"height7row" :"height: 58.333333vh",
+"height8row" :"height: 66.666667vh",
+"height9row" :"height: 75vh",
+"height10row" :"height: 83.333333vh",
+"height11row" :"height: 91.666667vh",
+"height12row" :"height: 100vh",
 
 xh1row :"max-height: 8.333333vh",
 xh2row :"max-height: 16.666667vh",
@@ -3639,6 +3771,19 @@ xh10row :"max-height: 83.333333vh",
 xh11row :"max-height: 91.666667vh",
 xh12row :"max-height: 100vh",
 
+"max-height1row ":"max-height: 8.333333vh",
+"max-height2row ":"max-height: 16.666667vh",
+"max-height3row ":"max-height: 25vh",
+"max-height4row ":"max-height: 33.333333vh",
+"max-height5row ":"max-height: 41.666667vh",
+"max-height6row ":"max-height: 50vh",
+"max-height7row ":"max-height: 58.333333vh",
+"max-height8row ":"max-height: 66.666667vh",
+"max-height9row ":"max-height: 75vh",
+"max-height10row" :"max-height: 83.333333vh",
+"max-height11row" :"max-height: 91.666667vh",
+"max-height12row":"max-height: 100vh",
+
 mh1row :"min-height: 8.333333vh",
 mh2row :"min-height: 16.666667vh",
 mh3row :"min-height: 25vh",
@@ -3651,6 +3796,21 @@ mh9row :"min-height: 75vh",
 mh10row :"min-height: 83.333333vh",
 mh11row :"min-height: 91.666667vh",
 mh12row :"min-height: 100vh",
+
+"min-hight1row ":"min-height: 8.333333vh",
+"min-hight2row ":"min-height: 16.666667vh",
+"min-hight3row ":"min-height: 25vh",
+"min-hight4row ":"min-height: 33.333333vh",
+"min-hight5row ":"min-height: 41.666667vh",
+"min-hight6row ":"min-height: 50vh",
+"min-hight7row ":"min-height: 58.333333vh",
+"min-hight8row ":"min-height: 66.666667vh",
+"min-hight9row ":"min-height: 75vh",
+"min-hight10row" :"min-height: 83.333333vh",
+"min-hight11row" :"min-height: 91.666667vh",
+"min-hight12row" :"min-height: 100vh",
+
+//------------row unit-end
 
 	//-------Box-Model 
 w1p:'width:1%',	
@@ -4911,8 +5071,9 @@ function propertyAndValue(classname,custom){
 
 // CONCATENATED MODULE: ./src/responsive.js
 let deviceAlias={
-	match:/^(mob|tab|lab|hd|print|xs|sm|md|lg|xl)(?=[-|_])/,
+	match:/^(mob|mobile|tab|lab|hd|print|xs|sm|md|lg|xl)(?=[-|_])/,
 	"mob":"@media (max-width : 768px) {",
+	"mobile":"@media (max-width : 768px) {",
 	"tab":"@media  (min-width : 768px){",
 	"lap":"@media  (min-width : 992px) {",
 	"desk":"@media  (min-width : 1200px) {",
@@ -5945,7 +6106,7 @@ var oldElement="";
     }
 };
 document.getElementById("quickChangeClose").onclick=function(){
-    if (confirm('Are you sure you want to close Acss Live Editor?\n You can reopen by typing openAcssLiveEditor(); in console')) {
+    if (confirm('Are you sure you want to close Acss Live Editor?\n You can reopen by typing ACSS.liveEditor(); in console')) {
     // Save it!
     var ele=document.getElementById("quickChangeBox");
     ele.parentNode.removeChild(ele);

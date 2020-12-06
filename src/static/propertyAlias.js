@@ -98,7 +98,7 @@ export let propertyAlias={
 		"outline-width"  :"outline-width",//--------
 		"op":"object-position",//-----------
 		"object-position":"object-position",//-----------
-		"p"  :"padding",
+		"padding"  :"padding",
 		"p"  :"padding",
 		"pb"  :"padding-bottom",
 		"padding-bottom"  :"padding-bottom",
