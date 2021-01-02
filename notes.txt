@@ -1,3 +1,7 @@
+BlinkMacSystemFont,-apple-system,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+
+need to fix bxsi box-shadow-inset
+
 
 
 _elemnet___elements-rest
@@ -42,4 +46,7 @@ transform-skew45deg			    |tfsk45deg
 transform-matrix0d4_0_0_0_0d1_-0d5 | tfm0d4_0_0_0_0d1_-0d5
 
 perspective300px				| pers300px
+
+--nth-child-2n-fontsize24px		| -nc-2n-fs24px
+__tr--nth-child-2n-fontsize24px		| __tr-nc-2n-fs24px
 

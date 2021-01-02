@@ -13,7 +13,7 @@ import filter from './compilers/filter.js';
 import timingFunction from './compilers/timingFunction.js';
 
 export let matcher={
-	device:{match:/^(mob|tab|lab|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
+	device:{match:/^(mob|tab|lab|desk|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
 	selector:{match:/^([-|_])/,call:null},
 	//------------------------property and value compilers
 	compilers:{

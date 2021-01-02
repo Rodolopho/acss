@@ -89,6 +89,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+// ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./src/static/staticClassNames.js
@@ -1516,6 +1517,9 @@ let staticClassNames={
   'hyphens-auto': 'hyphens: auto',
   ha: 'hyphens: auto',
 
+  'height-auto':'height:auto',
+  'ha2':'height:auto',
+
   'hyphens-manual': 'hyphens: manual',
   hm: 'hyphens: manual',
 
@@ -1685,6 +1689,11 @@ let staticClassNames={
   'list-style-type-upper-roman': 'list-style-type: upper-roman',
   lsur: 'list-style-type: upper-roman',
   lstur: 'list-style-type: upper-roman',
+  'margin-auto':'margin:auto',
+  'ma' :'margin:auto',
+
+  'margin-auto-auto':'margin: auto auto',
+  'maa':'margin:auto auto',
 
   'margin-bottom-auto': 'margin-bottom: auto',
   mba: 'margin-bottom: auto',
@@ -1710,41 +1719,42 @@ let staticClassNames={
   'opacity-1': 'opacity:1',
   o1: 'opacity:1',
 
-  'opacity-0.1': 'opacity:0.1',
+  'opacity-0d1': 'opacity:0.1',
   o0d1: 'opacity:0.1',
 
-  'opacity-0.2': 'opacity:0.2',
+  'opacity-0d2': 'opacity:0.2',
   o0d2: 'opacity:0.2',
 
-  'opacity-0.3': 'opacity:0.3',
+  'opacity-0d3': 'opacity:0.3',
   o0d3: 'opacity:0.3',
 
-  'opacity-0.4': 'opacity:0.4',
+  'opacity-0d4': 'opacity:0.4',
   o0d4: 'opacity:0.4',
 
-  'opacity-0.5': 'opacity:0.5',
+  'opacity-0d5': 'opacity:0.5',
   o0d5: 'opacity:0.5',
 
-  'opacity-0.6': 'opacity:0.6',
+  'opacity-0d6': 'opacity:0.6',
   o0d6: 'opacity:0.6',
 
-  'opacity-0.7': 'opacity:0.7',
+  'opacity-0d7': 'opacity:0.7',
   o0d7: 'opacity:0.7',
 
-  'opacity-0.8': 'opacity:0.8',
+  'opacity-0d8': 'opacity:0.8',
   o0d8: 'opacity:0.8',
 
-  'opacity-0.9': 'opacity:0.9',
+  'opacity-0d9': 'opacity:0.9',
   o0d9: 'opacity:0.9',
 
   'overflow-auto': 'overflow: auto',
   oa: 'overflow: auto',
 
-  'outline-0': 'outline:0',
+  'outline0': 'outline:0',
   ol0: 'outline:0',
 
   'outline-none': 'outline:none',
   oln: 'outline:none',
+  on: 'outline:none',
 
   'outline-color-invert': 'outline-color: invert',
   olci: 'outline-color: invert',
@@ -2009,6 +2019,10 @@ let staticClassNames={
 
   'text-align-end': 'text-align: end',
   tae: 'text-align: end',
+
+  'text-align-inherit': 'text-align: inherit',
+  tai: 'text-align: inherit',
+
 
   'text-align-justify': 'text-align: justify',
   taj: 'text-align: justify',
@@ -2489,6 +2503,9 @@ let staticClassNames={
 
   'word-break-break-all': 'word-break: break-all',
   wbba: 'word-break: break-all',
+
+   'word-break-break-word': 'word-break: break-word',
+  wbbw: 'word-break: break-word',
 
   'word-break-keep-all': 'word-break: keep-all',
   wbka: 'word-break: keep-all',
@@ -3216,7 +3233,7 @@ let timingFunction_func={
 
 
 let matcher={
-	device:{match:/^(mob|tab|lab|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
+	device:{match:/^(mob|tab|lab|desk|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
 	selector:{match:/^([-|_])/,call:null},
 	//------------------------property and value compilers
 	compilers:{
@@ -3380,7 +3397,7 @@ let propertyAlias={
 		"line-height"  :"line-height",
 		"m"  :"margin",
 		"margin"  :"margin",
-		"ma" :"margin",
+		// "ma" :"margin",
 		"mb"  :"margin-bottom",
 		"margin-bottom"  :"margin-bottom",
 		"mh"  :"min-height",
@@ -3498,14 +3515,16 @@ let propertyAlias={
 	"ts" :"text-shadow",
 	txs:"text-shadow",
 	"text-shadow":"text-shadow",
-	"txsr":"text-shadow",
-	"text-shadow-radius":"text-shadow",
+	"txsr":"text-shadow-radius",
+	"tsr":"text-shadow-radius",
+	"text-shadow-radius":"text-shadow-radius",
 	"txsc":"text-shadow-color",
 	"tsc":"text-shadow-color",
 	"text-shadow-color":"text-shadow-color",
 	"text-decoration-color":"text-decoration-color",
 	"tdc":"text-decoration-color",
 	"bxs":"box-shadow",
+	// "bs":"box-shadow",
 	"box-shadow":"box-shadow",
 	"filter":'filter',
 	// "f":'filter',
@@ -5075,7 +5094,7 @@ let deviceAlias={
 	"mob":"@media (max-width : 768px) {",
 	"mobile":"@media (max-width : 768px) {",
 	"tab":"@media  (min-width : 768px){",
-	"lap":"@media  (min-width : 992px) {",
+	"lab":"@media  (min-width : 992px) {",
 	"desk":"@media  (min-width : 1200px) {",
 	"hd":"@media  (min-width : 1408px) {",
 	"print":"@media print{",
@@ -5327,8 +5346,9 @@ function pseduoShort(classname){
 	if(alias){
 		  let elfy=alias.replace(/____/g," ~ ")
 						.replace(/___/g," + ")
-						.replace(/__/g," ")
-						.replace(/_/g," > ")
+						.replace(/__/g," > ")
+						.replace(/_/g,"  ")
+						.replace(/all/," * ")
 						.replace(/[\s]([A-Z])/g,function(e,a){return " ."+a.toLowerCase();})
 						.trim();
 

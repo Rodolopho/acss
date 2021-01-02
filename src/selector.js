@@ -91,8 +91,9 @@ function pseduoShort(classname){
 	if(alias){
 		  let elfy=alias.replace(/____/g," ~ ")
 						.replace(/___/g," + ")
-						.replace(/__/g," ")
-						.replace(/_/g," > ")
+						.replace(/__/g," > ")
+						.replace(/_/g,"  ")
+						.replace(/all/," * ")
 						.replace(/[\s]([A-Z])/g,function(e,a){return " ."+a.toLowerCase();})
 						.trim();
 

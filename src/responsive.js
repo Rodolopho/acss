@@ -3,7 +3,7 @@ let deviceAlias={
 	"mob":"@media (max-width : 768px) {",
 	"mobile":"@media (max-width : 768px) {",
 	"tab":"@media  (min-width : 768px){",
-	"lap":"@media  (min-width : 992px) {",
+	"lab":"@media  (min-width : 992px) {",
 	"desk":"@media  (min-width : 1200px) {",
 	"hd":"@media  (min-width : 1408px) {",
 	"print":"@media print{",

@@ -1,6 +1,6 @@
 {
   "name": "aliascss",
-  "version": "3.0.2",
+  "version": "3.0.4",
   "description": "Extended version of ACSS,  css clasnames post processor that uses full post define classnames",
   "main": "index.js",
   "directories": {
@@ -28,20 +28,20 @@
   "author": "Bikram Thapa",
   "license": "MIT",
   "dependencies": {
-    "node-sass": "^4.11.0"
+    "node-sass": "^4.14.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.4.0",
-    "@babel/node": "^7.2.2",
-    "@babel/preset-env": "^7.4.2",
-    "@babel/register": "^7.4.0",
-    "babel-loader": "^8.0.5",
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/register": "^7.12.10",
+    "babel-loader": "^8.2.2",
     "chai": "*",
     "eslint": "^5.16.0",
-    "mocha": "*",
+    "mocha": "^8.2.1",
     "unminified-webpack-plugin": "^2.0.0",
-    "webpack": "*",
-    "webpack-cli": "*"
+    "webpack": "^4.*",
+    "webpack-cli": "^4.3.1"
   }
 }

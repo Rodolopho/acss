@@ -11,7 +11,7 @@ const dist=path.join(__dirname,"dist",'acss.js');
 
 let acssCompiler={
 
-	test:/(html|htm|acss)$/,
+	test:/(html|htm|acss|blade)$/,
 	//cop file in given location
 	dist:function(path){
 		fs.copyFileSync(dist, path);
@@ -23,6 +23,7 @@ let acssCompiler={
 	styleJs:function(a,b){ return this.statementMaker.groupForJs(a,b)},
 	input:null,
 	output:null,
+	append:null,
 	regClass:/[\s]+class[\s]*=[\s]*['|"][\s]*([-|_|A-Za-z0-9|\s]+)[\s]*['|"]/, //[1]
 	regGroup:/[\s]+acss-group[\s]*=[\s]*['|"][\s]*([-|_|A-Za-z0-9|\s]+)[\s]*['|"]/,//[1]
 	regex:/(?<=[<][A-Za-z0-9]+)(([^<.]|\.)*class[\s]*=([^<.]|\.)*)(?=[/]?[>])/g,
@@ -148,8 +149,10 @@ let acssCompiler={
 			}
 
 			
-			if(compileStatement===null) return false;
-			
+			if(compileStatement===null || !compileStatement) return false;
+			 console.log("--------star------");
+			 console.log(compileStatement);
+			 console.log("-------end-------");
 			try {
 				//----------append or not------
 				if(append!==true){

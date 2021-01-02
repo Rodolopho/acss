@@ -31,7 +31,7 @@ const clientConfig = {
       		});
 		},
 	},
-	devtool:"inline-source-map",
+	devtool:"source-map",
 	plugins: [
         new UnminifiedWebpackPlugin()
     ]

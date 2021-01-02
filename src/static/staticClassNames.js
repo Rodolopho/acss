@@ -1422,6 +1422,9 @@ export let staticClassNames={
   'hyphens-auto': 'hyphens: auto',
   ha: 'hyphens: auto',
 
+  'height-auto':'height:auto',
+  'ha2':'height:auto',
+
   'hyphens-manual': 'hyphens: manual',
   hm: 'hyphens: manual',
 
@@ -1591,6 +1594,11 @@ export let staticClassNames={
   'list-style-type-upper-roman': 'list-style-type: upper-roman',
   lsur: 'list-style-type: upper-roman',
   lstur: 'list-style-type: upper-roman',
+  'margin-auto':'margin:auto',
+  'ma' :'margin:auto',
+
+  'margin-auto-auto':'margin: auto auto',
+  'maa':'margin:auto auto',
 
   'margin-bottom-auto': 'margin-bottom: auto',
   mba: 'margin-bottom: auto',
@@ -1616,41 +1624,42 @@ export let staticClassNames={
   'opacity-1': 'opacity:1',
   o1: 'opacity:1',
 
-  'opacity-0.1': 'opacity:0.1',
+  'opacity-0d1': 'opacity:0.1',
   o0d1: 'opacity:0.1',
 
-  'opacity-0.2': 'opacity:0.2',
+  'opacity-0d2': 'opacity:0.2',
   o0d2: 'opacity:0.2',
 
-  'opacity-0.3': 'opacity:0.3',
+  'opacity-0d3': 'opacity:0.3',
   o0d3: 'opacity:0.3',
 
-  'opacity-0.4': 'opacity:0.4',
+  'opacity-0d4': 'opacity:0.4',
   o0d4: 'opacity:0.4',
 
-  'opacity-0.5': 'opacity:0.5',
+  'opacity-0d5': 'opacity:0.5',
   o0d5: 'opacity:0.5',
 
-  'opacity-0.6': 'opacity:0.6',
+  'opacity-0d6': 'opacity:0.6',
   o0d6: 'opacity:0.6',
 
-  'opacity-0.7': 'opacity:0.7',
+  'opacity-0d7': 'opacity:0.7',
   o0d7: 'opacity:0.7',
 
-  'opacity-0.8': 'opacity:0.8',
+  'opacity-0d8': 'opacity:0.8',
   o0d8: 'opacity:0.8',
 
-  'opacity-0.9': 'opacity:0.9',
+  'opacity-0d9': 'opacity:0.9',
   o0d9: 'opacity:0.9',
 
   'overflow-auto': 'overflow: auto',
   oa: 'overflow: auto',
 
-  'outline-0': 'outline:0',
+  'outline0': 'outline:0',
   ol0: 'outline:0',
 
   'outline-none': 'outline:none',
   oln: 'outline:none',
+  on: 'outline:none',
 
   'outline-color-invert': 'outline-color: invert',
   olci: 'outline-color: invert',
@@ -1915,6 +1924,10 @@ export let staticClassNames={
 
   'text-align-end': 'text-align: end',
   tae: 'text-align: end',
+
+  'text-align-inherit': 'text-align: inherit',
+  tai: 'text-align: inherit',
+
 
   'text-align-justify': 'text-align: justify',
   taj: 'text-align: justify',
@@ -2395,6 +2408,9 @@ export let staticClassNames={
 
   'word-break-break-all': 'word-break: break-all',
   wbba: 'word-break: break-all',
+
+   'word-break-break-word': 'word-break: break-word',
+  wbbw: 'word-break: break-word',
 
   'word-break-keep-all': 'word-break: keep-all',
   wbka: 'word-break: keep-all',
