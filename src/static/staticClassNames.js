@@ -601,6 +601,12 @@ export let staticClassNames={
   'box-shadow-none': 'box-shadow: none',
   bxsn: 'box-shadow: none',
 
+  'box-shadow-initial': 'box-shadow: initial',
+  bxsi: 'box-shadow: initial',
+
+  'box-shadow-inherit': 'box-shadow: inherit',
+  bxsin: 'box-shadow: inherit',
+
   'border-style-outset': 'border-style: outset',
   bso: 'border-style: outset',
 

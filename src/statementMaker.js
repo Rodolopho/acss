@@ -101,6 +101,60 @@ export let statementMaker={
 
 },
 styleSheetCompiler:function(content){
+	 
+	
+		const match=/[{][\w|#|\-|:|;|$|\*|\/|\.|\(|\)|\s|\\|\"|\%|\!|\,|\']+[}]?/g;
+
+		const m1=/(?<=[{][\s]*)([A-Za-z0-9_-]+)(?=[\s]*[;])/g;
+		const m2=/(?<=[;][\s]*)([A-Za-z0-9_-]+)(?=[\s]*[;])/g;
+		const m3=/(?<=[;][\s]*)([A-Za-z0-9-_]+)(?=[\s]*[}])/g;
+		const m4=/(?<=[\/][\s]*)([A-Za-z0-9-_]+)(?=[\s]*[;|}])/g;
+		const m5=/(?<=[\{][\s]*)([A-Za-z0-9-_]+)(?=[\s]*[}])/g;
+
+		return content.replace(/[\n][\s]+/g,"\n").replace(match,(e)=>{
+		
+			 //1.repalce {.....;
+				e=e.replace(m1,(m)=>{
+						let result=this.getPropertyAndValue(m);
+						return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+				//console.log(e);
+			
+			//2.replace ;.....;
+			
+			e=e.replace(m2,(m)=>{
+					 let result=this.getPropertyAndValue(m);
+					return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+
+			// console.log(e);
+			// 3.replace ;..}	
+			e=e.replace(m3,(m)=>{
+					let result= this.getPropertyAndValue(m);
+					return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+
+			// 4.replace */..;|}	
+			e=e.replace(m4,(m)=>{
+					let result= this.getPropertyAndValue(m);
+					return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+
+			// 5.replace {...}	
+			e=e.replace(m5,(m)=>{
+					let result= this.getPropertyAndValue(m);
+					return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+
+		 	
+		 	 return e;
+			
+		 });
+		
+		
+
+	},
+	bkstyleSheetCompiler:function(content){
 	
 		const match=/[{][\w|#|\-|:|;|$|\*|\/|\.|\(|\)|\s|\\|\"|\%|\!|\,|\']+[}]?/g;
 
@@ -182,9 +236,10 @@ styleSheetCompiler:function(content){
 	},
 	groupForStyle:function(str){
 		let container="";
+		let classList=[];//filtering duplicate classNames
 		let list=str.trim().split(/\s+/);
 		list.forEach((e)=>{
-			
+						
 					// this.hasSuffix=null;
 					// e=this.handleSuffix(e);
 					if(this.cache.propertyAndValue.hasOwnProperty(e)){
@@ -220,6 +275,7 @@ styleSheetCompiler:function(content){
 	group:function(str, as){
 		let statement="";
 		let container="\n";
+		//let classList=[];//to filter duplicate filter
 		let list=str.trim().split(/\s+/);
 		list.forEach((e)=>{
 			if(matcher.selector.match.test(e) || matcher.device.match.test(e)){
@@ -229,12 +285,12 @@ styleSheetCompiler:function(content){
 					this.hasSuffix=null;
 					e=this.handleSuffix(e);
 					if(this.cache.propertyAndValue.hasOwnProperty(e)){
-						container+=this.cache.propertyAndValue[e]+(this.hasSuffix?this.hasSuffix:'')+" ;\n";
+						container+="\t"+this.cache.propertyAndValue[e]+(this.hasSuffix?this.hasSuffix:'')+" ;\n";
 					}else{
 						let pNv=propertyAndValue(e,this.custom);
 						if(pNv){
 						 this.cache.propertyAndValue[e]=pNv;
-						 container+=pNv+ (this.hasSuffix?this.hasSuffix:'')+" ;\n";
+						 container+="\t"+pNv+ (this.hasSuffix?this.hasSuffix:'')+" ;\n";
 						}
 					}
 					
@@ -243,6 +299,18 @@ styleSheetCompiler:function(content){
 
 		return `${statement} \n .${as} { ${container} }`;
 
+	},
+	groupObj:function(obj){
+
+		if(typeof (obj) !== 'object') return false;
+		let statement="";
+
+		for(let key in obj){
+			let result=this.group( obj[key], key);
+			if(result){ statement+=result +"\n"}
+
+		}
+		return statement;
 	},
 };
 

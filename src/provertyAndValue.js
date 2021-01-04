@@ -15,43 +15,43 @@ export default function propertyAndValue(classname,custom){
 	//content
 	}else if(matcher.compilers.content.match.test(classname)){
 		let data=matcher.compilers.content.match.exec(classname);
-		 // console.log(data);
+		 // console.log('\x1b[35m',data);
 		let property=propertyAlias[data[1]];
 		if(property){
 			let value=matcher.compilers.content.call(data[2],data[3]);
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname} @ content' `);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname} @ content' `);
 				return null;
 				}
 		}else{
-			console.log(`Cannot find property  for classname: '${classname} @ content' `);
+			console.log('\x1b[35m',`Cannot find property  for classname: '${classname} @ content' `);
 			return null;
 		}
 
 	//timingFunction	
 	}else if(matcher.compilers.timingFunction.match.test(classname)){
 		let data=matcher.compilers.timingFunction.match.exec(classname);
-		 // console.log(data);
+		 // console.log('\x1b[35m',data);
 		let property=propertyAlias[data[1]];
 		if(property){
 			let value=matcher.compilers.timingFunction.call(data[2]);
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}'@timingFunction `);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}'@timingFunction `);
 				return null;
 				}
 		}else{
-			console.log(`Cannot find property  for classname: '${classname}' @timingFunction `);
+			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @timingFunction `);
 			return null;
 		}
 
 	//filter
 	}else if(matcher.compilers.filter.match.test(classname)){
 		let data=matcher.compilers.filter.match.exec(classname);
-		 // console.log(data);
+		 // console.log('\x1b[35m',data);
 		// let property=(data[1]==="f"?"filter":propertyAlias[data[1]]) //fs12px;
 		let property=propertyAlias[data[1]];
 		if(property){
@@ -59,11 +59,11 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @flter `);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @flter `);
 				return null;
 				}
 		}else{
-			console.log(`Cannot find property  for classname: '${classname}' @filter `);
+			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @filter `);
 			return null;
 		}
 
@@ -76,11 +76,11 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname} @color' `);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname} @color' `);
 				return null;
 				}
 		}else{
-			console.log(`Cannot find property  for classname: '${classname}' @color `);
+			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @color `);
 			return null;
 		}
 		
@@ -93,10 +93,10 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @url`);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @url`);
 			}
 		}else{
-			console.log(`Cannot find property for classname: '${classname}' @url`);
+			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @url`);
 		}
 		//shadow
 	}else if(matcher.compilers.shadow.match.test(classname)){
@@ -107,10 +107,10 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @shadow `);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @shadow `);
 			}
 		}else{
-			console.log(`Cannot find property for classname: '${classname}' @shadow `);
+			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @shadow `);
 		}
 		//border
 	}else if(matcher.compilers.border.match.test(classname)){
@@ -121,10 +121,10 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @border`);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @border`);
 			}
 		}else{
-			console.log(`Cannot find property for classname: '${classname}' @border`);
+			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @border`);
 		}
 		//transform
 	}else if(matcher.compilers.transform.match.test(classname)){
@@ -135,10 +135,10 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @transform `);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @transform `);
 			}
 		}else{
-			console.log(`Cannot find property for classname: '${classname}'  @transform`);
+			console.log('\x1b[35m',`Cannot find property for classname: '${classname}'  @transform`);
 		}
 		//transition
 	}else if(matcher.compilers.transition.match.test(classname)){
@@ -149,10 +149,10 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @transition`);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @transition`);
 			}
 		}else{
-			console.log(`Cannot find property for classname: '${classname}' @transition`);
+			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @transition`);
 		}
 	//ms s
 	}else if(matcher.compilers.time.match.test(classname)){
@@ -163,10 +163,10 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @time`);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @time`);
 			}
 		}else{
-			console.log(`Cannot find property for classname: '${classname}' @time`);
+			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @time`);
 		}
 		//length
 	}else if(matcher.compilers.length.match.test(classname)){
@@ -174,13 +174,13 @@ export default function propertyAndValue(classname,custom){
 
 		let property=propertyAlias[data[1]];
 		if(property){
-			let value=matcher.compilers.length.call(data[3],custom.val);
+			let value=matcher.compilers.length.call(data[3],custom.length);
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @length`);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @length`);
 			}
-		}else{console.log(`Cannot find property for classname: '${classname}' @length`);}
+		}else{console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @length`);}
 	//number	
 	}else if(matcher.compilers.number.match.test(classname)){
 		let data=matcher.compilers.number.match.exec(classname);
@@ -190,10 +190,10 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @number`);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @number`);
 			}
 		}else{
-			console.log(`Cannot find property for classname: '${classname}' @number`);
+			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @number`);
 		}
 
 	//Font	
@@ -205,26 +205,26 @@ export default function propertyAndValue(classname,custom){
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}'@font `);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}'@font `);
 			}
 		}else{
-			console.log(`Cannot find property for classname: '${classname}' @font`);
+			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @font`);
 		}
 	//gradient
 	}else if(matcher.compilers.gradient.match.test(classname)){
 		let data=matcher.compilers.gradient.match.exec(classname);
-		// console.log(data);
+		// console.log('\x1b[35m',data);
 		let property=propertyAlias[data[1]];
 		if(property){
 			let value=matcher.compilers.gradient.call(data[2],data[7],custom.color);
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @gradient`);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @gradient`);
 				return null;
 				}
 		}else{
-			console.log(`Cannot find property  for classname: '${classname}' @gradient`);
+			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @gradient`);
 			return null;
 		}
 		
@@ -232,24 +232,24 @@ export default function propertyAndValue(classname,custom){
 	}else if(matcher.compilers.animation.match.test(classname)){
 
 		let data=matcher.compilers.animation.match.exec(classname);
-		// console.log(data);
+		// console.log('\x1b[35m',data);
 		let property=propertyAlias[data[1]];
 		if(property){
 			let value=matcher.compilers.animation.call(data[2]);
 			if(value){
 				return property+":"+value;
 			}else{
-				console.log(`Cannot find  value for classname: '${classname}' @animation`);
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @animation`);
 				return null;
 				}
 		}else{
-			console.log(`Cannot find property  for classname: '${classname}' @animation`);
+			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @animation`);
 			return null;
 		}
 
 
 	}else{
-		console.log(`Cannot find property and value for classname: '${classname}' `);
+		//console.log('\x1b[35m',`Cannot find property and value for classname: '${classname}' `);
 		return null;
 	}//ifelse
 }//

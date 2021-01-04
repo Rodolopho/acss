@@ -2,6 +2,8 @@ node acssx public  public/css/acss.css
 node acssx public  public/css/acss.css  --watch
 node acssx path/to/folderORFIle  path/to/compiled.css  --watch
 
+node acssx --config //looks for acss.config.js
+
 
 The append is trun on by deafult....so clear css file before you launch either of above command
 

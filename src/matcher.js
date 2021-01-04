@@ -55,7 +55,7 @@ export let matcher={
 			call:gradient
 		},
 		shadow:{
-			match:/(bxs|txs|box-shadow|text-shadow)([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc))+/,//[-_]([\w]+)/,
+			match:/(bxs|bxsi|txs|box-shadow|box-shadow-inset|text-shadow)([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc))+/,//[-_]([\w]+)/,
 			call:shadow
 		},
 		url:{

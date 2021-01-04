@@ -1,12 +1,14 @@
 {
   "name": "aliascss",
-  "version": "3.0.4",
+  "version": "3.0.6",
   "description": "Extended version of ACSS,  css clasnames post processor that uses full post define classnames",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "acss":"node bin/acssx --config",
+    "acss-watch":"node bin/acssx --config --watch",
     "test": "mocha --require @babel/register || true ",
     "build": "webpack",
     "watch": "webpack --watch"

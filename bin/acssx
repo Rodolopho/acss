@@ -2,27 +2,109 @@
 
  const acssCompiler=require('../index.js');
 
+ const fs=require('fs');
+ const path=require('path');
+
  let argv=process.argv;
  let watch=false;
+ let isConfig=false;
 
- if(argv.indexOf("--watch")!=-1){
- 	watch=true;
-		argv.splice(argv.indexOf('--watch'),1);
-	}
+if(argv.indexOf("--watch")!=-1){
+		 	watch=true;
+				argv.splice(argv.indexOf('--watch'),1);
+			}
 
-if(argv[2]){
-	acssCompiler.input=argv[2];
-	if(argv[3]){
-		acssCompiler.output=argv[3];
-		// acssCompiler.run(argv[2],argv[3]);
-	}else{
-		acssCompiler.output='acss.css';
-		// acssCompiler.run(argv[2],'acss.css');
-	}
+ if(argv.indexOf("--config")!=-1){
+ 	const config=require(path.resolve('acss.config.js'));
+ 	isConfig=true;
+ 	
 
-	acssCompiler.run();
+ 	//Check if it has input ans output path setup
+ 	if(config.input && config.output){
+ 		acssCompiler.input=config.input;
+ 		acssCompiler.output=config.output;
 
-	if(watch){
-		acssCompiler.watch();
-	}
-}
+ 		//if
+ 		if(config.hasOwnProperty('truncate') && config.truncate===false){
+ 			//do nothing
+ 		}else{
+ 			if(fs.existsSync(acssCompiler.output)){
+					fs.truncateSync(acssCompiler.output);
+				}
+ 		}
+
+
+ 		//if it has test to filter filename
+ 		if(config.hasOwnProperty('test')){
+ 			acssCompiler.test=config.test;
+ 		}
+
+ 		//Add custome color and length unit i.e primary , 1col
+ 		if(config.hasOwnProperty('custom')){
+ 			if(config.custom.hasOwnProperty('color')){
+ 				acssCompiler.statementMaker.addCustom('color',config.custom.color);
+ 			}
+ 			if(config.custom.hasOwnProperty('length')){
+ 				acssCompiler.statementMaker.addCustom('length',config.custom.length);
+ 			}
+ 		}
+
+ 		// extend your classname as you like eg box-shadow-grey:'box-shadow:1px 1px 1px solid'
+ 		if(config.hasOwnProperty('extend')){
+ 			acssCompiler.statementMaker.extend(config.extend);
+ 		}
+
+ 		//group classname in single class
+ 		if(config.hasOwnProperty('group')){
+ 			let content=acssCompiler.statementMaker.groupObj(config.group);
+
+ 			if(content) acssCompiler.writeStatementToFile(content);
+
+
+ 		}
+
+ 	}else{
+
+ 		console.error('Required input and output configured on acss.congif.js');
+
+ 		return ;
+ 	}
+
+
+ 		acssCompiler.run();
+
+		if(watch){
+			// acssCompiler.append=true;
+			acssCompiler.watch();
+		}
+
+
+ }else{ 
+		 	
+		 
+
+		if(argv[2]){
+			acssCompiler.input=argv[2];
+			if(argv[3]){
+				acssCompiler.output=argv[3];
+
+				// acssCompiler.run(argv[2],argv[3]);
+			}else{
+				acssCompiler.output='acss.css';
+				// acssCompiler.run(argv[2],'acss.css');
+			}
+
+			if(fs.existsSync(acssCompiler.output)){
+					fs.truncateSync(acssCompiler.output);
+				}
+
+			acssCompiler.run();
+
+			if(watch){
+				acssCompiler.append=true;
+				acssCompiler.watch();
+			}
+		}
+ }//config-end-if
+
+ 
