@@ -18,7 +18,7 @@ export let matcher={
 	//------------------------property and value compilers
 	compilers:{
 		color:{
-			match:/^((background-color|border(-(right|left|top|bottom|text-decoration|text-shadow))?-color|outline-color|color)|(bgc|b[rltb]?c|oc|c|txsc|tdc))[-_]/,
+			match:/^((background-color|border(-(right|left|top|bottom|text-decoration|text-shadow))?-color|outline-color|color|text)|(bgc|b[rltb]?c|oc|c|txsc|tdc))[-_]/,
 			call:color
 		},
 		length:{

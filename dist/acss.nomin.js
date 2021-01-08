@@ -3244,7 +3244,7 @@ let matcher={
 	//------------------------property and value compilers
 	compilers:{
 		color:{
-			match:/^((background-color|border(-(right|left|top|bottom|text-decoration|text-shadow))?-color|outline-color|color)|(bgc|b[rltb]?c|oc|c|txsc|tdc))[-_]/,
+			match:/^((background-color|border(-(right|left|top|bottom|text-decoration|text-shadow))?-color|outline-color|color|text)|(bgc|b[rltb]?c|oc|c|txsc|tdc))[-_]/,
 			call:color
 		},
 		length:{
@@ -6195,7 +6195,7 @@ var oldElement="";
         
     }else{
         document.getElementById("quickChangeBox").style.height="200px";
-         document.getElementById("acss-live-editor-content").style.display="block";
+         document.getElementById("acss-live-editor-content").style.display="flex";
          // document.getElementById("acss-live-editor-footer").style.display="block";
         this.innerHTML="min";
          
@@ -6224,43 +6224,44 @@ document.getElementById("quickChangeClose").onclick=function(){
 // --------------------------------HTML Display-----------------------------
 function launchQuickChange(){
 
-
-var newinnerHTML=`<div sid="alias-css-live-editor" id="quickChangeBox" class="bsbb dont-include zi1111111111 pf bxs0px0px1px0px-c-0000000000d5 _input-lhi2 _button-lhi2 ffi2 fs12px bgc-fff w300px h200px b1px-s-00000000002 br5px r5px btm5px bgc-505050 ">\
+    var newinnerHTML=`<div sid="alias-css-live-editor" id="quickChangeBox" class="bsbb dont-include zi1111111111 df pf fww bxs0px0px1px0px-c-0000000000d5 _input-lhi2 _button-lhi2 ffi2 fs12px bgc-fff w300px h200px b1px-s-00000000002 br5px r5px btm5px bgc-505050 ">\
     <!--Header  -->\
-    <div sid="alias-css-live-editorheader" id="quickChangeBoxheader" class="bsbb  br5px5px0p0p bgc-ccc h15px bb1px-s-00000000002 -h-cm mb10px dont-include">\
-        <span id="acss-title" class="bsbb fs12px m0px5px ff-arial c-333333 dont-include">Acss Live Update 1.0.3</span>\
-        <div class="bsbb  dib fr m0px mt-1px dont-include mr5px">\
-            <button id="quickChangeMin" class="bsbb  b0d5px-s-535353 bgc-e3e3e3 --hover-bgc-warning w30px h12px br10px  -fo-oln  dont-include p0px ff-verdana fs9px">min</button>\
-            <button id="quickChangeClose" class="bsbb  b0d5px-s-535353 bgc-e3e3e3 w30px --hover-bgc-danger h12px br10px  -fo-oln dont-include p0px ff-verdana fs9px">close</button>\
+    <div sid="alias-css-live-editorheader" id="quickChangeBoxheader" class="bsbb df aic jcsb w100p br5px5px0p0p bgc-ccc h15px bb1px-s-00000000002 -h-cm mb10px dont-include">\
+        <span id="acss-title" class="bsbb dib fs12px m0px5px ff-arial c-333333 dont-include">Acss Live Update 1.0.3</span>\
+        <div class="bsbb  df  dont-include  jcc aic ">\
+            <button id="quickChangeMin" class="bsbb mr5px b0d5px-s-535353 dif aic jcc bgc-e3e3e3 --hover-bgc-warning w30px h12px br10px  -fo-oln  dont-include p0px ff-verdana fs9px ">min</button>\
+            <button id="quickChangeClose" class="bsbb mr5px dif aic jcc b0d5px-s-535353 bgc-e3e3e3 w30px --hover-bgc-danger h12px br10px  -fo-oln dont-include p0px ff-verdana fs9px">close</button>\
         </div>\
     </div>\
-    <div class="bsbb  w100p dont-include" id="acss-live-editor-content">\
-        <!-- input area  -->\
-        <div class="bsbb  dont-include w75p fl h160px brt1px-s-606060 p10px pt0px">\
-            <!-- input -->\
-            <p class="bsbb fs13px m0px p3px dont-include ">\
-            <span class="c_bbb dont-include ">Click element-or-input id</span> <input type="text" style="" spellcheck="false" id="quickChangeIdInput" class="dont-include w195px b1px-s-606060 br15px bgc-909090 -fo-oln pl10px" placeholder="input id of element">\
-            </p>\
-                <!-- text-are -->\
-            <div class="bsbb tal dont-include ">\
-            <small id="infoEle"class="c-bbb ff-arial fs11px tac dont-include">Input classname/s, press enter</small><small id="infoMsg" class=" fs11px  dont-include"></small>\
-                <textarea id="quickChangeAcssInput" class=" dib dont-include bgc-909090 ff-courier h90px w100p oln c-333333 fw9" placeholder="Input ACSS class names " spellcheck="false"> </textarea>\
-            </div>\
-        </div>\
-        <!-- Buttons -->
-        <div class="w20p dib fr mr5px dont-include _button-oln _button-ff-verdana _button-w60px _button-bgc-505050 _button-c-ccc  _button-br50px _button-h-c-grey _button-fo-oln _button-fw1  _button-fs9px _button-mb8px">\
+
+    
+    <div class="bsbb  w100p df  dont-include" id="acss-live-editor-content">\
+        <!-- Buttons -->\
+        <div class="w20p  bsbb p5px dont-include _button-oln _button-ff-verdana _button-w100p _button-bgc-505050 _button-c-ccc  _button-br50px _button-h-c-grey _button-fo-oln _button-fw1  _button-fs9px _button-mb8px">\
             <button class=" dont-include"  id="buttonPrev">Prev</button>\
             <button class=" dont-include"  id="buttonNext">Next</button>\
             <button class=" dont-include"  id="buttonParent">Parent</button>\
             <button class=" dont-include"  id="buttonChild">Child</button>\
-            <hr class=" mt0px mb10px bt1px-s-606060 bw1px h0px dont-include">\
+            <hr class=" mt0px mb10px  dont-include bc-666">\
             <button id="acssLiveUpadateCopy" class=" dont-include" >copy</button>\
             <button id="acssPush" class="fs7px dont-include"  >&uarr;push</button>\
         </div>\
-        
+
+        <!-- input area  -->\
+        <div class="bsbb  dont-include w80p p0px10px h160px bl1px-s-606060  mt-10px">\
+            <!-- input -->\
+            <p class="bsbb fs13px m0px p3px dont-include mb5px">\
+            <span class="c_bbb dont-include dib mb5px">Click element-or-input id</span> <input type="text" style="" spellcheck="false" id="quickChangeIdInput" class="dont-include w100p b1px-s-606060 br15px bgc-909090 -fo-oln pl15px" placeholder="input id of element">\
+            </p>\
+                <!-- text-are -->\
+            <div class="bsbb tal dont-include ">\
+            <small id="infoEle"class="c-bbb ff-arial fs11px tac dont-include dib mb5px">Input classname/s, press enter</small><small id="infoMsg" class=" fs11px  dont-include"></small>\
+                <textarea id="quickChangeAcssInput" class=" dib dont-include bgc-909090 ff-courier h100px w100p oln c-333333 fw9" placeholder="Input ACSS class names " spellcheck="false"> </textarea>\
+            </div>\
+        </div>\
     </div>\
 </div>`;
-    
+
 var box=document.createElement("div");
 box.innerHTML=newinnerHTML;
 document.body.append(box);
@@ -6289,22 +6290,27 @@ init();
 
 let build_ACSS={
 pushURL:null,
+//compile class and returns class statement i.e .br5px{.br5px{border-radius:5px ;}}
 compile:function(classname){
 		return this.statementMaker.make(classname);
 	},
+
 toString:function(){return "ACSS Object";},
 classPrinter:classPrinter_classPrinter,
 
+//takes custom classname and defination  key,value or {key:value} //{'outline-color':'outline-color: blue;'}
+//no Psedu or anythings
 extend:function(a,b,c){
 	this.statementMaker.extend(a,b,c);
 },
-
+//Live editor
 liveEditor:openAcssRibbionBar,
-
+//close live editor in browser
 closeEditor:function(){
 	    var ele=document.getElementById("quickChangeBox");
 	    if(ele) ele.parentNode.removeChild(ele);
 },
+
 appendCss:function(str,group){
 	this.classPrinter.appendToStyleTag(this.statementMaker.fromString(str,group));
 },
