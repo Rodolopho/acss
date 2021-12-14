@@ -72,6 +72,9 @@ export let staticClassNames={
   'animation-name-none': 'animation-name: none',
   ann: 'animation-name: none',
 
+  'appearance-none':'appearance:none',
+  'an':'appearance:none',
+
   'animation-play-state-paused': 'animation-play-state: paused',
   apsp: 'animation-play-state: paused',
 
@@ -2273,6 +2276,15 @@ export let staticClassNames={
 
   'transition-property-none': 'transition-property: none',
   tpn: 'transition-property: none',
+
+  'transition-property-background': 'transition-property: background',
+  tpb: 'transition-property: background',
+
+  'transition-property-color': 'transition-property: color',
+  tpc: 'transition-property: color',
+
+  'transition-property-transform': 'transition-property: transform',
+  tpt: 'transition-property: transform',
 
   'text-rendering-auto': 'text-rendering: auto',
   tra: 'text-rendering: auto',

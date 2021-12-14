@@ -16,6 +16,7 @@ export let propertyAlias={
 	"bbc":"border-bottom-color",
 	"outline-color":"outline-color",
 	"oc":"outline-color",
+	
 	//length
 		"border-radius":"border-radius",
 		"br"  :"border-radius",

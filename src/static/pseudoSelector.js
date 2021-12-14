@@ -125,6 +125,13 @@ export let flags={
 "--selection":"::selection",//-sl	
 "-s":"::selection",//-sl	
 
+"--scrollbar":"scrollbar",
+"-sb":"scrollbar",
+"--scrollbar-track":'::-web-kit-scrollbar-track',
+"-st":'::-web-kit-scrollbar-track',
+"--scrollbar-thumb":'::-web-kit-scrollbar-thumb',
+"--stm":'::-web-kit-scrollbar-thumb',
+
 "--target":":target",//-tg
 "-tg":":target",//-tg
 

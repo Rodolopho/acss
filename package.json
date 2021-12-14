@@ -1,6 +1,6 @@
 {
   "name": "aliascss",
-  "version": "3.0.7",
+  "version": "3.0.8",
   "description": "Extended version of ACSS,  css clasnames post processor that uses full post define classnames",
   "main": "index.js",
   "directories": {
