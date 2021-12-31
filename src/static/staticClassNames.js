@@ -1927,6 +1927,21 @@ export let staticClassNames={
 
   'resize-vertical': 'resize: vertical',
   rv: 'resize: vertical',
+  
+  'scroll-behavior-smooth':'scroll-behavior-smooth',
+  'sbs':'scroll-behavior-smooth',
+
+  'scroll-behavior-auto':'scroll-behavior-auto',
+  'sba':'scroll-behavior-auto',
+
+  'scroll-behavior-initial':'scroll-behavior-initial',
+  'sbi':'scroll-behavior-initial',
+
+  'scroll-behavior-inherit':'scroll-behavior-inherit',
+  'sbin':'scroll-behavior-inherit',
+  'sbi2':'scroll-behavior-inherit',
+
+
 
   'text-align-center': 'text-align: center',
   tac: 'text-align: center',

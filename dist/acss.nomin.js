@@ -167,6 +167,9 @@ let staticClassNames={
   'animation-name-none': 'animation-name: none',
   ann: 'animation-name: none',
 
+  'appearance-none':'appearance:none',
+  'an':'appearance:none',
+
   'animation-play-state-paused': 'animation-play-state: paused',
   apsp: 'animation-play-state: paused',
 
@@ -2019,6 +2022,21 @@ let staticClassNames={
 
   'resize-vertical': 'resize: vertical',
   rv: 'resize: vertical',
+  
+  'scroll-behavior-smooth':'scroll-behavior-smooth',
+  'sbs':'scroll-behavior-smooth',
+
+  'scroll-behavior-auto':'scroll-behavior-auto',
+  'sba':'scroll-behavior-auto',
+
+  'scroll-behavior-initial':'scroll-behavior-initial',
+  'sbi':'scroll-behavior-initial',
+
+  'scroll-behavior-inherit':'scroll-behavior-inherit',
+  'sbin':'scroll-behavior-inherit',
+  'sbi2':'scroll-behavior-inherit',
+
+
 
   'text-align-center': 'text-align: center',
   tac: 'text-align: center',
@@ -2368,6 +2386,15 @@ let staticClassNames={
 
   'transition-property-none': 'transition-property: none',
   tpn: 'transition-property: none',
+
+  'transition-property-background': 'transition-property: background',
+  tpb: 'transition-property: background',
+
+  'transition-property-color': 'transition-property: color',
+  tpc: 'transition-property: color',
+
+  'transition-property-transform': 'transition-property: transform',
+  tpt: 'transition-property: transform',
 
   'text-rendering-auto': 'text-rendering: auto',
   tra: 'text-rendering: auto',
@@ -3342,6 +3369,7 @@ let propertyAlias={
 	"bbc":"border-bottom-color",
 	"outline-color":"outline-color",
 	"oc":"outline-color",
+	
 	//length
 		"border-radius":"border-radius",
 		"br"  :"border-radius",
@@ -5113,6 +5141,24 @@ let deviceAlias={
 	"xl":"@media  (min-width : 1200px) {",
 };
 
+// 320px — 480px: Mobile devices
+// 481px — 768px: iPads, Tablets
+// 769px — 1024px: Small screens, laptops
+// 1025px — 1200px: Desktops, large screens
+// 1201px and more —  Extra large screens, TV
+
+// /* Extra small devices (phones, up to 480px) */
+// @media screen and (max-width: 767px) {
+// }
+// /* Small devices (tablets, 768px and up) */
+// @media (min-width: 768px) and (max-width: 991px) {
+// }
+// /* tablets/desktops and up ———– */
+// @media (min-width: 992px) and (max-width: 1199px) {
+// }
+// /* large desktops and up ———– */
+// @media screen and (min-width: 1200px) {
+// }
 
 function deviceHandler(alias, content){
 	if( deviceAlias.hasOwnProperty(alias)){
@@ -5248,6 +5294,13 @@ let flags={
 
 "--selection":"::selection",//-sl	
 "-s":"::selection",//-sl	
+
+"--scrollbar":"scrollbar",
+"-sb":"scrollbar",
+"--scrollbar-track":'::-web-kit-scrollbar-track',
+"-st":'::-web-kit-scrollbar-track',
+"--scrollbar-thumb":'::-web-kit-scrollbar-thumb',
+"--stm":'::-web-kit-scrollbar-thumb',
 
 "--target":":target",//-tg
 "-tg":":target",//-tg
@@ -6150,7 +6203,8 @@ function quickChangeSelectOnClick(element){
                 //console.log(this.value);
                 if(document.getElementById(this.value)){
                     
-                    currentElement=document.getElementById(this.value);
+                    currentElement=document.querySelector(this.value);
+                    //currentElement=document.getElementById(this.value);
                     
                     infoEle.innerText="Element on Target :- "+currentElement.nodeName.toLowerCase()+"#"+currentElement.id;
                     setClassToField();
@@ -6158,7 +6212,7 @@ function quickChangeSelectOnClick(element){
                     //currentElement.element.style.boxShadow="0px 0px 5px #ccc";
                     //settleOldClass(currentElement);
                 }else{
-                   infoMsg.innerHTML="<span style='color:orange'> No elemnt with id:"+this.value+"</span>";
+                   infoMsg.innerHTML="<span style='color:orange'> No element with querySelector:"+this.value+"</span>";
                 }
                 
             };

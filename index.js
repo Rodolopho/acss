@@ -1,6 +1,6 @@
 const path=require('path');
 const fs=require('fs');
-var sass=require('node-sass');
+ // var sass=require('node-sass');
 
 //MAKES CSS STATEMENTS
 // const statementMaker=require('./src/statementMaker.js');
@@ -22,6 +22,7 @@ let acssCompiler={
 	statementMaker:statementMaker,
 	style:function(a){ return this.statementMaker.groupForStyle(a)},
 	styleJs:function(a,b){ return this.statementMaker.groupForJs(a,b)},
+	styleJSX:function(a,b){ return this.statementMaker.groupForJs(a,b)},
 	input:null,
 	output:null,
 	append:false,
@@ -101,10 +102,10 @@ let acssCompiler={
 		let acssStm=this.statementMaker.styleSheetCompiler(content);
 
 		try{
-				var result=sass.renderSync({
-					data:acssStm
-				});
-				return result.css;
+				//var result=sass.renderSync({
+					//data:acssStm
+				//});
+				return acssStm;
 			} catch (e){
 				console.log("Could not able to compile: Sass render Error: Make sure you have valid acss/scss");
 				console.log(e);
@@ -189,6 +190,8 @@ let acssCompiler={
 			  console.log(err);
 			}
 	},
+
+
 	
 	run:function(input,output){
 		// if(input){
