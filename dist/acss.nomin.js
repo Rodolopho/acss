@@ -2718,7 +2718,7 @@ function angleTimeFrequencyResolution(data){
 
 }
 // angleTimeFrequencyResolutionProcessor:function(each){
-// 			///deg| grad| rad| turn dpi| dpcm| dppxHz| kHz|s|ms/;
+// 			///deg| grad| rad| turn| dpi| dpcm| dppxHz| kHz|s|ms/;
 // 			var matchitonly=/[-]?[0-9]+[d]?[0-9]*(deg|grad|rad|turn|dpi|dpcm|dppx|Hz|hz|kHz|khz|s|ms)/g;
 // 			var lengthArray=each.match(matchitonly);
 // 			if(!lengthArray){return false;}
@@ -2947,11 +2947,17 @@ let style={
 // CONCATENATED MODULE: ./src/compilers/gradient.js
 
 function gradient(grad, data,customColor){
+	
 let gradientFunc="";
 let holder="";
+//data=45deg-color_position-color_position
 data=data.replace(/^[-]([a-z])/, "$1")
 if(gradient_alias.hasOwnProperty(grad)){
+	//set gradient to grdeint fucn e.g lineargradient()
 	gradientFunc=gradient_alias[grad];
+
+
+   //setting  direction/angle/position/shape e.g right/45deg/center/circle
 	let m1=/^[-]?[0-9]+[d]?[0-9]*(deg|grad|rad|turn)/;
 	let m2=/^((to-)?(right|left|top|bottom)?[-]?(right|left|top|bottom))|([t]?[rltb]?[rltb])(?=[0-9-])/;
 	if(m1.test(data)){
@@ -2967,19 +2973,21 @@ if(gradient_alias.hasOwnProperty(grad)){
 		data=data.replace(m[0],"");
 
 	}
-data=data.replace(/^[-]([a-z])/, "$1")
-let col=/[-_]?(c|color)[-_][A-Za-z0-9]+/g
-	data=data.replace(col,function(m){
-		let result=color(m.replace(/^[-_]/,""),customColor);
-		return result?", "+result+" ":m;
-	});
+	
+	 data=data.replace(/_/g, " ").replace(/-/g,",");
 
-	 data=data.replace(/(?<=[0-9])[d](?=[0-9])/g,".").replace(/(?<=[0-9])[p](?=[\W]|$)/g,"%");
-	 holder+=data.replace(/^[,]/,"").replace(/[_]/g,"");
+	 data=data.replace(/[,][A-Za-z0-9]+/g,function(mch){
+	 	let proccessedColor=color(mch.replace(/[,]/,""),customColor)
+	 	return proccessedColor?", "+proccessedColor:m;
+	 });
 
 
+		 data=data.replace(/(?<=[0-9])[p](?=[\W]|$)/g,"%").replace(/(?<=[\W]([0-9])+)[d](?=[0-9])/g,".");
+		 holder+=data.replace(/^[,]/,"").replace(/[_]/g,"");
 
-	return gradientFunc+"( "+holder.replace(/,$/,"")+ ")";
+
+
+		return gradientFunc+"( "+holder.replace(/,$/,"")+ " )";
 
 }else{
 	return null;
@@ -2990,6 +2998,8 @@ let col=/[-_]?(c|color)[-_][A-Za-z0-9]+/g
 
 let gradient_alias={
 	//gradient
+	cg:"conic-gradient",
+	"conic-gradient":"conic-gradient",
 	lg:"linear-gradient",
 	"linear-gradient":"linear-gradient",
 	rg:"radial-gradient",
@@ -3063,6 +3073,7 @@ function shadow(data,customColor){
 	let holder="";
 data.split(/--/).forEach((e)=>{
 	if(m.test(e)){
+		if(e.match(/^(i|inset)/)){holder+="inset "};
 
 		let result=m.exec(e);
 		let col=color(result[4],customColor);
@@ -3106,7 +3117,7 @@ function url(data){
 				let holder=""
 				data.split(/--/).forEach((each)=>{
 					let ndir=/^([0-9])[-_]/.exec(each);
-				let dir=" url(";
+				let dir=" url('";
 				if(ndir && isFinite(parseInt(ndir[1]))){
 					for(let i=0;i<ndir[1];i++){
 						
@@ -3118,7 +3129,7 @@ function url(data){
 				each=each.replace(/[-_]([A-Za-z0-9]+$)/,".$1")
 					.replace(/[-_]/g,"/");
 
-					holder+=dir + each+ "),"; 
+					holder+=dir + each+ "'),"; 
 				})
 				
 		return holder.replace(/[,]$/,"");
@@ -3266,8 +3277,8 @@ let timingFunction_func={
 
 
 let matcher={
-	device:{match:/^(mob|tab|lab|desk|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
-	selector:{match:/^([-|_])/,call:null},
+	// device:{match:/^(mob|tab|lab|desk|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
+	// selector:{match:/^([-|_])/,call:null},
 	//------------------------property and value compilers
 	compilers:{
 		color:{
@@ -3304,7 +3315,7 @@ let matcher={
 			call:border
 		},
 		gradient:{
-			match:/(background|bg|bgi|background-image)[-]?(((repeating-)?(linear|radical)-gradient)|(rrg|rg|lg|rlg))([\w_-]+)/,
+			match:/(background|bg|bgi|background-image)[-]?(((repeating-)?(conic|linear|radical)-gradient)|(rrg|rg|lg|cg|rlg))([\w_-]+)/,
 			call:gradient
 		},
 		shadow:{
@@ -4882,7 +4893,9 @@ function propertyAndValue(classname,custom){
 		return customStaticClassNames[classname];
 
 	//content
-	}else if(matcher.compilers.content.match.test(classname)){
+	}//End of static Classname defination
+
+	else if(matcher.compilers.content.match.test(classname)){
 		let data=matcher.compilers.content.match.exec(classname);
 		 // console.log('\x1b[35m',data);
 		let property=propertyAlias[data[1]];
@@ -4974,7 +4987,7 @@ function propertyAndValue(classname,custom){
 		if(property){
 			let value=matcher.compilers.shadow.call(classname.replace(data[1],""),custom.color);
 			if(value){
-				return property+":"+value;
+				return (property+":"+value).replace("-inset:", ":inset ");
 			}else{
 				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @shadow `);
 			}
@@ -5125,6 +5138,7 @@ function propertyAndValue(classname,custom){
 
 
 // CONCATENATED MODULE: ./src/responsive.js
+
 let deviceAlias={
 	match:/^(mob|mobile|tab|lab|hd|print|xs|sm|md|lg|xl)(?=[-|_])/,
 	"mob":"@media (max-width : 768px) {",
@@ -5159,7 +5173,7 @@ let deviceAlias={
 // /* large desktops and up ———– */
 // @media screen and (min-width: 1200px) {
 // }
-
+const deviceMatch=deviceAlias.match;
 function deviceHandler(alias, content){
 	if( deviceAlias.hasOwnProperty(alias)){
 		return deviceAlias[alias]+'\n'+ content+ "\n } ";
@@ -5318,6 +5332,7 @@ let flags={
 
 const browserPrefix=["-moz-","-webkit-","-ms-"];
 
+const selectorMatch=/^([-|_])/;
 
 let matchAndCall={
 	 element:{
@@ -5511,7 +5526,7 @@ let customColor_customColor={'primaryDarkest':"hsla(210,43%,24%,1)",
 
 
 
-
+// import  {matcher} from "./matcher.js";
 
 
 
@@ -5535,18 +5550,10 @@ let statementMaker={
 	},
 	//Handle !important !default.....
 	handleSuffix:function(classname){
-			var match=/[-_]([id])$/
-		if(classname.match(match)){
-			if(classname.match(match)[1]=="i"){
-				this.hasSuffix=" !important";
-			}else if(classname.match(match)[1]=="d"){
-				this.hasSuffix=" !default";
-			}
-			return classname.replace(match,'');
+		let match=/[-](i|important)$/;
+		if(classname.match(match)) this.hasSuffix=" !important";
+		return classname.replace(match,'');
 
-		}else{
-			return classname;
-		}
 	},//end of Handle suffix
 
 	getPropertyAndValue(classname){
@@ -5555,23 +5562,34 @@ let statementMaker={
 	},
 
 	make(classname, as,bool){
-		//reset 
-		[this.device, this.classname,this.selctor,this.propertyAndValue,this.hasSuffix]=[null,null,null,null,null];
+		//reset old values
+		[this.device, this.classname,this.selector,this.propertyAndValue,this.hasSuffix]=[null,null,null,null,null];
 
 		this.classname=as?as:classname;
-		// -------------------------responsive----------------
-		if(matcher.device.match.test(classname)){
-			this.device=matcher.device.call(classname);
-			classname=classname.replace(this.device,"");
+		// -------------------------responsive----------------takes out device[-|_] mob-, tab_
+			if(deviceMatch.test(classname)){
+				this.device=deviceMatch.exec(classname)[1];
+		 		classname=classname.replace(this.device,"");
 			}
-		//-----------------selector-------------------------
+
+
+		// if(matcher.device.match.test(classname)){
+		// 	this.device=matcher.device.call(classname);
+		// 	classname=classname.replace(this.device,"");
+		// 	}
+		//-----------------selector-------------- --hover, -nth, _div_li, __div etc
 
 		let selectorResult=whileMatchNCall(classname);
 		this.selector=selectorResult[1];
 		classname=selectorResult[0].replace(/^[_-]/,"");
-		//------------suffix-flag------
+
+
+		//------------suffix-flag------ -i,-important
 		
 			classname=this.handleSuffix(classname);		
+
+
+			// now pure class name with property and value
 		//------------proverty and value---------------
 		if(this.cache.propertyAndValue.hasOwnProperty(classname)){
 			this.propertyAndValue=this.cache.propertyAndValue[classname];
@@ -5585,6 +5603,7 @@ let statementMaker={
 
 	 	let statement="."+this.classname+this.selector+"{"+this.propertyAndValue + (this.hasSuffix?this.hasSuffix:'')+ " ;}";
 
+	 	//handle media quries
 		 if(this.device){
 		 	return deviceHandler(this.device,statement);
 		 }
@@ -5788,7 +5807,8 @@ styleSheetCompiler:function(content){
 		//let classList=[];//to filter duplicate filter
 		let list=str.trim().split(/\s+/);
 		list.forEach((e)=>{
-			if(matcher.selector.match.test(e) || matcher.device.match.test(e)){
+			// selector:{match:/^([-|_])/,call:null},
+			if(selectorMatch || deviceMatch.test(e)){
 				let result=this.make(e,as);
 				if(result) statement+=result+"\n";
 				}else{
@@ -5853,7 +5873,7 @@ statementMaker.addCustom('color',static_customColor);
 
 	},
 	//compile dom stylesheet 
-	
+	//show current style statestatement
 	compile:function(){
 	  var classes=document.getElementById('styleAlias');
 	  if(classes){
@@ -5865,7 +5885,7 @@ statementMaker.addCustom('color',static_customColor);
 	  }
 	},
 	
-
+	//print classname of el to style tag; gets statement from statementMaker.make(eachClass);
  	print:function(el){
  		if(el.hasAttribute("class")){
  			//has group
@@ -5918,8 +5938,8 @@ statementMaker.addCustom('color',static_customColor);
 								this.appendToStyleTag(result);
 						}else{
 								//not a valid ACSS clasNames
-								this.unvalidLists.push(eachClass);
-							}
+							this.unvalidLists.push(eachClass);
+						}
 					}
 				});
 
@@ -5932,19 +5952,19 @@ statementMaker.addCustom('color',static_customColor);
 
 	},//eomain
 	run:function(el){
-		var $root=el||document;
+		let $root=el||document;
 		
 		//1. HANDLE ACSS STYLESHEETS
 		if(document.querySelector("[type='text/acss']")){
-			var content=document.querySelector("[type='text/acss']").innerText;
-			var compiledcontent=statementMaker.styleSheetCompiler(content);
+			let content=document.querySelector("[type='text/acss']").innerText;
+			let compiledcontent=statementMaker.styleSheetCompiler(content);
 			
 			if(document.querySelector("[data-stylesheets='acss']")){
-				var styleTag=document.querySelector("[data-stylesheets='acss']");
+				let styleTag=document.querySelector("[data-stylesheets='acss']");
 				styleTag.appendChild(document.createTextNode(compiledcontent));
 				
 			}else{
-				var styleTag=document.createElement("style");
+				let styleTag=document.createElement("style");
 				styleTag.appendChild(document.createTextNode(compiledcontent));
 				styleTag.setAttribute("data-stylesheets","acss")
 				document.getElementsByTagName("head")[0].appendChild(styleTag);

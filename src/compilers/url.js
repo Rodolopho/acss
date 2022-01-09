@@ -2,7 +2,7 @@ export default function url(data){
 				let holder=""
 				data.split(/--/).forEach((each)=>{
 					let ndir=/^([0-9])[-_]/.exec(each);
-				let dir=" url(";
+				let dir=" url('";
 				if(ndir && isFinite(parseInt(ndir[1]))){
 					for(let i=0;i<ndir[1];i++){
 						
@@ -14,7 +14,7 @@ export default function url(data){
 				each=each.replace(/[-_]([A-Za-z0-9]+$)/,".$1")
 					.replace(/[-_]/g,"/");
 
-					holder+=dir + each+ "),"; 
+					holder+=dir + each+ "'),"; 
 				})
 				
 		return holder.replace(/[,]$/,"");

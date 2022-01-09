@@ -1,3 +1,4 @@
+
 let deviceAlias={
 	match:/^(mob|mobile|tab|lab|hd|print|xs|sm|md|lg|xl)(?=[-|_])/,
 	"mob":"@media (max-width : 768px) {",
@@ -32,8 +33,8 @@ let deviceAlias={
 // /* large desktops and up ———– */
 // @media screen and (min-width: 1200px) {
 // }
-
-export default function deviceHandler(alias, content){
+export const deviceMatch=deviceAlias.match;
+export  function deviceHandler(alias, content){
 	if( deviceAlias.hasOwnProperty(alias)){
 		return deviceAlias[alias]+'\n'+ content+ "\n } ";
 	}else{

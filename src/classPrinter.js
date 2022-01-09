@@ -23,7 +23,7 @@
 
 	},
 	//compile dom stylesheet 
-	
+	//show current style statestatement
 	compile:function(){
 	  var classes=document.getElementById('styleAlias');
 	  if(classes){
@@ -35,7 +35,7 @@
 	  }
 	},
 	
-
+	//print classname of el to style tag; gets statement from statementMaker.make(eachClass);
  	print:function(el){
  		if(el.hasAttribute("class")){
  			//has group
@@ -88,8 +88,8 @@
 								this.appendToStyleTag(result);
 						}else{
 								//not a valid ACSS clasNames
-								this.unvalidLists.push(eachClass);
-							}
+							this.unvalidLists.push(eachClass);
+						}
 					}
 				});
 
@@ -102,19 +102,19 @@
 
 	},//eomain
 	run:function(el){
-		var $root=el||document;
+		let $root=el||document;
 		
 		//1. HANDLE ACSS STYLESHEETS
 		if(document.querySelector("[type='text/acss']")){
-			var content=document.querySelector("[type='text/acss']").innerText;
-			var compiledcontent=statementMaker.styleSheetCompiler(content);
+			let content=document.querySelector("[type='text/acss']").innerText;
+			let compiledcontent=statementMaker.styleSheetCompiler(content);
 			
 			if(document.querySelector("[data-stylesheets='acss']")){
-				var styleTag=document.querySelector("[data-stylesheets='acss']");
+				let styleTag=document.querySelector("[data-stylesheets='acss']");
 				styleTag.appendChild(document.createTextNode(compiledcontent));
 				
 			}else{
-				var styleTag=document.createElement("style");
+				let styleTag=document.createElement("style");
 				styleTag.appendChild(document.createTextNode(compiledcontent));
 				styleTag.setAttribute("data-stylesheets","acss")
 				document.getElementsByTagName("head")[0].appendChild(styleTag);

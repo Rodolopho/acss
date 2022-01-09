@@ -1,7 +1,7 @@
 import propertyAndValue from "./provertyAndValue.js";
-import deviceHandler from "./responsive.js";
-import {whileMatchNCall, browserPrefix} from './selector.js';
-import  {matcher} from "./matcher.js";
+import {deviceHandler, deviceMatch} from "./responsive.js";
+import {whileMatchNCall, browserPrefix, selectorMatch} from './selector.js';
+// import  {matcher} from "./matcher.js";
 import customColor from './static/customColor.js';
 
 
@@ -25,18 +25,10 @@ export let statementMaker={
 	},
 	//Handle !important !default.....
 	handleSuffix:function(classname){
-			var match=/[-_]([id])$/
-		if(classname.match(match)){
-			if(classname.match(match)[1]=="i"){
-				this.hasSuffix=" !important";
-			}else if(classname.match(match)[1]=="d"){
-				this.hasSuffix=" !default";
-			}
-			return classname.replace(match,'');
+		let match=/[-](i|important)$/;
+		if(classname.match(match)) this.hasSuffix=" !important";
+		return classname.replace(match,'');
 
-		}else{
-			return classname;
-		}
 	},//end of Handle suffix
 
 	getPropertyAndValue(classname){
@@ -45,23 +37,34 @@ export let statementMaker={
 	},
 
 	make(classname, as,bool){
-		//reset 
-		[this.device, this.classname,this.selctor,this.propertyAndValue,this.hasSuffix]=[null,null,null,null,null];
+		//reset old values
+		[this.device, this.classname,this.selector,this.propertyAndValue,this.hasSuffix]=[null,null,null,null,null];
 
 		this.classname=as?as:classname;
-		// -------------------------responsive----------------
-		if(matcher.device.match.test(classname)){
-			this.device=matcher.device.call(classname);
-			classname=classname.replace(this.device,"");
+		// -------------------------responsive----------------takes out device[-|_] mob-, tab_
+			if(deviceMatch.test(classname)){
+				this.device=deviceMatch.exec(classname)[1];
+		 		classname=classname.replace(this.device,"");
 			}
-		//-----------------selector-------------------------
+
+
+		// if(matcher.device.match.test(classname)){
+		// 	this.device=matcher.device.call(classname);
+		// 	classname=classname.replace(this.device,"");
+		// 	}
+		//-----------------selector-------------- --hover, -nth, _div_li, __div etc
 
 		let selectorResult=whileMatchNCall(classname);
 		this.selector=selectorResult[1];
 		classname=selectorResult[0].replace(/^[_-]/,"");
-		//------------suffix-flag------
+
+
+		//------------suffix-flag------ -i,-important
 		
 			classname=this.handleSuffix(classname);		
+
+
+			// now pure class name with property and value
 		//------------proverty and value---------------
 		if(this.cache.propertyAndValue.hasOwnProperty(classname)){
 			this.propertyAndValue=this.cache.propertyAndValue[classname];
@@ -75,6 +78,7 @@ export let statementMaker={
 
 	 	let statement="."+this.classname+this.selector+"{"+this.propertyAndValue + (this.hasSuffix?this.hasSuffix:'')+ " ;}";
 
+	 	//handle media quries
 		 if(this.device){
 		 	return deviceHandler(this.device,statement);
 		 }
@@ -278,7 +282,8 @@ styleSheetCompiler:function(content){
 		//let classList=[];//to filter duplicate filter
 		let list=str.trim().split(/\s+/);
 		list.forEach((e)=>{
-			if(matcher.selector.match.test(e) || matcher.device.match.test(e)){
+			// selector:{match:/^([-|_])/,call:null},
+			if(selectorMatch || deviceMatch.test(e)){
 				let result=this.make(e,as);
 				if(result) statement+=result+"\n";
 				}else{

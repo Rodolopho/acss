@@ -1,10 +1,16 @@
 import color from './color.js';
 export default function gradient(grad, data,customColor){
+	
 let gradientFunc="";
 let holder="";
+//data=45deg-color_position-color_position
 data=data.replace(/^[-]([a-z])/, "$1")
 if(alias.hasOwnProperty(grad)){
+	//set gradient to grdeint fucn e.g lineargradient()
 	gradientFunc=alias[grad];
+
+
+   //setting  direction/angle/position/shape e.g right/45deg/center/circle
 	let m1=/^[-]?[0-9]+[d]?[0-9]*(deg|grad|rad|turn)/;
 	let m2=/^((to-)?(right|left|top|bottom)?[-]?(right|left|top|bottom))|([t]?[rltb]?[rltb])(?=[0-9-])/;
 	if(m1.test(data)){
@@ -20,19 +26,21 @@ if(alias.hasOwnProperty(grad)){
 		data=data.replace(m[0],"");
 
 	}
-data=data.replace(/^[-]([a-z])/, "$1")
-let col=/[-_]?(c|color)[-_][A-Za-z0-9]+/g
-	data=data.replace(col,function(m){
-		let result=color(m.replace(/^[-_]/,""),customColor);
-		return result?", "+result+" ":m;
-	});
+	
+	 data=data.replace(/_/g, " ").replace(/-/g,",");
 
-	 data=data.replace(/(?<=[0-9])[d](?=[0-9])/g,".").replace(/(?<=[0-9])[p](?=[\W]|$)/g,"%");
-	 holder+=data.replace(/^[,]/,"").replace(/[_]/g,"");
+	 data=data.replace(/[,][A-Za-z0-9]+/g,function(mch){
+	 	let proccessedColor=color(mch.replace(/[,]/,""),customColor)
+	 	return proccessedColor?", "+proccessedColor:m;
+	 });
 
 
+		 data=data.replace(/(?<=[0-9])[p](?=[\W]|$)/g,"%").replace(/(?<=[\W]([0-9])+)[d](?=[0-9])/g,".");
+		 holder+=data.replace(/^[,]/,"").replace(/[_]/g,"");
 
-	return gradientFunc+"( "+holder.replace(/,$/,"")+ ")";
+
+
+		return gradientFunc+"( "+holder.replace(/,$/,"")+ " )";
 
 }else{
 	return null;
@@ -43,6 +51,8 @@ let col=/[-_]?(c|color)[-_][A-Za-z0-9]+/g
 
 let alias={
 	//gradient
+	cg:"conic-gradient",
+	"conic-gradient":"conic-gradient",
 	lg:"linear-gradient",
 	"linear-gradient":"linear-gradient",
 	rg:"radial-gradient",

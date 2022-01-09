@@ -8,14 +8,13 @@ const dist=path.join(__dirname,"dist",'acss.js');
 
 let acssCompiler={
 
-	test:/(html|htm|php)$/,
+	test:/(html|htm|acss|php)$/,
 	//cop file in given location
 	dist:function(path){
 		fs.copyFileSync(dist, path);
 	},
 
-	newRegex:/[\s]class(Name)?=['|"]([\w-_\s]+)['|"]([\s]acss-group=['|"][\s]*([\w-_]+)[\s]*['|"])?/,
-	newRegexGlobal:/[\s]class(Name)?=['|"]([\w-_\s]+)['|"]([\s]acss-group=['|"][\s]*([\w-_]+)[\s]*['|"])?/g,
+	// newRegex:/(?<=[\s]class(Name)?\=")[-_\w\s]+/,
 
 	classList:[],
 	groups:{},
@@ -32,25 +31,28 @@ let acssCompiler={
 	// compileStatement:"/* AliasCSS : This file is compile by AliasCSS Compiler*/\n\n\n",
 	extractClassName:function(file){
 			let data=fs.readFileSync(file, 'utf-8');
+			let found;
+			let that=this;
 			let classList=[];
 			let groups={};
+			while((found=this.regex.exec(data))!==null){
 
-			//step 1: find class="" acss-group=""
-			let matched=data.match(this.newRegexGlobal);
-
-			 if(matched.length===0) return
-
-			 	matched.forEach((match)=>{
-			 		  let extraction=match.match(this.newRegex);
-			 		 let classNames=extraction[2];
-			 		 let group=extraction[4];
-
-			 		 if(group){
-						if(this.groups.hasOwnProperty(group) && this.groups[group]==classNames){
+				if(this.regClass.test(found)){
+					let classNames=this.regClass.exec(found)[1].trim();
+					
+					 if(!classNames) continue ;
+					if(this.regGroup.test(found)){
+						
+						let group=this.regGroup.exec(found)[1].trim();
+			
+						if(group){
+							if(this.groups.hasOwnProperty(group) && this.groups[group]==classNames){
 								//do nothing
-						}else{
-							this.groups[group]=classNames;
-							groups[group]=classNames;
+							}else{
+								this.groups[group]=classNames;
+								groups[group]=classNames;
+							}
+							
 						}
 					}
 
@@ -60,9 +62,11 @@ let acssCompiler={
 							classList.push(e);
 						}
 					});
-			 		
-			 	})
-			
+				}
+			}
+
+
+
 			return [classList.sort(), groups];
 	},
 	compile:function(file){

@@ -13,8 +13,8 @@ import filter from './compilers/filter.js';
 import timingFunction from './compilers/timingFunction.js';
 
 export let matcher={
-	device:{match:/^(mob|tab|lab|desk|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
-	selector:{match:/^([-|_])/,call:null},
+	// device:{match:/^(mob|tab|lab|desk|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
+	// selector:{match:/^([-|_])/,call:null},
 	//------------------------property and value compilers
 	compilers:{
 		color:{
@@ -51,7 +51,7 @@ export let matcher={
 			call:border
 		},
 		gradient:{
-			match:/(background|bg|bgi|background-image)[-]?(((repeating-)?(linear|radical)-gradient)|(rrg|rg|lg|rlg))([\w_-]+)/,
+			match:/(background|bg|bgi|background-image)[-]?(((repeating-)?(conic|linear|radical)-gradient)|(rrg|rg|lg|cg|rlg))([\w_-]+)/,
 			call:gradient
 		},
 		shadow:{

@@ -4,7 +4,7 @@ export default function angleTimeFrequencyResolution(data){
 
 }
 // angleTimeFrequencyResolutionProcessor:function(each){
-// 			///deg| grad| rad| turn dpi| dpcm| dppxHz| kHz|s|ms/;
+// 			///deg| grad| rad| turn| dpi| dpcm| dppxHz| kHz|s|ms/;
 // 			var matchitonly=/[-]?[0-9]+[d]?[0-9]*(deg|grad|rad|turn|dpi|dpcm|dppx|Hz|hz|kHz|khz|s|ms)/g;
 // 			var lengthArray=each.match(matchitonly);
 // 			if(!lengthArray){return false;}

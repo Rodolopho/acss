@@ -2,6 +2,7 @@ import {flags} from "./static/pseudoSelector.js";
 
 export  const browserPrefix=["-moz-","-webkit-","-ms-"];
 
+export const selectorMatch=/^([-|_])/;
 
 let matchAndCall={
 	 element:{

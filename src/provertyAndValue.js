@@ -13,7 +13,9 @@ export default function propertyAndValue(classname,custom){
 		return customStaticClassNames[classname];
 
 	//content
-	}else if(matcher.compilers.content.match.test(classname)){
+	}//End of static Classname defination
+
+	else if(matcher.compilers.content.match.test(classname)){
 		let data=matcher.compilers.content.match.exec(classname);
 		 // console.log('\x1b[35m',data);
 		let property=propertyAlias[data[1]];
@@ -105,7 +107,7 @@ export default function propertyAndValue(classname,custom){
 		if(property){
 			let value=matcher.compilers.shadow.call(classname.replace(data[1],""),custom.color);
 			if(value){
-				return property+":"+value;
+				return (property+":"+value).replace("-inset:", ":inset ");
 			}else{
 				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @shadow `);
 			}

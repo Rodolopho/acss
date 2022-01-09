@@ -1,8 +1,8 @@
 module.exports={
 
-	input:['demo'],// can be array of folder or files or both, 
+	input:['test'],// can be array of folder or files or both, 
 	// input:'path/to/folderORFile',// can be array of folder or files or both, 
-	output:'demo/css/acss.css', //File must be  manually created first.
+	output:'test/css/acss.css', //File must be  manually created first.
 
 	test:/(html|htm|acss|php|template)$/,//test  file extention 
 
@@ -19,7 +19,9 @@ module.exports={
 	//only allowed single classname with property value , no pseduo or medai query allowed
 	extend:{
 		'outline-color':'outline-color: blue;'
+		//now you can use it with device or seduo --hover-outline-color
 	},
+
 	// group classname in single classname
 	group:{
 		'container':'p15px border1px-solid-light holol',

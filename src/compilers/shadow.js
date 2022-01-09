@@ -8,6 +8,7 @@ export default function shadow(data,customColor){
 	let holder="";
 data.split(/--/).forEach((e)=>{
 	if(m.test(e)){
+		if(e.match(/^(i|inset)/)){holder+="inset "};
 
 		let result=m.exec(e);
 		let col=color(result[4],customColor);
