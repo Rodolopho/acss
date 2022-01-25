@@ -1,6 +1,6 @@
 {
   "name": "aliascss",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Extended version of ACSS,  css clasnames post processor that uses full post define classnames",
   "main": "index.js",
   "directories": {
@@ -42,5 +42,8 @@
     "webpack": "^4.*",
     "webpack-cli": "^4.3.1",
     "webpack-dev-server": "^4.7.3"
+  },
+  "dependencies": {
+    "user": "^0.0.0"
   }
 }

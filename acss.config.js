@@ -4,7 +4,7 @@ module.exports={
 	// input:'path/to/folderORFile',// can be array of folder or files or both, 
 	output:'test/css/acss.css', //File must be  manually created first.
 
-	test:/(html|htm|acss|php|template)$/,//test  file extention 
+	test:/(acss)$/,///(html|htm|acss|php|template)$/,//test  file extention 
 
 	custom:{
 		color:{

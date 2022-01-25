@@ -35,7 +35,7 @@ let acssCompiler={
 			//step 1: find class="" acss-group=""
 			let matched=data.match(this.newRegexGlobal);
 
-			 if(matched.length===0) return
+			 if( matched===null) return [[],{}];
 
 			 	matched.forEach((match)=>{
 			 		  let extraction=match.match(this.newRegex);
