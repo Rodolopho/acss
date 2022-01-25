@@ -224,6 +224,6 @@ export let propertyAlias={
 	an:"animation-name",
 
 //
-	"":"",
+	//"":"",
 	
 }

@@ -36,7 +36,7 @@ let deviceAlias={
 export const deviceMatch=deviceAlias.match;
 export  function deviceHandler(alias, content){
 	if( deviceAlias.hasOwnProperty(alias)){
-		return deviceAlias[alias]+'\n'+ content+ "\n } ";
+		return deviceAlias[alias]+'\n\t'+ content+ "\n } ";
 	}else{
 
 	}

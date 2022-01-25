@@ -24,13 +24,12 @@ const clientConfig = {
 		filename:"acss.js"
 	},
 	devServer:{
-		contentBase:'./',
-		before: function(app, server) {
-      		app.post('/acss-live-update/', function(req, res) {
-      			req.pipe(fs.createWriteStream('./public/css/ajax.css'));
-      		});
-		},
-	},
+		static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
+    port: 9000,
+  },
 	devtool:"source-map",
 	plugins: [
         new UnminifiedWebpackPlugin()
@@ -39,39 +38,3 @@ const clientConfig = {
 };
 
 module.exports = [ serverConfig, clientConfig ];
-// module.exports={
-// 	entry:{
-// 		acss:"./build.js",
-// 		 statementMaker:'./buildModule.js',
-// 	},
-// 	output:{
-// 		path:path.resolve(__dirname,"dist"),
-// 		filename:"[name].js"
-// 	},
-// 	devServer:{
-// 		contentBase:'./',
-// 		before: function(app, server) {
-//       		app.post('/acss-live-update/', function(req, res) {
-//       			req.pipe(fs.createWriteStream('./public/css/ajax.css'));
-//       		});
-// 		},
-// 	},
-// 	module: {
-// 	  rules: [
-// 	    {
-// 	      test: /Maker\.js$/,
-// 	      exclude: /(node_modules|bower_components)/,
-// 	      use: {
-// 	        loader: 'babel-loader',
-// 	        options: {
-// 	          presets: ['@babel/preset-env']
-// 	        }
-// 	      }
-// 	    }
-// 	  ]
-// 	},
-// 	devtool:"inline-source-map",
-// 	plugins: [
-//         new UnminifiedWebpackPlugin()
-//     ]
-// }

@@ -21,7 +21,7 @@ export let matcher={
 			match:/^((background-color|border(-(right|left|top|bottom|text-decoration|text-shadow))?-color|outline-color|color|text)|(bgc|b[rltb]?c|oc|c|txsc|tdc))[-_]/,
 			call:color
 		},
-		length:{
+		length:{//cv is custome value for user 
 			match:/^(([-]?[a-z])+)(([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|cv))+)/,
 			call:length
 		},

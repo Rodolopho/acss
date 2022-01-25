@@ -1,4 +1,4 @@
-import statementMaker, {classPrinter} from './src/classPrinter.js';
+import statementMaker, {classPrinter} from './src/classPrinterBeta.js';
 import openAcssRibbionBar from "./src/acssliveupdate.js";
 
 let ACSS={

@@ -8,14 +8,14 @@ const dist=path.join(__dirname,"dist",'acss.js');
 
 let acssCompiler={
 
-	test:/(.*)$/,
+	test:/(html|htm|php)$/,
 	//cop file in given location
 	dist:function(path){
 		fs.copyFileSync(dist, path);
 	},
 
-	newRegex:/[\s](acss-)?class(Name)?=['|"]([\w-_\s]+)['|"]([\s]acss-group=['|"][\s]*([\w-_]+)[\s]*['|"])?/,
-	newRegexGlobal:/[\s](acss-)?class(Name)?=['|"]([\w-_\s]+)['|"]([\s]acss-group=['|"][\s]*([\w-_]+)[\s]*['|"])?/g,
+	newRegex:/[\s]class(Name)?=['|"]([\w-_\s]+)['|"]([\s]acss-group=['|"][\s]*([\w-_]+)[\s]*['|"])?/,
+	newRegexGlobal:/[\s]class(Name)?=['|"]([\w-_\s]+)['|"]([\s]acss-group=['|"][\s]*([\w-_]+)[\s]*['|"])?/g,
 
 	classList:[],
 	groups:{},
@@ -26,6 +26,9 @@ let acssCompiler={
 	input:null,
 	output:null,
 	append:false,
+	regClass:/[\s]+class[\s]*=[\s]*['|"][\s]*([-|_|A-Za-z0-9|\s]+)[\s]*['|"]/, //[1]
+	regGroup:/[\s]+acss-group[\s]*=[\s]*['|"][\s]*([-|_|A-Za-z0-9|\s]+)[\s]*['|"]/,//[1]
+	regex:/(?<=[<][A-Za-z0-9]+)(([^<.]|\.)*class[\s]*=([^<.]|\.)*)(?=[/]?[>])/g,
 	// compileStatement:"/* AliasCSS : This file is compile by AliasCSS Compiler*/\n\n\n",
 	extractClassName:function(file){
 			let data=fs.readFileSync(file, 'utf-8');
@@ -39,8 +42,8 @@ let acssCompiler={
 
 			 	matched.forEach((match)=>{
 			 		  let extraction=match.match(this.newRegex);
-			 		 let classNames=extraction[3];
-			 		 let group=extraction[5];
+			 		 let classNames=extraction[2];
+			 		 let group=extraction[4];
 
 			 		 if(group){
 						if(this.groups.hasOwnProperty(group) && this.groups[group]==classNames){
@@ -88,6 +91,38 @@ let acssCompiler={
 				}
 				return compileStatement;
 	},
+	compileStyleSheetRaw:function(file){
+		// console.log(this);
+		let content=fs.readFileSync(file, 'utf-8');
+		let acssStm=this.statementMaker.styleSheetCompiler(content);
+
+		try{
+				//var result=sass.renderSync({
+					//data:acssStm
+				//});
+				return acssStm;
+			} catch (e){
+				console.log("Could not able to compile: Sass render Error: Make sure you have valid acss/scss");
+				console.log(e);
+				return null;
+			}
+
+	},
+	compileStyleSheet:function(file,output){
+		let compiledContent=this.compileStyleSheetRaw(file);
+		if(!compiledContent) return false;
+
+			try {
+				
+		  		fs.appendFileSync(output, compiledContent);
+		  		console.log('\x1b[37m',"Successfully  compiled stylesheet from " + file);
+			} catch (err) {
+			  console.log('\x1b[31m',"Couldn't able to  compiled acss from " + file);
+			  console.log('\x1b[31m', err);
+			}
+
+		//return e;
+	},
 	processArray:function(list){
 
 
@@ -112,11 +147,20 @@ let acssCompiler={
 	},
 	writeToFile:function(file){
 			let compileStatement=null;
+			//For styleSheet .acs
 
 			if(!path.extname(file).match(this.test)) return ;
 			
-			if((compileStatement=this.compile(file))===null) return
-					
+			if(path.extname(file)=='.acss'){
+				console.log('\x1b[37m','Compiling acss to css: '+ file);
+				compileStatement=this.compileStyleSheetRaw(file);
+
+			}else if((compileStatement=this.compile(file))===null){
+					return;
+				
+			}
+
+			
 			if(compileStatement===null || !compileStatement) return false;
 			 
 			try {

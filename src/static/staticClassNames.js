@@ -1077,6 +1077,12 @@ export let staticClassNames={
   'flex-basis-content': 'flex-basis:content',
   fbc: 'flex-basis:content',
 
+  'flex-basis-min-content': 'flex-basis:min-content',
+  fbmc: 'flex-basis:min-content',
+
+  'flex-basis-max-content': 'flex-basis:max-content',
+  fbxc: 'flex-basis:max-content',
+
   'flex-basis-inherit': 'flex-basis: inherit',
   fbin: 'flex-basis: inherit',
 
@@ -1257,6 +1263,23 @@ export let staticClassNames={
 
   'font-size-adjust-none': 'font-size-adjust: none',
   fsan: 'font-size-adjust: none',
+
+  
+'font-smooth-auto':'font-smooth: auto',
+'fsa':'font-smooth: auto',
+'font-smooth-never':'font-smooth: never',
+'fsn4':'font-smooth: never',
+'fsnv':'font-smooth: never',
+'font-smooth-always':'font-smooth: always',
+'fsal':'font-smooth: always',
+'font-smooth-inherit':'font-smooth: inherit',
+'fsi4':'font-smooth: inherit',
+'font-smooth-initial':'font-smooth: initial',
+'fsi5':'font-smooth: initial',
+'font-smooth-revert':'font-smooth: revert',
+'fsr':'font-smooth: revert',
+'fsu':'font-smooth: unset',
+'font-smooth-unset':'font-smooth: unset',
 
   'font-stretch-condensed': 'font-stretch: condensed',
   fsc: 'font-stretch: condensed',
@@ -2402,6 +2425,28 @@ export let staticClassNames={
   ubnl: 'unicode-bidi: normal',
   ubn: 'unicode-bidi: normal',
 
+'user-select-none':  'user-select: none',
+usn:  'user-select: none',
+'user-select-auto':'user-select: auto',
+usa:'user-select: auto',
+'user-select-text':'user-select: text',
+ust:'user-select: text',
+'user-select-contain':'user-select: contain',
+usc:'user-select: contain',
+'user-select-all':'user-select: all',
+usal:'user-select: all',
+usa2:'user-select: all',
+
+/* Global values */
+'user-select-inherit':'user-select: inherit',
+'usin':'user-select: inherit',
+'usi':'user-select: initial',
+'user-select-initial':'user-select: initial',
+'user-select-revert':'user-select: revert',
+usr:'user-select: revert',
+'user-select-unset':'user-select: unset',
+usu:'user-select: unset',
+
   'vertical-align-baseline': 'vertical-align: baseline',
   vab: 'vertical-align: baseline',
 
@@ -2514,6 +2559,28 @@ export let staticClassNames={
   xwn: 'max-width: none',
 
   'z-index-auto': 'z-index: auto',
-  zia: 'z-index: auto' };
+  zia: 'z-index: auto' ,
+  //extras
+  "webkit-font-smoothing-antialiased":"-webkit-font-smoothing:antialiased",
+  "wk-fsa":"-webkit-font-smoothing:antialiased",
+  'moz-osx-font-smoothing:grayscale':'-moz-osx-font-smoothing:grayscale',
+  'mz-osx-fsg':'-moz-osx-font-smoothing:grayscale',
+  'fsg':'-moz-osx-font-smoothing:grayscale',
+  'webkit-font-smoothing: auto':'-webkit-font-smoothing: auto',
+  'wk-fsa2: auto':'-webkit-font-smoothing: auto',
+  'moz-osx-font-smoothing: auto':'-moz-osx-font-smoothing: auto',
+  'mz-osx-fsa':'-moz-osx-font-smoothing: auto',
+
+  'width-min-content':'width:min-content',
+  'wmc':'width:min-content',
+  'width-max-content':'width:max-content',
+  'wxc':'width:max-content',
+
+  'height-min-content':'height:min-content',
+  'hmc':'height:min-content',
+  'height-max-content':'height:max-content',
+  'hxc':'height:max-content',
+
+};
 
 

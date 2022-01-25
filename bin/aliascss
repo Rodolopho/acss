@@ -17,6 +17,8 @@ if(argv.indexOf("--watch")!=-1){
  if(argv.indexOf("--config")!=-1){
  	const config=require(path.resolve('acss.config.js'));
  	isConfig=true;
+
+
  	
 
  	//Check if it has input ans output path setup
@@ -37,6 +39,10 @@ if(argv.indexOf("--watch")!=-1){
  		//if it has test to filter filename
  		if(config.hasOwnProperty('test')){
  			acssCompiler.test=config.test;
+ 		}
+
+ 		if(config.hasOwnProperty('ignore')){
+ 			acssCompiler.statementMaker.ignore=config.ignore;
  		}
 
  		//Add custome color and length unit i.e primary , 1col

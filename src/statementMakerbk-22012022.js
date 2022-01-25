@@ -1,6 +1,6 @@
 import propertyAndValue from "./provertyAndValue.js";
 import {deviceHandler, deviceMatch} from "./responsive.js";
-import {whileMatchNCall,selectorMatch} from './selector.js';
+import {whileMatchNCall, browserPrefix, selectorMatch} from './selector.js';
 // import  {matcher} from "./matcher.js";
 import customColor from './static/customColor.js';
 
@@ -92,6 +92,12 @@ export let statementMaker={
 	if(typeof(a) ==='object' ){
 		for(let key in a){
 			this.cache.propertyAndValue[key]=a[key];
+			// if(this.cachstatementMaker.staticClassNames.hasOwnProperty(key)){
+			// 	console.error(Key +": already  in use for '"+key+":"+this.statementMaker.staticClassNames[key]+"' Try with another classname" );
+			// }else{
+			// 	this.statementMaker.staticClassNames[key]=a[key];
+			// }
+			
 		}
 	}else{
 		if(a && b){
@@ -100,8 +106,114 @@ export let statementMaker={
 	}
 
 },
+styleSheetCompiler:function(content){
+	 
+	
+		const match=/[{][\w|#|\-|:|;|$|\*|\/|\.|\(|\)|\s|\\|\"|\%|\!|\,|\']+[}]?/g;
 
-groupForJs:function(string,bool){
+		const m1=/(?<=[{][\s]*)([A-Za-z0-9_-]+)(?=[\s]*[;])/g;
+		const m2=/(?<=[;][\s]*)([A-Za-z0-9_-]+)(?=[\s]*[;])/g;
+		const m3=/(?<=[;][\s]*)([A-Za-z0-9-_]+)(?=[\s]*[}])/g;
+		const m4=/(?<=[\/][\s]*)([A-Za-z0-9-_]+)(?=[\s]*[;|}])/g;
+		const m5=/(?<=[\{][\s]*)([A-Za-z0-9-_]+)(?=[\s]*[}])/g;
+
+		return content.replace(/[\n][\s]+/g,"\n").replace(match,(e)=>{
+		
+			 //1.repalce {.....;
+				e=e.replace(m1,(m)=>{
+						let result=this.getPropertyAndValue(m);
+						return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+				//console.log(e);
+			
+			//2.replace ;.....;
+			
+			e=e.replace(m2,(m)=>{
+					 let result=this.getPropertyAndValue(m);
+					return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+
+			// console.log(e);
+			// 3.replace ;..}	
+			e=e.replace(m3,(m)=>{
+					let result= this.getPropertyAndValue(m);
+					return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+
+			// 4.replace */..;|}	
+			e=e.replace(m4,(m)=>{
+					let result= this.getPropertyAndValue(m);
+					return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+
+			// 5.replace {...}	
+			e=e.replace(m5,(m)=>{
+					let result= this.getPropertyAndValue(m);
+					return result?'\t'+result:'\n\t/*'+m+'*/';
+				});
+
+		 	
+		 	 return e;
+			
+		 });
+		
+		
+
+	},
+	bkstyleSheetCompiler:function(content){
+	
+		const match=/[{][\w|#|\-|:|;|$|\*|\/|\.|\(|\)|\s|\\|\"|\%|\!|\,|\']+[}]?/g;
+
+		const m1=/(?<=[{][\s]*)([A-Za-z0-9_-]+)(?=[\s]*[;])/g;
+		const m2=/(?<=[;][\s]*)([A-Za-z0-9_-]+)(?=[\s]*[;])/g;
+		const m3=/(?<=[;][\s]*)([A-Za-z0-9-_]+)(?=[\s]*[}])/g;
+		const m4=/(?<=[\/][\s]*)([A-Za-z0-9-_]+)(?=[\s]*[;|}])/g;
+		const m5=/(?<=[\{][\s]*)([A-Za-z0-9-_]+)(?=[\s]*[}])/g;
+
+		return content.replace(match,(e)=>{
+		
+			 //1.repalce {.....;
+				e=e.replace(m1,(m)=>{
+						let result=this.getPropertyAndValue(m);
+						return result?result:m;
+				});
+				//console.log(e);
+			
+			//2.replace ;.....;
+			
+			e=e.replace(m2,(m)=>{
+					 let result=this.getPropertyAndValue(m);
+					return result?result:m;
+				});
+
+			// console.log(e);
+			// 3.replace ;..}	
+			e=e.replace(m3,(m)=>{
+					let result= this.getPropertyAndValue(m);
+					return result?result:m;
+				});
+
+			// 4.replace */..;|}	
+			e=e.replace(m4,(m)=>{
+					let result= this.getPropertyAndValue(m);
+					return result?result:m;
+				});
+
+			// 5.replace {...}	
+			e=e.replace(m5,(m)=>{
+					let result= this.getPropertyAndValue(m);
+					return result?result:m;
+				});
+
+		 	//console.log(e);
+		 	 return e;
+			
+		 });
+
+	},
+	
+
+	groupForJs:function(string,bool){
 		if(!string.trim()) return '';
 		let jsStyle={};
 		let list=string.trim().split(/\s+/);
@@ -172,26 +284,24 @@ groupForJs:function(string,bool){
 		//let classList=[];//to filter duplicate filter
 		let list=str.trim().split(/\s+/);
 		list.forEach((e)=>{
-			//case.1. when there is no selector or device prefix
 			// selector:{match:/^([-|_])/,call:null},
-			if(selectorMatch.test(e) || deviceMatch.test(e)){
+			if(selectorMatch || deviceMatch.test(e)){
 				let result=this.make(e,as);
 				if(result) statement+=result+"\n";
-			}else{
-				//maked sure to reset hasSuffix
-				this.hasSuffix=null;
-				e=this.handleSuffix(e);
-				if(this.cache.propertyAndValue.hasOwnProperty(e)){
-					container+="\t"+this.cache.propertyAndValue[e]+(this.hasSuffix?this.hasSuffix:'')+" ;\n";
 				}else{
-					let pNv=propertyAndValue(e,this.custom);
-					if(pNv){
-					 this.cache.propertyAndValue[e]=pNv;
-					 container+="\t"+pNv+ (this.hasSuffix?this.hasSuffix:'')+" ;\n";
+					this.hasSuffix=null;
+					e=this.handleSuffix(e);
+					if(this.cache.propertyAndValue.hasOwnProperty(e)){
+						container+="\t"+this.cache.propertyAndValue[e]+(this.hasSuffix?this.hasSuffix:'')+" ;\n";
+					}else{
+						let pNv=propertyAndValue(e,this.custom);
+						if(pNv){
+						 this.cache.propertyAndValue[e]=pNv;
+						 container+="\t"+pNv+ (this.hasSuffix?this.hasSuffix:'')+" ;\n";
+						}
 					}
-				}
 					
-			}
+				}
 		});
 
 		return `${statement} \n .${as} { ${container} }`;
