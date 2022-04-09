@@ -1,14 +1,17 @@
 const path=require('path');
 const fs=require('fs');
- 
+const fg=require('fast-glob');
+
+ //compiler return statement i.e .class{property:value}
 require('./lib/statementMaker.js');
+
 const dist=path.join(__dirname,"dist",'acss.js');
-// console.log(statementMaker);
+
 
 
 let acssCompiler={
-
-	test:/(.*)$/,
+	//not required as we have glob pattern
+	// test:/(.*)$/,
 	//cop file in given location
 	dist:function(path){
 		fs.copyFileSync(dist, path);
@@ -17,16 +20,27 @@ let acssCompiler={
 	newRegex:/[\s](acss-)?class(Name)?=['|"]([\w-_\s]+)['|"]([\s]acss-group=['|"][\s]*([\w-_]+)[\s]*['|"])?/,
 	newRegexGlobal:/[\s](acss-)?class(Name)?=['|"]([\w-_\s]+)['|"]([\s]acss-group=['|"][\s]*([\w-_]+)[\s]*['|"])?/g,
 
+	//it will hold allthe classname list that hadbeen alreay compiled
 	classList:[],
+	//it hold he group and their classnmaes
 	groups:{},
+	//compiles and return statemnt i.e .class{property:value}
 	statementMaker:statementMaker,
+	//return property:value for style="" attribute inputs classnames as strings
 	style:function(a){ return this.statementMaker.groupForStyle(a)},
+	 // return {borderRadius:'5px'} , js version 
 	styleJs:function(a,b){ return this.statementMaker.groupForJs(a,b)},
+	//same as above 
 	styleJSX:function(a,b){ return this.statementMaker.groupForJs(a,b)},
+	//init input
 	input:null,
+	//init output
 	output:null,
-	append:false,
+	 //not in use rt now
+	 //append:false,
 	// compileStatement:"/* AliasCSS : This file is compile by AliasCSS Compiler*/\n\n\n",
+
+	// return classLists, groups from given file, extracts classnames and return array
 	extractClassName:function(file){
 			let data=fs.readFileSync(file, 'utf-8');
 			let classList=[];
@@ -62,6 +76,8 @@ let acssCompiler={
 			
 			return [classList.sort(), groups];
 	},
+	//--------------Main----------------------
+	//compiles given file and return css statement
 	compile:function(file){
 				let compileStatement='';
 				let that=this;
@@ -88,10 +104,7 @@ let acssCompiler={
 				}
 				return compileStatement;
 	},
-	processArray:function(list){
-
-
-	},
+	
 	processFolder:function(folder){
 		const files=fs.readdirSync(folder);
 
@@ -110,10 +123,11 @@ let acssCompiler={
 			
 
 	},
+	//write css statement to css file
 	writeToFile:function(file){
 			let compileStatement=null;
 
-			if(!path.extname(file).match(this.test)) return ;
+			// if(!path.extname(file).match(this.test)) return ;
 			
 			if((compileStatement=this.compile(file))===null) return
 					
@@ -128,6 +142,7 @@ let acssCompiler={
 			  console.log(err);
 			}
 	},
+	//for config.js file 
 	writeStatementToFile:function(content){
 			
 			 
@@ -143,7 +158,8 @@ let acssCompiler={
 	},
 
 
-	
+	// ----------------Laucher----------------
+	//initialize input and output file and run the program
 	run:function(input,output){
 		// if(input){
 		// 	this.input=input;
@@ -153,8 +169,7 @@ let acssCompiler={
 		// }
 		
 		if(this.input && this.output){
-			
-
+		this.input=fg.sync(this.input,{ dot: true });
 		//case 1: if its array
 		if(Array.isArray(this.input)){
 			this.input.forEach((entry)=>{
@@ -197,6 +212,7 @@ let acssCompiler={
 		}
 		
 	},
+	// watch foe this.input
 	watch:function(){
 		console.log('\x1b[37m',"Files are being Watched!");
 		if(Array.isArray(this.input)){

@@ -99,11 +99,17 @@ let staticClassNames={
   'align-content-center': 'align-content: center',
   acc: 'align-content: center',
 
-  'align-content-flex-end': 'align-content: flex-end',
-  acfe: 'align-content: flex-end',
+  'align-content-end': 'align-content:-end',
+  ace: 'align-content:-end',
 
   'align-content-flex-start': 'align-content: flex-start',
   acfs: 'align-content: flex-start',
+
+  'align-content-flex-end': 'align-content: flex-end',
+  acfe: 'align-content: flex-end',
+
+  'align-content-start': 'align-content: start',
+  acs: 'align-content: start',
 
   'align-content-space-around': 'align-content: space-around',
   acsa: 'align-content: space-around',
@@ -111,8 +117,12 @@ let staticClassNames={
   'align-content-space-between': 'align-content: space-between',
   acsb: 'align-content: space-between',
 
+  'align-content-space-evenly': 'align-content: space-evenly',
+  acse: 'align-content: space-evenly',
+
   'align-content-stretch': 'align-content: stretch',
-  acs: 'align-content: stretch',
+  acst: 'align-content: stretch',
+  acs2: 'align-content: stretch',
 
   'animation-direction-alternate-reverse': 'animation-direction: alternate-reverse',
   adar: 'animation-direction: alternate-reverse',
@@ -1104,11 +1114,18 @@ let staticClassNames={
   'display-flex': 'display: flex',
   df: 'display: flex',
 
+  'display-grid': 'display: grid',
+  dg: 'display: grid',
+
+
   'display-inline-block': 'display: inline-block',
   dib: 'display: inline-block',
 
   'display-inline-flex': 'display: inline-flex',
   dif: 'display: inline-flex',
+
+  'display-inline-grid': 'display: inline-grid',
+  dig: 'display: inline-grid',
 
   'display-inline-table': 'display: inline-table',
   dit: 'display: inline-table',
@@ -1159,6 +1176,12 @@ let staticClassNames={
 
   'empty-cells-show': 'empty-cells: show',
   ecs: 'empty-cells: show',
+
+  'fill-initial':'fill:initial',
+  // 'fill-initial':'fill:initial',
+
+  'fill-inherit':'fill:inherit',
+  // 'fill-inherit':'fill:inherit',
 
   'flex-auto': 'flex: auto',
   fa: 'flex: auto',
@@ -1546,6 +1569,33 @@ let staticClassNames={
   fwnl: 'font-weight: normal',
   fwn2: 'font-weight: normal',
 
+  'grid-auto-columns-max-content':'grid-auto-columns:max-content',
+  'gacxc':'grid-auto-columns:max-content',
+  'grid-auto-columns-min-content':'grid-auto-columns:min-content',
+  'gacmc':'grid-auto-columns:min-content',
+  'grid-auto-columns-auto':'grid-auto-columns:auto',
+  'gaca':'grid-auto-columns:auto',
+
+  'grid-auto-rows-max-content':'grid-auto-rows:max-content',
+  'garxc':'grid-auto-rows:max-content',
+  'grid-auto-rows-min-content':'grid-auto-rows:min-content',
+  'garmc':'grid-auto-rows:min-content',
+  'grid-auto-rows-auto':'grid-auto-rows:auto',
+  'gara':'grid-auto-rows:auto',
+
+  // 'grid-template-columns-subgrid':'grid-template-columns: subgrid',
+  // 'gtcs':'grid-template-columns: subgrid',
+  // 'grid-template-columns-masonry':'grid-template-columns: masonry',
+  // 'gtcm':'grid-template-columns: masonry',
+  'grid-template-columns-inherit':'grid-template-columns: inherit',
+  'gtcin':'grid-template-columns: inherit',
+  'grid-template-columns-initial':'grid-template-columns: initial',
+  'gtci':'grid-template-columns: initial',
+  'grid-template-columns-revert':'grid-template-columns: revert',
+  'gtcr':'grid-template-columns: revert',
+  'grid-template-columns-unset':'grid-template-columns: unset',
+  'gtcu':'grid-template-columns: unset',
+
   'hyphens-auto': 'hyphens: auto',
   ha: 'hyphens: auto',
 
@@ -1609,8 +1659,14 @@ let staticClassNames={
   'justify-content-flex-end': 'justify-content: flex-end',
   jcfe: 'justify-content: flex-end',
 
+  'justify-content-end': 'justify-content: end',
+  jce: 'justify-content: end',
+
   'justify-content-flex-start': 'justify-content: flex-start',
   jcfs: 'justify-content: flex-start',
+
+  'justify-content-start': 'justify-content: start',
+  jcs: 'justify-content: start',
 
   'justify-content-space-around': 'justify-content: space-around',
   jcsa: 'justify-content: space-around',
@@ -2045,6 +2101,10 @@ let staticClassNames={
 
   'resize-vertical': 'resize: vertical',
   rv: 'resize: vertical',
+
+  "stroke-linecap-butt":'stroke-linecap:butt',
+  "stroke-linecap-square":'stroke-linecap:square',
+  "stroke-linecap-round":'stroke-linecap:round',
   
   'scroll-behavior-smooth':'scroll-behavior-smooth',
   'sbs':'scroll-behavior-smooth',
@@ -2732,7 +2792,7 @@ function length_length(length,custom){
 		if(custom.hasOwnProperty(length)) return custom[length];
 	}
 //-100px100px-100px100px
-return length.match(/[-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc)/g)
+return length.match(/[-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|fr|vh|vmin|vmax|cm|mm|in|pt|pc)/g)
 			.toString()
 			.replace(/p(,)|p$/g,"%$1")
 			.replace(/d/g,".")
@@ -2766,8 +2826,13 @@ function number(str,custom){
 // 			  }
 // 			},
 // CONCATENATED MODULE: ./src/compilers/font.js
-function font(str){
+function font(str,font){
+	
+	if(typeof custom === "object"){
+		if(custom.hasOwnProperty(font)) return custom[font];
+	}
 	let holder="";
+
 	str.split(/--/).forEach((e)=>{
 		if(e.search(/_/)!==-1){
 			holder+="\""+e.replace(/_/g," ")+"\" ,";
@@ -3014,6 +3079,8 @@ let style={
 // CONCATENATED MODULE: ./src/compilers/gradient.js
 
 function gradient(grad, data,customColor){
+
+	console.log(grad, data);
 	
 let gradientFunc="";
 let holder="";
@@ -3042,10 +3109,11 @@ if(gradient_alias.hasOwnProperty(grad)){
 	}
 	
 	 data=data.replace(/_/g, " ").replace(/-/g,",");
-
+	 console.log(data);
 	 data=data.replace(/[,][A-Za-z0-9]+/g,function(mch){
+	 	console.log(mch);
 	 	let proccessedColor=color(mch.replace(/[,]/,""),customColor)
-	 	return proccessedColor?", "+proccessedColor:m;
+	 	return proccessedColor?", "+proccessedColor:mch;
 	 });
 
 
@@ -3104,13 +3172,13 @@ let gradient_alias={
 	"lb":"left bottom",
 
 	"tr":"to right",
-	"right":"to right",
-	"bottom":"to bottom",
+	"to-right":"to right",
+	"to-bottom":"to bottom",
 	"tb":"to bottom",
 	"tt":"to top",
-	"top":"to top",
+	"to-top":"to top",
 	"tl":"to left",
-	"letf":"to left",
+	"to-left":"to left",
 	"to-top-left":"to top left",
 	"to-top-right":"to top right",
 	"to-bottom-right":"to bottom right",
@@ -3328,6 +3396,11 @@ let timingFunction_func={
 // 			};
 // 			return func;
 // 		},
+// CONCATENATED MODULE: ./src/compilers/grid.js
+//import color from './color.js';
+function grid( data,custom){
+	return;
+}
 // CONCATENATED MODULE: ./src/matcher.js
 
 
@@ -3343,83 +3416,164 @@ let timingFunction_func={
 
 
 
+// import keyframes from './compilers/keyframes.js';
+
 let matcher={
 	// device:{match:/^(mob|tab|lab|desk|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
 	// selector:{match:/^([-|_])/,call:null},
 	//------------------------property and value compilers
 	compilers:{
 		color:{
-			match:/^((background-color|border(-(right|left|top|bottom|text-decoration|text-shadow))?-color|outline-color|color|text)|(bgc|b[rltb]?c|oc|c|txsc|tdc))[-_]/,
-			call:color
+			match:/^((background-color|fill|stroke|border(-(right|left|top|bottom|text-decoration|text-shadow))?-color|outline-color|color|text)|(bgc|b[rltb]?c|oc|c|txsc|tdc))[-_]/,
+			call:(data,custom,classname)=>color(classname.replace(data[0],""), custom.color)
 		},
 		length:{//cv is custome value for user 
-			match:/^(([-]?[a-z])+)(([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|cv))+)/,
-			call:length_length
+			match:/^(([-]?[a-z])+)(([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|fr|cv))+)/,
+			call:(data,custom)=>length_length(data[3],custom.length),
 		},
 
 		number:{
-			match:/^(aic|animation-iteration-count|border-image-slice|text-shadow-radius|txsr|bis|cc|column-count|f|flex|fg|flex-grow|fsk|flex-shrink|font-size|fs|o|opacity|ord|order|lh|ls|letter-spacing|line-height|orp|orphans|op|object-position|zi|z-index)([-]?[0-9]+[d]?[0-9]*)$/,
-			call:number
+			match:/^(aic|animation-iteration-count|border-image-slice|text-shadow-radius|txsr|bis|cc|column-count|f|flex|fg|flex-grow|fsk|flex-shrink|grid-column-start|grid-row-start|grid-column-end|grid-row-end|gcs|grs|gce|gre|font-size|fs|o|opacity|fill-opacity|stroke-opacity|ord|order|lh|ls|letter-spacing|line-height|orp|orphans|op|object-position|zi|z-index)([-]?[0-9]+[d]?[0-9]*)$/,
+			call:(data)=>number(data[2]),
 		},
 		font:{
 			match:/^(font-family|ff)[-]([a-zA-Z0-9-_]+)/,
-			call:font
+			call:(data,custom)=>font(data[2],custom.font),
 		},
 		time:{
 			match: /^(adu|animation-duration|adl|animation-delay|tdl|transition-delay|tdu|transition-duration)([-]?[0-9]+[d]?[0-9]*(ms|s))/,
-			call:angleTimeFrequencyResolution
+			call:(data)=>angleTimeFrequencyResolution(data[2]),
 		},
 		transform:{
 			match:/^(tf|transform)(([-](matrix|translate|rotate|skew|scale|perspective))|(m|t|tx|ty|s|sy|sx|r|sk|sky|skx|m3d|t3d|tz|ry|rx|rz|p))/,
-			call:transform
+			call:(data,custom,classname)=>transform(classname.replace(data[1],"")),
 		},
 		transition:{
 			match:/^(tn|transition)[-]([a-z-]+)([0-9]+[d]?[0-9]*[m]?[s])([\w-_]*)/,
-			call:transiton
+			call:(data,custom,classname)=>transiton(classname.replace(data[1],"")),
 		},
 		border:{
-			match:/^(b|border|brt|border-right|bl|border-left|bt|border-top|border-bottom|bb|ol|outline|cr|counter-reset)([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmaxc|m|mm|in|pt|pc|cv))[-]?(n|none|s|solid|r|ridge|o|outset|i|inset|h|hidden|g|groove|db|double|dt|dotted|ds|dashed)[-]([\w]*)/,
-			call:border
+			match:/^(b|border|brt|border-right|bl|border-left|bt|border-top|border-bottom|bb|ol|outline|cr|counter-reset)([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmaxc|m|mm|in|pt|pc|fr|cv))[-]?(n|none|s|solid|r|ridge|o|outset|i|inset|h|hidden|g|groove|db|double|dt|dotted|ds|dashed)[-]([\w]*)/,
+			call:(data,custom)=>border(data[2],data[4],data[5],custom.color)
 		},
 		gradient:{
 			match:/(background|bg|bgi|background-image)[-]?(((repeating-)?(conic|linear|radical)-gradient)|(rrg|rg|lg|cg|rlg))([\w_-]+)/,
-			call:gradient
+			call:(data,custom)=>gradient(data[2],data[7],custom.color),
 		},
 		shadow:{
-			match:/(bxs|bxsi|txs|box-shadow|box-shadow-inset|text-shadow)([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc))+/,//[-_]([\w]+)/,
+			match:/(bxs|bxsi|txs|box-shadow|box-shadow-inset|text-shadow)([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|fr|cv))+/,//[-_]([\w]+)/,
 			call:shadow
 		},
 		url:{
 			match:/(background-image|border-image-source|bis|background|bgi|bg)[-]?url[-_]([\w-]+)/,
-			call:url,
+			call:(data)=>url(data[2]),
 		},
 		filter:{
 			match:/(filter|fl)[-]?(drop-shadow|ds|b|blur|br|brightness|c|contrast|g|grayscale|hr|hue-rotate|i|invert|o|opacity|s|saturate|se|sepia)([-]?[0-9][\w-]+)/,
-			call:filter
+			call:(data)=>filter(data[2],data[3]),
 		},
 		timingFunction:{
 			match:/(animation-timing-function|atf|transition-timing-function|ttf)[-_]?(cubic-bezier[_-]?[0-9][\w-]+|cb[-_]?[0-9][\w-]+|e|ease|l|linear|ei|ease-in|eo|ease-out|eio|ease-in-out|ss|step-start|se|step-end)/,
-			call:timingFunction,
+			call:(data)=>timingFunction(data[2]),
 		},
 		content:{
-			match:/(con|content)[-_]?(url|attr)?[-_]([\w-]+)/,
-			call:(u,data)=>{
+			match:/^(con|content|grid-area|ga|grid-template-areas|gtc|grid-template-columns|^gtr|grid-template-rows|gta)[-_]?(url|attr)?[-_]([\w-]+)/,
+			call:(data)=>{
 				//u->url
-				if(u==="url"){
-					return url(data);
-				}else if(u==="attr"){
-					return "attr("+data+")";
+				if(data[2]==="url"){
+					return url(data[3]);
+				}else if(data[2]==="attr"){
+					return "attr("+data[3]+")";
 				}
-				return "\""+ data.replace(/[-_]/g," ")+"\"";
+
+				let result="";
+					
+				  data[3].split('--').forEach((each)=>{
+
+					 if(each.match(/[_]/)){
+					 	result+= "'"+ each.replace(/[_]/g," ")+"' ";
+					 }else{
+					 	result+= each;
+					 }
+				  })
+
+				 return result.replace(/[\s]dot/g, " . ");
+				
 
 			}
 		},
 		animation:{
 			match:/(animation-name|an)[-_]([\w]+)/,
 			call:(data)=>{
-				return data;
+				return data[2];
 			}
+		},
+
+		fontFeatureSettings:{
+			match:/(ffs|font-feature-settings)[-]([\w-_]+)/,
+			call:(data,custom,classname)=>data[2].replace(/--/g,', ').replace(/(\w{4})/g, '"$1" ').replace('-'," "),
+		},
+		grid:{
+			// match:'/yzx(grid-template-column|grid-template-row|gtr|gtc|\
+			// 	grid-auto-rows-minmax|grid-auto-columns-minmax|gacmx|garmx\
+			// 	grid-auto-rows-fit-content|grid-auto-columns-fit-content|gacmx|garmx\
+			// |grid-column-end-span|gces|grid-row-end-span|gres|grid-column|gc|grid-row|gr|grid-area|ga\
+			// )/',//,
+			match:/^(grid-column|gc|ga|grid-area|grid-row|gr)[-]?([\w-]+)/,
+			call:(data)=>{
+				
+				//grid-colums,grid-row, grid-column-start-grid-
+				if(data[2].match(/(span)?[-]?[0-9]+((by)?[-0-9]*([-]?span[0-9]+)?)*/)){
+					return data[2].replace(/[-]?by/g," / ").replace(/[-]?span/g, " span ");
+				}
+					//1fr1fr1fr1fr
+					//repeat3_1fr2fr
+					//repeat-auto-fill-minmax200px1fr
+					//repeat-auto-fill-minmax200px-autofill
+					//
+
+
+
+					//1by2
+					//1by-1
+					//1by2by4by4
+					//1byspan3 or 1by-span3
+					//1byspan3by1byspan5 or 1by-span3by-span6
+					//minmax200px1fr
+					//minmax-auto200px
+					//minmax200px-auto
+					//grid-auto-columns: fit-content(400px);
+
+			},
 		}
+// 		grid-template-column:1fr 1fr 1fr //
+// grid-template-column: repeate(3, 1fr) //gtc-r3_1fr3fr
+// grid-template-column: repeate(3, 1fr 2fr)
+// grid-template-column: repeate(auto-fill, 200px)  //raf200px30px
+// grid-template-column: repeate(auto-fill, minmax(200px, 1fr));//rafmx200px1fr
+// grid-template-column:  minmax(200px, 1fr);m200px1fr
+// grid-template-column:  minmax(200px, 1fr);
+
+// grid-auto-rows:200px
+
+// grid-auto-rows: minmax(100px, auto)
+// grid-auto-rows: minmax(100px, 400px)
+
+
+// grid-column-start:1
+// grid-column-end:4
+
+// grid-column:1/4 gc1by4  gc1by-1 gc1by-span3  
+// grid-column:1  //1/ span 1 equevalent
+// grid-column:1 / span 3 
+// grid-column:1 / -1 //full stretch to colum
+// gap:1rm
+// gap:1em 20px
+// column-gap:20px
+
+// grid-area: 1/2/3/4 ga1by2by3by4    1byspan3by2byspan4
+
+// grid-area: grid-row-start/grid-column-start/grid-row-end/grid-colum-end
 
 
 	}
@@ -3445,6 +3599,8 @@ let propertyAlias={
 	"btc":"border-top-color",
 	"border-bottom-color":"border-bottom-color",
 	"bbc":"border-bottom-color",
+	"fill":"fill",
+	"stroke":"stroke",
 	"outline-color":"outline-color",
 	"oc":"outline-color",
 	
@@ -3499,6 +3655,37 @@ let propertyAlias={
 		"flex-basis":"flex-basis",
 		"fs":"font-size",
 		"font-size":"font-size",
+		//Grid
+		"grid-gap":"grid-gap",
+		"gap":"gap",
+		"g":"gap",
+		"gg":"grid-gap",
+		"grid-row-gap":"grid-row-gap",
+		"grg":"grid-row-gap",
+		"gg":"grid-gap",
+		"row-gap":"row-gap",
+		"rg":"row-gap",
+		"grid-column-gap":"grid-column-gap",
+		"gcg":"grid-column-gap",
+		"grid-auto-columns":"grid-auto-columns",
+		"gac":"grid-auto-columns",
+		"grid-auto-rows":"grid-auto-rows",
+		"gar":"grid-auto-rows",
+		"grid-column":'grid-column',
+		"gc":'grid-column',
+		"grid-row":'grid-row',
+		"gr":'grid-row',
+		
+
+
+		"grid-template-columns":"grid-template-columns",
+		"gtc":"grid-template-columns",
+
+		"grid-template-rows":"grid-template-rows",
+		"gtr":"grid-template-rows",
+
+
+
 		"h":"height",
 		"height":"height",
 		"l"  :"left",
@@ -3547,6 +3734,9 @@ let propertyAlias={
 		"padding-top"  :"padding-top",
 		"r"  :"right",
 		"right"  :"right",
+		"stroke-width":"stroke-width",
+		"stroke-dasharray":'stroke-dasharray',
+		"stroke-dashoffset":'stroke-dashoffset',
 		"t"  :"top",
 		"top"  :"top",
 		"tfo":"transform-origin",//--------
@@ -3567,6 +3757,8 @@ let propertyAlias={
 
 		"aic":"animation-iteration-count",
 		"animation-iteration-count":"animation-iteration-count",
+
+
 		//Number
 		"cc":"column-count",
 		"column-count":"column-count",
@@ -3576,10 +3768,22 @@ let propertyAlias={
 		"flex-grow":"flex-grow",
 		"fsk":"flex-shrink",
 		"flex-shrink":"flex-shrink",
+		"grid-column-start":"grid-column-start",
+		"gcs":"grid-column-start",
+		"grid-column-end":"grid-column-end",
+		"gce":"grid-column-end",
+
+		"grid-row-start":"grid-row-start",
+		"grs":"grid-row-start",
+		"grid-row-end":"grid-row-end",
+		"gre":"grid-row-end",
+
 		"ord":"order",//-------
 		"order":"order",//-------
 		"o":"opacity",
 		"opacity":"opacity",
+		"stroke-opacity":"stroke-opacity",
+		"fill-opacity":"fill-opacity",
 		"orp":"orphans",
 		"orphans":"orphans",
 		"zi":"z-index",
@@ -3587,6 +3791,8 @@ let propertyAlias={
 		//Font-family
 		"ff":'font-family',
 		"font-family":"font-family",
+		"font-feature-settings":"font-feature-settings",
+		"ffs":"font-feature-settings",
 		//Time
 		"adl":"animation-delay",
 		"animation-delay":"animation-delay",
@@ -3637,6 +3843,7 @@ let propertyAlias={
 	"tdc":"text-decoration-color",
 	"bxs":"box-shadow",
 	"bxsi":"box-shadow-inset",
+	"text":"color",
 	// "bs":"box-shadow",
 	"box-shadow":"box-shadow",
 	"box-shadow-inset":"box-shadow-inset",
@@ -3648,11 +3855,20 @@ let propertyAlias={
 	'animation-timing-function':"animation-timing-function",
 	ttf:"transition-timing-function",
 	'transition-timing-function':"transition-timing-function",
+	//string
 	con:"content",
 	content:'content',
+	ga:'grid-area',
+	'grid-area':'grid-area',
+	'grid-template-areas':'grid-template-areas',
+	'gta':'grid-template-areas',
 	//animation
 	'animation-name':"animation-name",
 	an:"animation-name",
+	kf:"@keyframes",
+	keyfames:"keyframes",
+	k:"@keyframes",
+	at:"@keframes"
 
 //
 	//"":"",
@@ -3661,26 +3877,6 @@ let propertyAlias={
 // CONCATENATED MODULE: ./src/static/customStaticClassNames.js
 
 let customStaticClassNames={//Extras
-//------layouts(ref:getbootstrap.com)
-bf0:"-webkit-box-flex:0",
-bf1:"-webkit-box-flex:1",
-bog0:"-webkit-ordinal-group:0",
-bog1:"-webkit-ordinal-group:1",
-bog2:"-webkit-ordinal-group:2",
-bog3:"-webkit-ordinal-group:3",
-bog4:"-webkit-ordinal-group:4",
-bog5:"-webkit-ordinal-group:5",
-bog6:"-webkit-ordinal-group:6",
-bog7:"-webkit-ordinal-group:7",
-bog8:"-webkit-ordinal-group:8",
-bog9:"-webkit-ordinal-group:9",
-bog10:"-webkit-ordinal-group:10",
-bog11:"-webkit-ordinal-group:11",
-bog12:"-webkit-ordinal-group:12",
-bog13:"-webkit-ordinal-group:13",
-bog14:"-webkit-ordinal-group:14",
-
-
 //----------------------col unit
 ml1col :"margin-left: 8.333333%",
 ml2col :"margin-left: 16.666667%",
@@ -3872,7 +4068,26 @@ mw12col :"min-width: 100%",
 
 
 
+function matchAndCall(classname,match,custom){
 
+let data=matcher.compilers[match].match.exec(classname);
+
+		let property=propertyAlias[data[1]];
+
+		if(property){
+			let value=matcher.compilers[match].call(data,custom,classname);
+			if(value){
+				return property+":"+value;
+			}else{
+				console.log('\x1b[35m',`Cannot find  value for classname: '${classname} @ ${match}' `);
+				return null;
+				}
+		}else{
+			console.log('\x1b[35m',`Cannot find property  for classname: '${classname} @ ${match}' `);
+			return null;
+		}
+
+}
 function propertyAndValue(classname,custom){
 	if(!custom) custom={};
 	// if(classList.hasOwnProperty(classname)) return classname[classname];
@@ -3880,95 +4095,45 @@ function propertyAndValue(classname,custom){
 		return staticClassNames[classname];
 	}else if(customStaticClassNames.hasOwnProperty(classname)){
 		return customStaticClassNames[classname];
-
-	//content
+	//
 	}//End of static Classname defination
 
+	// --------------------------
+	//---------Dyanamic-Classname--
+	//-----------------------------------
+
+	//1.color
+	//2.text
+		//font content aniname
+	//3.number
+	//4.
+
+	//FontFeatures
+	 if(matcher.compilers.fontFeatureSettings.match.test(classname)){
+
+	 	return matchAndCall(classname,'fontFeatureSettings');
+
+	//content
+	}
 	else if(matcher.compilers.content.match.test(classname)){
-		let data=matcher.compilers.content.match.exec(classname);
-		 // console.log('\x1b[35m',data);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.content.call(data[2],data[3]);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname} @ content' `);
-				return null;
-				}
-		}else{
-			console.log('\x1b[35m',`Cannot find property  for classname: '${classname} @ content' `);
-			return null;
-		}
+		return matchAndCall(classname,'content');
 
 	//timingFunction	
 	}else if(matcher.compilers.timingFunction.match.test(classname)){
-		let data=matcher.compilers.timingFunction.match.exec(classname);
-		 // console.log('\x1b[35m',data);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.timingFunction.call(data[2]);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}'@timingFunction `);
-				return null;
-				}
-		}else{
-			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @timingFunction `);
-			return null;
-		}
+		return matchAndCall(classname,'timingFunction');
 
 	//filter
 	}else if(matcher.compilers.filter.match.test(classname)){
-		let data=matcher.compilers.filter.match.exec(classname);
-		 // console.log('\x1b[35m',data);
-		// let property=(data[1]==="f"?"filter":propertyAlias[data[1]]) //fs12px;
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.filter.call(data[2],data[3]);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @flter `);
-				return null;
-				}
-		}else{
-			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @filter `);
-			return null;
-		}
+		return matchAndCall(classname,'filter');
 
-	//color
+	//color->only check for property 
 	}else if(matcher.compilers.color.match.test(classname)){
-		let data=matcher.compilers.color.match.exec(classname);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.color.call(classname.replace(data[0],""), custom.color);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname} @color' `);
-				return null;
-				}
-		}else{
-			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @color `);
-			return null;
-		}
+
+		return matchAndCall(classname,'color',custom);
 		
 	//url
 	}else if(matcher.compilers.url.match.test(classname)){
-		let data=matcher.compilers.url.match.exec(classname);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.url.call(data[2]);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @url`);
-			}
-		}else{
-			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @url`);
-		}
+		return matchAndCall(classname,'url');
 		//shadow
 	}else if(matcher.compilers.shadow.match.test(classname)){
 		let data=matcher.compilers.shadow.match.exec(classname);
@@ -3985,141 +4150,41 @@ function propertyAndValue(classname,custom){
 		}
 		//border
 	}else if(matcher.compilers.border.match.test(classname)){
-		let data=matcher.compilers.border.match.exec(classname);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.border.call(data[2],data[4],data[5],custom.color);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @border`);
-			}
-		}else{
-			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @border`);
-		}
+		return matchAndCall(classname,'border',custom);
 		//transform
 	}else if(matcher.compilers.transform.match.test(classname)){
-		let data=matcher.compilers.transform.match.exec(classname);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.transform.call(classname.replace(data[1],""));
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @transform `);
-			}
-		}else{
-			console.log('\x1b[35m',`Cannot find property for classname: '${classname}'  @transform`);
-		}
+		return matchAndCall(classname,'transform');
 		//transition
 	}else if(matcher.compilers.transition.match.test(classname)){
-		let data=matcher.compilers.transition.match.exec(classname);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.transition.call(classname.replace(data[1],""));
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @transition`);
-			}
-		}else{
-			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @transition`);
-		}
+		return matchAndCall(classname,'transition');
 	//ms s
 	}else if(matcher.compilers.time.match.test(classname)){
-		let data=matcher.compilers.time.match.exec(classname);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.time.call(data[2]);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @time`);
-			}
-		}else{
-			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @time`);
-		}
+		return matchAndCall(classname,'time');
 		//length
 	}else if(matcher.compilers.length.match.test(classname)){
-		let data=matcher.compilers.length.match.exec(classname);
-
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.length.call(data[3],custom.length);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @length`);
-			}
-		}else{console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @length`);}
+		return matchAndCall(classname,'length',custom);
+		
 	//number	
 	}else if(matcher.compilers.number.match.test(classname)){
-		let data=matcher.compilers.number.match.exec(classname);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.number.call(data[2]);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @number`);
-			}
-		}else{
-			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @number`);
-		}
-
+		return matchAndCall(classname,'number');
+		
 	//Font	
 	}else if(matcher.compilers.font.match.test(classname)){
-		let data=matcher.compilers.font.match.exec(classname);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.font.call(data[2]);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}'@font `);
-			}
-		}else{
-			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @font`);
-		}
+		return matchAndCall(classname,'font',custom);
+	
 	//gradient
 	}else if(matcher.compilers.gradient.match.test(classname)){
-		let data=matcher.compilers.gradient.match.exec(classname);
-		// console.log('\x1b[35m',data);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.gradient.call(data[2],data[7],custom.color);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @gradient`);
-				return null;
-				}
-		}else{
-			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @gradient`);
-			return null;
-		}
-		
+		return matchAndCall(classname,'gradient',custom);
+
 	//animation
 	}else if(matcher.compilers.animation.match.test(classname)){
+		return matchAndCall(classname,'animation');
+	//grid
+	}else if(matcher.compilers.grid.match.test(classname)){
+		return matchAndCall(classname,'grid');
 
-		let data=matcher.compilers.animation.match.exec(classname);
-		// console.log('\x1b[35m',data);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.animation.call(data[2]);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @animation`);
-				return null;
-				}
-		}else{
-			console.log('\x1b[35m',`Cannot find property  for classname: '${classname}' @animation`);
-			return null;
-		}
-
-
-	}else{
+	}
+	else{
 		//console.log('\x1b[35m',`Cannot find property and value for classname: '${classname}' `);
 		return null;
 	}//ifelse
@@ -4298,12 +4363,12 @@ let flags={
 "--selection":"::selection",//-sl	
 "-s":"::selection",//-sl	
 
-"--scrollbar":"scrollbar",
-"-sb":"scrollbar",
-"--scrollbar-track":'::-web-kit-scrollbar-track',
-"-st":'::-web-kit-scrollbar-track',
-"--scrollbar-thumb":'::-web-kit-scrollbar-thumb',
-"--stm":'::-web-kit-scrollbar-thumb',
+"--scrollbar":"::-webkit-scrollbar",
+"-sb":"::-webkit-scrollbar",
+"--scrollbar-track":'::-webkit-scrollbar-track',
+"-st":'::-webkit-scrollbar-track',
+"--scrollbar-thumb":'::-webkit-scrollbar-thumb',
+"-stm":'::-webkit-scrollbar-thumb',
 
 "--target":":target",//-tg
 "-tg":":target",//-tg
@@ -4323,14 +4388,14 @@ let flags={
 
 const selectorMatch=/^([-|_])/;
 
-let matchAndCall={
+let selector_matchAndCall={
 	 element:{
 	 	match:/^_[_]?[A-Za-z0-9_]+(?=[_|-])/,
 	 	callFunction:elementHandler,
 
 	 },
 	 pseduoFullFlag:{
-	 	match:/(^--(?!n)[a-z0-9]+(-child|-of-range|-of-type|-before|-after|-hover|-letter|-line|-range|-target|-only|-write)?)(?=[-|_])/,
+	 	match:/(^--(?!n)[a-z0-9]+(-child|-scrollbar|-scrollbar-thumb|-scrollbar-track|-of-range|-of-type|-before|-after|-hover|-letter|-line|-range|-target|-only|-write)?)(?=[-|_])/,
 	 	callFunction:pseduoFullFlag
 	 },
 	 pseduoNot:{
@@ -4346,7 +4411,7 @@ let matchAndCall={
 	 	callFunction:pseduoShortNth,
 	 },
 	 pseduoShort:{
-	 	match:/^(-(a|af|afh|bf|bfh|ch|de|di|em|en|fc|fl|fln|fot|fo|h|haf|abf|htg|ir|ind|inv|lc|lot|ln|oot|oc|oor|ph|ro|rw|r|rt|s|tg|v|vi))(?=[-|_])/,
+	 	match:/^(-(a|af|sb|stm|st|afh|bf|bfh|ch|de|di|em|en|fc|fl|fln|fot|fo|h|haf|abf|htg|ir|ind|inv|lc|lot|ln|oot|oc|oor|ph|ro|rw|r|rt|s|tg|v|vi))(?=[-|_])/,
 	 	callFunction:pseduoShort,
 	 }
 
@@ -4355,7 +4420,7 @@ let matchAndCall={
 
 function pseduoFullFlag(classname){
 	
-		let alias=classname.match(matchAndCall.pseduoFullFlag.match)[0];
+		let alias=classname.match(selector_matchAndCall.pseduoFullFlag.match)[0];
 			if(flags.hasOwnProperty(alias)){
 				classname=classname.replace(alias,"");
 				return [classname, flags[alias]];
@@ -4367,7 +4432,7 @@ function pseduoFullFlag(classname){
 }
 function pseduoHandlerNthChild (classname){
 			let pseduo="";
-			let m=classname.match(matchAndCall.pseduoNthChild.match);
+			let m=classname.match(selector_matchAndCall.pseduoNthChild.match);
 			let alias=m[1];
 			let classnamepre=m[0];
 			let n=m[3];
@@ -4380,8 +4445,8 @@ function pseduoHandlerNthChild (classname){
 		return [classname, pseduo];
 }
 function pseduoHandlerNot (classname){
-			let alias=classname.match(matchAndCall.pseduoNot.match)[0];
-			 let pseduo=":not("+classname.match(matchAndCall.pseduoNot.match)[2]+")";
+			let alias=classname.match(selector_matchAndCall.pseduoNot.match)[0];
+			 let pseduo=":not("+classname.match(selector_matchAndCall.pseduoNot.match)[2]+")";
  			classname=classname.replace(alias,"");
 
  			return [classname, pseduo]
@@ -4389,7 +4454,7 @@ function pseduoHandlerNot (classname){
 			
 }
 function pseduoShortNth(classname){
-	let match=classname.match(matchAndCall.pseduoShortNth.match);
+	let match=classname.match(selector_matchAndCall.pseduoShortNth.match);
 			 if(flags.hasOwnProperty(match[1])){
 			 	return [classname.replace(match[0],''), flags[match[1]]+"("+match[3]+")"];
 			 }
@@ -4398,7 +4463,7 @@ function pseduoShortNth(classname){
  			return [classname, ""];
 } 
 function pseduoShort(classname){
-	let match=classname.match(matchAndCall.pseduoShort.match);
+	let match=classname.match(selector_matchAndCall.pseduoShort.match);
 			 if(flags.hasOwnProperty(match[1])){
 			 	return [classname.replace(match[0],''), flags[match[1]]];
 			 }
@@ -4407,7 +4472,7 @@ function pseduoShort(classname){
  			return [classname, ""];
 } 
  function elementHandler(classname){
-	let alias=classname.match(matchAndCall.element.match)[0];
+	let alias=classname.match(selector_matchAndCall.element.match)[0];
 	if(alias){
 		  let elfy=alias.replace(/____/g," ~ ")
 						.replace(/___/g," + ")
@@ -4429,10 +4494,10 @@ function whileMatchNCall(classname){
 	
 	while(classname){
 		let match=false;
-		for(let key in matchAndCall){
-			if(classname.match(matchAndCall[key].match)){
+		for(let key in selector_matchAndCall){
+			if(classname.match(selector_matchAndCall[key].match)){
 				match=true;
-				let result=matchAndCall[key].callFunction(classname);
+				let result=selector_matchAndCall[key].callFunction(classname);
 				if(!result[1]){
 					match=false; 
 				} 
@@ -4460,6 +4525,37 @@ function whileMatchNCall(classname){
 // exports.pseduoHandlerNot=pseduoHandlerNot;
 // exports.matchAndCall;
 
+// CONCATENATED MODULE: ./src/keyframes.js
+
+function keyframes(data, name,propertyValue){
+//keyframe-name- already extracted
+//[from|to|20p]-classname--classname--classname__[to|20p]-classname--classname__[to|100p]
+let statement="@keyframes "+ name +"{\n";
+ let splits=data.split('__');
+  splits.forEach(each=>{
+  	let result=at(each,propertyValue);
+  	if(result!==false) statement+='\t'+result;
+  });
+
+  return statement+"}";
+}
+
+function at(data, propertyValue){
+	if(!data.match(/^(from|to|[0-9]+p)/)) return false;
+	let statement="";
+	let when=data.match(/^(from|to|[0-9]+p)/)[0];
+	data=data.replace(when+'-','');
+	data.split('---').forEach(e=>{
+		let pnv=propertyValue(e);
+		if(pnv) statement+="\n\t\t"+pnv+';';
+	});
+
+	if(statement) return when.replace(/p$/,"%")+ "{\n"+statement +"\n\t}\n";
+	return false;
+
+
+
+}
 // CONCATENATED MODULE: ./src/static/customColor.js
 let customColor_customColor={'primaryDarkest':"hsla(210,43%,24%,1)",
 	'primaryDarker':"hsla(211,59%,29%,1)",
@@ -4510,8 +4606,59 @@ let customColor_customColor={'primaryDarkest':"hsla(210,43%,24%,1)",
 	'dangerLighter':"hsla(2,74%,81%,1)",
 	'dangerLightest':"hsla(0,70%,95%,1)",
 };
+let newCustomColor={
+	'primaryDarkest':"hsla(210,43%,24%,1)",
+	'primaryDarker':"hsla(211,59%,29%,1)",
+	'primaryDark':"hsla(211,61%,41%,1)",
+	'primary':"hsla(211,60%,51%,1)",
+	'primaryLight':"hsla(210,63%,63%,1)",
+	'primaryLighter':"hsla(209,84%,82%,1)",
+	'primaryLightest':"hsla(206,100%,97%,1)",
+
+	'darkest':"#0D0D0D",
+	'darker':"#242B2E",
+	'dark':"#758283",
+	'gray':"gray",
+	'light':"#CAD5E2",
+	'lighter':"hsla(210,25%,91%,1)",
+	'lightest':"hsla(210,17%,98%,1)",
+
+	'infoDarkest':"hsla(179,50%,18%,1)",
+	'infoDarker':"hsla(174,48%,26%,1)",
+	'infoDark':"hsla(173,46%,39%,1)",
+	'info':"hsla(173,42%,48%,1)",
+	'infoLight':"hsla(178,55%,65%,1)",
+	'infoLighter':"hsla(177,66%,80%,1)",
+	'infoLightest':"hsla(177,100%,95%,1)",
+
+	'successDarkest':"hsla(149,50%,21%,1)",
+	'successDarker':"hsla(135,53%,31%,1)",
+	'successDark':"hsla(135,50%,41%,1)",
+	'success':"hsla(135,50%,52%,1)",
+	'successLight':"hsla(138,56%,67%,1)",
+	'successLighter':"hsla(135,66%,80%,1)",
+	'successLightest':"hsla(137,80%,94%,1)",
+
+
+	'warningDarkest':"hsla(47,100%,18%,1)",
+	'warningDarker':"hsla(47,100%,27%,1)",
+	'warningDark':"hsla(48,75%,45%,1)",
+	'warning':"hsla(46,86%,63%,1)",
+	'warningLight':"hsla(47,89%,78%,1)",
+	'warningLighter':"hsla(47,91%,91%,1)",
+	'warningLightest':"hsla(45,100%,98%,1)",
+
+	'dangerDarkest':"hsla(2,62%,23%,1)",
+	'dangerDarker':"hsla(3,71%,31%,1)",
+	'dangerDark':"hsla(4,75%,40%,1)",
+	'danger':"hsla(3,69%,51%,1)",
+	'dangerLight':"hsla(2,67%,63%,1)",
+	'dangerLighter':"hsla(2,74%,81%,1)",
+	'dangerLightest':"hsla(0,70%,95%,1)",
+};
 /* harmony default export */ var static_customColor = (customColor_customColor);
 // CONCATENATED MODULE: ./src/statementMaker.js
+
 
 
 
@@ -4519,12 +4666,17 @@ let customColor_customColor={'primaryDarkest':"hsla(210,43%,24%,1)",
 
 
 
+//
+// Its handles each classname
+//
+
 let statementMaker={
 	device:null,
 	classname:null,
 	selector:null,
 	propertyAndValue:null,
 	hasSuffix:null,
+	keyframesMatch:/(keyframes|kf|k)-([\w]+)-/,
 	cache:{
 		propertyAndValue:{}
 	},
@@ -4539,6 +4691,8 @@ let statementMaker={
 			}
 		}
 	},
+
+	//Handle @keyframe animation
 	//Handle !important !default.....
 	handleSuffix:function(classname){
 		let match=/[-](i|important)$/;
@@ -4553,10 +4707,25 @@ let statementMaker={
 	},
 
 	make(classname, as,bool){
+		// as for grouping classnames into single group
+		//bool return [selector,proverty:value]
 		//reset old values
 		[this.device, this.classname,this.selector,this.propertyAndValue,this.hasSuffix]=[null,null,null,null,null];
 
 		this.classname=as?as:classname;
+
+		//-----  ---KeyFrames-------------------------------------
+		if(this.keyframesMatch.test(classname)){
+			let extract=classname.match(/(keyframes|kf|k)-([\w]+)-/);
+			// classname=classname.replace(extract[0],'');
+			let $result= keyframes(classname.replace(extract[0],''),extract[2],propertyAndValue);
+			if($result){
+				return $result + `\n .${classname}{animation-name: ${extract[2]}}`;
+			}else{
+				console.log(`Can not able to process classname "${classname}" @keyframes`);
+				return false;
+			}
+		}
 		// -------------------------responsive----------------takes out device[-|_] mob-, tab_
 			if(deviceMatch.test(classname)){
 				this.device=deviceMatch.exec(classname)[1];
@@ -4564,11 +4733,7 @@ let statementMaker={
 			}
 
 
-		// if(matcher.device.match.test(classname)){
-		// 	this.device=matcher.device.call(classname);
-		// 	classname=classname.replace(this.device,"");
-		// 	}
-		//-----------------selector-------------- --hover, -nth, _div_li, __div etc
+		//-----------------selector- element-class-Pseduo- --hover, -nth, _div_li, __div etc
 
 		let selectorResult=whileMatchNCall(classname);
 		this.selector=selectorResult[1];
@@ -4581,7 +4746,9 @@ let statementMaker={
 
 
 			// now pure class name with property and value
+		//	
 		//------------proverty and value---------------
+		//-----------------------------------------------
 		if(this.cache.propertyAndValue.hasOwnProperty(classname)){
 			this.propertyAndValue=this.cache.propertyAndValue[classname];
 		}else{
@@ -4768,10 +4935,20 @@ statementMaker.addCustom('color',static_customColor);
 	
 	//print classname of el to style tag; gets statement from statementMaker.make(eachClass);
  	print:function(el){
- 				if(!el.getAttribute('class').trim()) return;
+ 		//initialize class or acss-class value conatiner
+ 				let attrValue='';
+
+ 				//if class
+ 				if(el.getAttribute('class')) attrValue+=" "+el.getAttribute('class');
+ 				//if acss-class
+ 				if(el.getAttribute('acss-class')) attrValue+=" "+el.getAttribute('acss-class');
+
+ 				//if has value to process
+ 				if(!attrValue.trim()) return;
+
  			//check for group
 			if(el.getAttribute('acss-group')){
-				var result=statementMaker.group(el.getAttribute("class").trim(),el.getAttribute('acss-group'));
+				var result=statementMaker.group(attrValue,el.getAttribute('acss-group'));
 				if(result){
 					this.appendToStyleTag(result);
 					// return true;
@@ -4779,7 +4956,7 @@ statementMaker.addCustom('color',static_customColor);
 			}
 			//has-test-group(for live update only)
 			if(el.getAttribute('acss-group-test')){
-				let result=statementMaker.group(el.getAttribute("class").trim(),el.getAttribute('acss-group-test'));
+				let result=statementMaker.group(attrValue,el.getAttribute('acss-group-test'));
 				let styleTag=document.querySelector("style#"+el.getAttribute('acss-group-test'));
 				if(result){
 					if(styleTag){
@@ -4797,13 +4974,10 @@ statementMaker.addCustom('color',static_customColor);
 				}
 			}
 				//-----------------------end of for live update
-			//get class and trim out whitespaces
-			let tmpClassList=el.getAttribute("class");
 
-			if(el.hasAttribute('acss-class')) tmpClassList=tmpClassList+" "+el.getAttribute('acss-class');
-			//make array of classname out of string
-			if(tmpClassList.trim().length){
-				tmpClassList=tmpClassList.trim().split(/\s+/);
+
+			//get class and trim out whitespaces
+			let tmpClassList=attrValue.trim().split(/\s+/);
 				
 			//looping class
 			tmpClassList.forEach((eachClass)=>{
@@ -4826,18 +5000,21 @@ statementMaker.addCustom('color',static_customColor);
 					}
 				});
 
-			}
-
-		 
-	 //If elemet is cloning classnames
-	// ACSSClone(element);
-
 	},//eomain
 	run:function(el){
 		let $root=el||document;
 		
+		//<template> elment
+		Array.prototype.forEach.call($root.querySelectorAll('template'),(template)=>{
+			
+			Array.prototype.forEach.call(template.content.querySelectorAll('[class],[acss-class]'),(e)=>{
+				this.print(e);
+			});
+		});
 
-		Array.prototype.forEach.call($root.querySelectorAll('[class]'),(e)=>{
+		//<html>
+
+		Array.prototype.forEach.call($root.querySelectorAll('[class],[acss-class]'),(e)=>{
 			this.print(e);
 		});
 
@@ -4907,10 +5084,10 @@ function acssInputHandler(){
                 //if(code==8){getClassList="";}
                 if(code==32 ||code==13){
                     if(code==13) e.preventDefault();
+                    currentElement.setAttribute("class",acssInputField.value.trim());
                     if(acssInputField.value.trim()){
-                            currentElement.setAttribute("class",acssInputField.value.trim());
-                            ACSS.classPrinter.print(currentElement);
-                    
+                            
+                            ACSS.classPrinter.print(currentElement);  
                     }
                 }
                 });
@@ -5084,7 +5261,7 @@ function quickChangeSelectOnClick(element){
         if(selector){
             selector.onchange=function(){
                 //console.log(this.value);
-                if(document.getElementById(this.value)){
+                if(document.querySelector(this.value)){
                     
                     currentElement=document.querySelector(this.value);
                     //currentElement=document.getElementById(this.value);
@@ -5161,7 +5338,7 @@ document.getElementById("quickChangeClose").onclick=function(){
 // --------------------------------HTML Display-----------------------------
 function launchQuickChange(){
 
-    var newinnerHTML=`<div sid="alias-css-live-editor" id="quickChangeBox" class="bsbb dont-include zi1111111111 df pf fww bxs0px0px1px0px-c-0000000000d5 _input-lhi2 _button-lhi2 ffi2 fs12px bgc-fff w300px h200px b1px-s-00000000002 br5px r5px btm5px bgc-505050 ">\
+    var newinnerHTML=`<div  id="quickChangeBox" class="bsbb dont-include zi1111111111 df pf fww bxs0px0px1px0px-c-0000000000d5 _input-lhi2 _button-lhi2 ffi2 fs12px bgc-fff w300px h200px b1px-s-00000000002 br5px r5px btm5px bgc-505050 ">\
     <!--Header  -->\
     <div sid="alias-css-live-editorheader" id="quickChangeBoxheader" class="bsbb df aic jcsb w100p br5px5px0p0p bgc-ccc h15px bb1px-s-00000000002 -h-cm mb10px dont-include">\
         <span id="acss-title" class="bsbb dib fs12px m0px5px ff-arial c-333333 dont-include">Acss Live Update 1.0.3</span>\
@@ -5185,15 +5362,16 @@ function launchQuickChange(){
         </div>\
 
         <!-- input area  -->\
-        <div class="bsbb  dont-include w80p p0px10px h160px bl1px-s-606060  mt-10px">\
+        <div class="bsbb df fdc dont-include w80p p0px10px h160px bl1px-s-606060  mt-10px">\
             <!-- input -->\
             <p class="bsbb fs13px m0px p3px dont-include mb5px">\
-            <span class="c_bbb dont-include dib mb5px">Click element-or-input id</span> <input type="text" style="" spellcheck="false" id="quickChangeIdInput" class="dont-include w100p b1px-s-606060 br15px bgc-909090 -fo-oln pl15px" placeholder="input id of element">\
+            <span class="c_bbb dont-include dib mb5px">Click element-or-input css selector</span>\
+             <input type="text" spellcheck="false" id="quickChangeIdInput" class="dont-include xw100p w100p b1px-s-606060 br15px bgc-bbbbbb -fo-oln pl15px" placeholder="input querySelector">\
             </p>\
                 <!-- text-are -->\
             <div class="bsbb tal dont-include ">\
             <small id="infoEle"class="c-bbb ff-arial fs11px tac dont-include dib mb5px">Input classname/s, press enter</small><small id="infoMsg" class=" fs11px  dont-include"></small>\
-                <textarea id="quickChangeAcssInput" class=" dib dont-include bgc-909090 ff-courier h100px w100p oln c-333333 fw9" placeholder="Input ACSS class names " spellcheck="false"> </textarea>\
+                <textarea id="quickChangeAcssInput" class=" dib dont-include bgc-bbbbbb ff-courier h100px w100p oln c-333333 fw9" placeholder="Input ACSS class names " spellcheck="false"> </textarea>\
             </div>\
         </div>\
     </div>\

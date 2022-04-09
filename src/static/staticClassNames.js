@@ -4,11 +4,17 @@ export let staticClassNames={
   'align-content-center': 'align-content: center',
   acc: 'align-content: center',
 
-  'align-content-flex-end': 'align-content: flex-end',
-  acfe: 'align-content: flex-end',
+  'align-content-end': 'align-content:-end',
+  ace: 'align-content:-end',
 
   'align-content-flex-start': 'align-content: flex-start',
   acfs: 'align-content: flex-start',
+
+  'align-content-flex-end': 'align-content: flex-end',
+  acfe: 'align-content: flex-end',
+
+  'align-content-start': 'align-content: start',
+  acs: 'align-content: start',
 
   'align-content-space-around': 'align-content: space-around',
   acsa: 'align-content: space-around',
@@ -16,8 +22,12 @@ export let staticClassNames={
   'align-content-space-between': 'align-content: space-between',
   acsb: 'align-content: space-between',
 
+  'align-content-space-evenly': 'align-content: space-evenly',
+  acse: 'align-content: space-evenly',
+
   'align-content-stretch': 'align-content: stretch',
-  acs: 'align-content: stretch',
+  acst: 'align-content: stretch',
+  acs2: 'align-content: stretch',
 
   'animation-direction-alternate-reverse': 'animation-direction: alternate-reverse',
   adar: 'animation-direction: alternate-reverse',
@@ -1009,11 +1019,18 @@ export let staticClassNames={
   'display-flex': 'display: flex',
   df: 'display: flex',
 
+  'display-grid': 'display: grid',
+  dg: 'display: grid',
+
+
   'display-inline-block': 'display: inline-block',
   dib: 'display: inline-block',
 
   'display-inline-flex': 'display: inline-flex',
   dif: 'display: inline-flex',
+
+  'display-inline-grid': 'display: inline-grid',
+  dig: 'display: inline-grid',
 
   'display-inline-table': 'display: inline-table',
   dit: 'display: inline-table',
@@ -1064,6 +1081,12 @@ export let staticClassNames={
 
   'empty-cells-show': 'empty-cells: show',
   ecs: 'empty-cells: show',
+
+  'fill-initial':'fill:initial',
+  // 'fill-initial':'fill:initial',
+
+  'fill-inherit':'fill:inherit',
+  // 'fill-inherit':'fill:inherit',
 
   'flex-auto': 'flex: auto',
   fa: 'flex: auto',
@@ -1451,6 +1474,33 @@ export let staticClassNames={
   fwnl: 'font-weight: normal',
   fwn2: 'font-weight: normal',
 
+  'grid-auto-columns-max-content':'grid-auto-columns:max-content',
+  'gacxc':'grid-auto-columns:max-content',
+  'grid-auto-columns-min-content':'grid-auto-columns:min-content',
+  'gacmc':'grid-auto-columns:min-content',
+  'grid-auto-columns-auto':'grid-auto-columns:auto',
+  'gaca':'grid-auto-columns:auto',
+
+  'grid-auto-rows-max-content':'grid-auto-rows:max-content',
+  'garxc':'grid-auto-rows:max-content',
+  'grid-auto-rows-min-content':'grid-auto-rows:min-content',
+  'garmc':'grid-auto-rows:min-content',
+  'grid-auto-rows-auto':'grid-auto-rows:auto',
+  'gara':'grid-auto-rows:auto',
+
+  // 'grid-template-columns-subgrid':'grid-template-columns: subgrid',
+  // 'gtcs':'grid-template-columns: subgrid',
+  // 'grid-template-columns-masonry':'grid-template-columns: masonry',
+  // 'gtcm':'grid-template-columns: masonry',
+  'grid-template-columns-inherit':'grid-template-columns: inherit',
+  'gtcin':'grid-template-columns: inherit',
+  'grid-template-columns-initial':'grid-template-columns: initial',
+  'gtci':'grid-template-columns: initial',
+  'grid-template-columns-revert':'grid-template-columns: revert',
+  'gtcr':'grid-template-columns: revert',
+  'grid-template-columns-unset':'grid-template-columns: unset',
+  'gtcu':'grid-template-columns: unset',
+
   'hyphens-auto': 'hyphens: auto',
   ha: 'hyphens: auto',
 
@@ -1514,8 +1564,14 @@ export let staticClassNames={
   'justify-content-flex-end': 'justify-content: flex-end',
   jcfe: 'justify-content: flex-end',
 
+  'justify-content-end': 'justify-content: end',
+  jce: 'justify-content: end',
+
   'justify-content-flex-start': 'justify-content: flex-start',
   jcfs: 'justify-content: flex-start',
+
+  'justify-content-start': 'justify-content: start',
+  jcs: 'justify-content: start',
 
   'justify-content-space-around': 'justify-content: space-around',
   jcsa: 'justify-content: space-around',
@@ -1950,6 +2006,10 @@ export let staticClassNames={
 
   'resize-vertical': 'resize: vertical',
   rv: 'resize: vertical',
+
+  "stroke-linecap-butt":'stroke-linecap:butt',
+  "stroke-linecap-square":'stroke-linecap:square',
+  "stroke-linecap-round":'stroke-linecap:round',
   
   'scroll-behavior-smooth':'scroll-behavior-smooth',
   'sbs':'scroll-behavior-smooth',

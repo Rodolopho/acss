@@ -48,3 +48,36 @@ perspective300px				| pers300px
 --nth-child-2n-fontsize24px		| -nc-2n-fs24px
 __tr--nth-child-2n-fontsize24px		| __tr-nc-2n-fs24px
 
+
+
+
+
+grid-template-column:1fr 1fr 1fr // ok
+grid-template-column: repeate(3, 1fr) //gtc-r3_1fr3fr //--no
+grid-template-column: repeate(3, 1fr 2fr)
+grid-template-column: repeate(auto-fill, 200px)  //raf200px30px
+grid-template-column: repeate(auto-fill, minmax(200px, 1fr));//rafmx200px1fr
+grid-template-column:  minmax(200px, 1fr);m200px1fr
+grid-template-column:  minmax(200px, 1fr);
+
+grid-auto-rows:200px
+
+grid-auto-rows: minmax(100px, auto)
+grid-auto-rows: minmax(100px, 400px)
+
+
+grid-column-start:1
+grid-column-end:4
+
+grid-column:1/4 gc1by4  gc1by-1 gc1by-span3  
+grid-column:1  //1/ span 1 equevalent
+grid-column:1 / span 3 
+grid-column:1 / -1 //full stretch to colum
+gap:1rm
+gap:1em 20px
+column-gap:20px
+
+grid-area: 1/2/3/4 ga1by2by3by4    1byspan3by2byspan4
+
+grid-area: grid-row-start/grid-column-start/grid-row-end/grid-colum-end
+

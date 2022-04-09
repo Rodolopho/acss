@@ -55,10 +55,10 @@ function acssInputHandler(){
                 //if(code==8){getClassList="";}
                 if(code==32 ||code==13){
                     if(code==13) e.preventDefault();
+                    currentElement.setAttribute("class",acssInputField.value.trim());
                     if(acssInputField.value.trim()){
-                            currentElement.setAttribute("class",acssInputField.value.trim());
-                            ACSS.classPrinter.print(currentElement);
-                    
+                            
+                            ACSS.classPrinter.print(currentElement);  
                     }
                 }
                 });
@@ -232,7 +232,7 @@ function quickChangeSelectOnClick(element){
         if(selector){
             selector.onchange=function(){
                 //console.log(this.value);
-                if(document.getElementById(this.value)){
+                if(document.querySelector(this.value)){
                     
                     currentElement=document.querySelector(this.value);
                     //currentElement=document.getElementById(this.value);
@@ -309,7 +309,7 @@ document.getElementById("quickChangeClose").onclick=function(){
 // --------------------------------HTML Display-----------------------------
 function launchQuickChange(){
 
-    var newinnerHTML=`<div sid="alias-css-live-editor" id="quickChangeBox" class="bsbb dont-include zi1111111111 df pf fww bxs0px0px1px0px-c-0000000000d5 _input-lhi2 _button-lhi2 ffi2 fs12px bgc-fff w300px h200px b1px-s-00000000002 br5px r5px btm5px bgc-505050 ">\
+    var newinnerHTML=`<div  id="quickChangeBox" class="bsbb dont-include zi1111111111 df pf fww bxs0px0px1px0px-c-0000000000d5 _input-lhi2 _button-lhi2 ffi2 fs12px bgc-fff w300px h200px b1px-s-00000000002 br5px r5px btm5px bgc-505050 ">\
     <!--Header  -->\
     <div sid="alias-css-live-editorheader" id="quickChangeBoxheader" class="bsbb df aic jcsb w100p br5px5px0p0p bgc-ccc h15px bb1px-s-00000000002 -h-cm mb10px dont-include">\
         <span id="acss-title" class="bsbb dib fs12px m0px5px ff-arial c-333333 dont-include">Acss Live Update 1.0.3</span>\
@@ -333,15 +333,16 @@ function launchQuickChange(){
         </div>\
 
         <!-- input area  -->\
-        <div class="bsbb  dont-include w80p p0px10px h160px bl1px-s-606060  mt-10px">\
+        <div class="bsbb df fdc dont-include w80p p0px10px h160px bl1px-s-606060  mt-10px">\
             <!-- input -->\
             <p class="bsbb fs13px m0px p3px dont-include mb5px">\
-            <span class="c_bbb dont-include dib mb5px">Click element-or-input id</span> <input type="text" style="" spellcheck="false" id="quickChangeIdInput" class="dont-include w100p b1px-s-606060 br15px bgc-909090 -fo-oln pl15px" placeholder="input id of element">\
+            <span class="c_bbb dont-include dib mb5px">Click element-or-input css selector</span>\
+             <input type="text" spellcheck="false" id="quickChangeIdInput" class="dont-include xw100p w100p b1px-s-606060 br15px bgc-bbbbbb -fo-oln pl15px" placeholder="input querySelector">\
             </p>\
                 <!-- text-are -->\
             <div class="bsbb tal dont-include ">\
             <small id="infoEle"class="c-bbb ff-arial fs11px tac dont-include dib mb5px">Input classname/s, press enter</small><small id="infoMsg" class=" fs11px  dont-include"></small>\
-                <textarea id="quickChangeAcssInput" class=" dib dont-include bgc-909090 ff-courier h100px w100p oln c-333333 fw9" placeholder="Input ACSS class names " spellcheck="false"> </textarea>\
+                <textarea id="quickChangeAcssInput" class=" dib dont-include bgc-bbbbbb ff-courier h100px w100p oln c-333333 fw9" placeholder="Input ACSS class names " spellcheck="false"> </textarea>\
             </div>\
         </div>\
     </div>\

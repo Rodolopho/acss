@@ -1,10 +1,16 @@
 module.exports={
 
-	input:['test/index.html','test/index2.html'],// can be array of folder or files or both, 
-	// input:'path/to/folderORFile',// can be array of folder or files or both, 
-	output:'test/css/acss.css', //File must be  manually created first.
+	//input glob patterns, can be array of folder or files or both,
 
-	test:/(acss)$/,///(html|htm|acss|php|template)$/,//test  file extention 
+	input: ['test/*.html'],
+	 //Old-Ref:- input:'path/to/folderORFile',// can be array of folder or files or both, 
+	
+
+	//File mus be created manually
+	output:'test/css/acss.css', 
+
+		//Ignoring test as we have golb pattern now
+	// test:/(html)$/,///(html|htm|acss|php|template)$/,//test  file extention 
 
 	custom:{
 		color:{
@@ -16,18 +22,31 @@ module.exports={
 		}
 
 	},
+
+	//working draft
+	define:[],//define classname to be include in the file its like pre define classname: 
+	//working draft
+	inject:true,//inject @{{acss-inject}} replace it with statements
 	//only allowed single classname with property value , no pseduo or medai query allowed
 	extend:{
+		//in browser-mode you can simply froup class="c-blue" acss-group="color-primary"
 		'color-test':'color: blue;'
 		//now you can use it with device or seduo --hover-outline-color
 	},
+	statement:`
+	.body{
+		color:red;
+	}
+
+	`,
 
 	// group classname in single classname
 	group:{
 		'container':'p15px border1px-solid-light',
-		'row':'m1cv'
+		'row':'--hover-m1cv c-red'
 	},
-	ignore:['fwn'],
+	ignore:['fs12px', 'c-red'],
+
 	truncate:true,
 
 }

@@ -1,9 +1,14 @@
 import propertyAndValue from "./provertyAndValue.js";
 import {deviceHandler, deviceMatch} from "./responsive.js";
 import {whileMatchNCall,selectorMatch} from './selector.js';
+import keyframes from "./keyframes.js";
 // import  {matcher} from "./matcher.js";
+
 import customColor from './static/customColor.js';
 
+//
+// Its handles each classname
+//
 
 export let statementMaker={
 	device:null,
@@ -11,6 +16,7 @@ export let statementMaker={
 	selector:null,
 	propertyAndValue:null,
 	hasSuffix:null,
+	keyframesMatch:/(keyframes|kf|k)-([\w]+)-/,
 	cache:{
 		propertyAndValue:{}
 	},
@@ -25,6 +31,8 @@ export let statementMaker={
 			}
 		}
 	},
+
+	//Handle @keyframe animation
 	//Handle !important !default.....
 	handleSuffix:function(classname){
 		let match=/[-](i|important)$/;
@@ -39,10 +47,25 @@ export let statementMaker={
 	},
 
 	make(classname, as,bool){
+		// as for grouping classnames into single group
+		//bool return [selector,proverty:value]
 		//reset old values
 		[this.device, this.classname,this.selector,this.propertyAndValue,this.hasSuffix]=[null,null,null,null,null];
 
 		this.classname=as?as:classname;
+
+		//-----  ---KeyFrames-------------------------------------
+		if(this.keyframesMatch.test(classname)){
+			let extract=classname.match(/(keyframes|kf|k)-([\w]+)-/);
+			// classname=classname.replace(extract[0],'');
+			let $result= keyframes(classname.replace(extract[0],''),extract[2],propertyAndValue);
+			if($result){
+				return $result + `\n .${classname}{animation-name: ${extract[2]}}`;
+			}else{
+				console.log(`Can not able to process classname "${classname}" @keyframes`);
+				return false;
+			}
+		}
 		// -------------------------responsive----------------takes out device[-|_] mob-, tab_
 			if(deviceMatch.test(classname)){
 				this.device=deviceMatch.exec(classname)[1];
@@ -50,11 +73,7 @@ export let statementMaker={
 			}
 
 
-		// if(matcher.device.match.test(classname)){
-		// 	this.device=matcher.device.call(classname);
-		// 	classname=classname.replace(this.device,"");
-		// 	}
-		//-----------------selector-------------- --hover, -nth, _div_li, __div etc
+		//-----------------selector- element-class-Pseduo- --hover, -nth, _div_li, __div etc
 
 		let selectorResult=whileMatchNCall(classname);
 		this.selector=selectorResult[1];
@@ -67,7 +86,9 @@ export let statementMaker={
 
 
 			// now pure class name with property and value
+		//	
 		//------------proverty and value---------------
+		//-----------------------------------------------
 		if(this.cache.propertyAndValue.hasOwnProperty(classname)){
 			this.propertyAndValue=this.cache.propertyAndValue[classname];
 		}else{

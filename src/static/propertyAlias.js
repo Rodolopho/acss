@@ -14,6 +14,8 @@ export let propertyAlias={
 	"btc":"border-top-color",
 	"border-bottom-color":"border-bottom-color",
 	"bbc":"border-bottom-color",
+	"fill":"fill",
+	"stroke":"stroke",
 	"outline-color":"outline-color",
 	"oc":"outline-color",
 	
@@ -68,6 +70,37 @@ export let propertyAlias={
 		"flex-basis":"flex-basis",
 		"fs":"font-size",
 		"font-size":"font-size",
+		//Grid
+		"grid-gap":"grid-gap",
+		"gap":"gap",
+		"g":"gap",
+		"gg":"grid-gap",
+		"grid-row-gap":"grid-row-gap",
+		"grg":"grid-row-gap",
+		"gg":"grid-gap",
+		"row-gap":"row-gap",
+		"rg":"row-gap",
+		"grid-column-gap":"grid-column-gap",
+		"gcg":"grid-column-gap",
+		"grid-auto-columns":"grid-auto-columns",
+		"gac":"grid-auto-columns",
+		"grid-auto-rows":"grid-auto-rows",
+		"gar":"grid-auto-rows",
+		"grid-column":'grid-column',
+		"gc":'grid-column',
+		"grid-row":'grid-row',
+		"gr":'grid-row',
+		
+
+
+		"grid-template-columns":"grid-template-columns",
+		"gtc":"grid-template-columns",
+
+		"grid-template-rows":"grid-template-rows",
+		"gtr":"grid-template-rows",
+
+
+
 		"h":"height",
 		"height":"height",
 		"l"  :"left",
@@ -116,6 +149,9 @@ export let propertyAlias={
 		"padding-top"  :"padding-top",
 		"r"  :"right",
 		"right"  :"right",
+		"stroke-width":"stroke-width",
+		"stroke-dasharray":'stroke-dasharray',
+		"stroke-dashoffset":'stroke-dashoffset',
 		"t"  :"top",
 		"top"  :"top",
 		"tfo":"transform-origin",//--------
@@ -136,6 +172,8 @@ export let propertyAlias={
 
 		"aic":"animation-iteration-count",
 		"animation-iteration-count":"animation-iteration-count",
+
+
 		//Number
 		"cc":"column-count",
 		"column-count":"column-count",
@@ -145,10 +183,22 @@ export let propertyAlias={
 		"flex-grow":"flex-grow",
 		"fsk":"flex-shrink",
 		"flex-shrink":"flex-shrink",
+		"grid-column-start":"grid-column-start",
+		"gcs":"grid-column-start",
+		"grid-column-end":"grid-column-end",
+		"gce":"grid-column-end",
+
+		"grid-row-start":"grid-row-start",
+		"grs":"grid-row-start",
+		"grid-row-end":"grid-row-end",
+		"gre":"grid-row-end",
+
 		"ord":"order",//-------
 		"order":"order",//-------
 		"o":"opacity",
 		"opacity":"opacity",
+		"stroke-opacity":"stroke-opacity",
+		"fill-opacity":"fill-opacity",
 		"orp":"orphans",
 		"orphans":"orphans",
 		"zi":"z-index",
@@ -156,6 +206,8 @@ export let propertyAlias={
 		//Font-family
 		"ff":'font-family',
 		"font-family":"font-family",
+		"font-feature-settings":"font-feature-settings",
+		"ffs":"font-feature-settings",
 		//Time
 		"adl":"animation-delay",
 		"animation-delay":"animation-delay",
@@ -206,6 +258,7 @@ export let propertyAlias={
 	"tdc":"text-decoration-color",
 	"bxs":"box-shadow",
 	"bxsi":"box-shadow-inset",
+	"text":"color",
 	// "bs":"box-shadow",
 	"box-shadow":"box-shadow",
 	"box-shadow-inset":"box-shadow-inset",
@@ -217,11 +270,20 @@ export let propertyAlias={
 	'animation-timing-function':"animation-timing-function",
 	ttf:"transition-timing-function",
 	'transition-timing-function':"transition-timing-function",
+	//string
 	con:"content",
 	content:'content',
+	ga:'grid-area',
+	'grid-area':'grid-area',
+	'grid-template-areas':'grid-template-areas',
+	'gta':'grid-template-areas',
 	//animation
 	'animation-name':"animation-name",
 	an:"animation-name",
+	kf:"@keyframes",
+	keyfames:"keyframes",
+	k:"@keyframes",
+	at:"@keframes"
 
 //
 	//"":"",

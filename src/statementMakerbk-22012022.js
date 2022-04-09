@@ -240,6 +240,7 @@ styleSheetCompiler:function(content){
 
 		return jsStyle;
 	},
+	//classnames as string e.g 'fs12px br5px cp'
 	groupForStyle:function(str){
 		let container="";
 		let classList=[];//filtering duplicate classNames

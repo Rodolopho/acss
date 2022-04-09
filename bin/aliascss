@@ -36,13 +36,22 @@ if(argv.indexOf("--watch")!=-1){
  		}
 
 
- 		//if it has test to filter filename
- 		if(config.hasOwnProperty('test')){
- 			acssCompiler.test=config.test;
+ 		// //if it has test to filter filename
+ 		// if(config.hasOwnProperty('test')){
+ 		// 	acssCompiler.test=config.test;
+ 		// }
+ 		//statement
+ 		if(config.hasOwnProperty('statement')){
+ 			acssCompiler.writeStatementToFile(config.statement);
+
+
  		}
 
  		if(config.hasOwnProperty('ignore')){
- 			acssCompiler.statementMaker.ignore=config.ignore;
+ 			if(Array.isArray(config.ignore)){
+ 				config.ignore.forEach((each)=>acssCompiler.classList.push(each.trim()));
+ 			}
+ 			// acssCompiler.statementMaker.ignore=config.ignore;
  		}
 
  		//Add custome color and length unit i.e primary , 1col
@@ -68,6 +77,7 @@ if(argv.indexOf("--watch")!=-1){
 
 
  		}
+ 		
 
  	}else{
 

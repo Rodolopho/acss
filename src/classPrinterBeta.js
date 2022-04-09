@@ -37,10 +37,20 @@
 	
 	//print classname of el to style tag; gets statement from statementMaker.make(eachClass);
  	print:function(el){
- 				if(!el.getAttribute('class').trim()) return;
+ 		//initialize class or acss-class value conatiner
+ 				let attrValue='';
+
+ 				//if class
+ 				if(el.getAttribute('class')) attrValue+=" "+el.getAttribute('class');
+ 				//if acss-class
+ 				if(el.getAttribute('acss-class')) attrValue+=" "+el.getAttribute('acss-class');
+
+ 				//if has value to process
+ 				if(!attrValue.trim()) return;
+
  			//check for group
 			if(el.getAttribute('acss-group')){
-				var result=statementMaker.group(el.getAttribute("class").trim(),el.getAttribute('acss-group'));
+				var result=statementMaker.group(attrValue,el.getAttribute('acss-group'));
 				if(result){
 					this.appendToStyleTag(result);
 					// return true;
@@ -48,7 +58,7 @@
 			}
 			//has-test-group(for live update only)
 			if(el.getAttribute('acss-group-test')){
-				let result=statementMaker.group(el.getAttribute("class").trim(),el.getAttribute('acss-group-test'));
+				let result=statementMaker.group(attrValue,el.getAttribute('acss-group-test'));
 				let styleTag=document.querySelector("style#"+el.getAttribute('acss-group-test'));
 				if(result){
 					if(styleTag){
@@ -66,13 +76,10 @@
 				}
 			}
 				//-----------------------end of for live update
-			//get class and trim out whitespaces
-			let tmpClassList=el.getAttribute("class");
 
-			if(el.hasAttribute('acss-class')) tmpClassList=tmpClassList+" "+el.getAttribute('acss-class');
-			//make array of classname out of string
-			if(tmpClassList.trim().length){
-				tmpClassList=tmpClassList.trim().split(/\s+/);
+
+			//get class and trim out whitespaces
+			let tmpClassList=attrValue.trim().split(/\s+/);
 				
 			//looping class
 			tmpClassList.forEach((eachClass)=>{
@@ -95,18 +102,21 @@
 					}
 				});
 
-			}
-
-		 
-	 //If elemet is cloning classnames
-	// ACSSClone(element);
-
 	},//eomain
 	run:function(el){
 		let $root=el||document;
 		
+		//<template> elment
+		Array.prototype.forEach.call($root.querySelectorAll('template'),(template)=>{
+			
+			Array.prototype.forEach.call(template.content.querySelectorAll('[class],[acss-class]'),(e)=>{
+				this.print(e);
+			});
+		});
 
-		Array.prototype.forEach.call($root.querySelectorAll('[class]'),(e)=>{
+		//<html>
+
+		Array.prototype.forEach.call($root.querySelectorAll('[class],[acss-class]'),(e)=>{
 			this.print(e);
 		});
 

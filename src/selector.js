@@ -11,7 +11,7 @@ let matchAndCall={
 
 	 },
 	 pseduoFullFlag:{
-	 	match:/(^--(?!n)[a-z0-9]+(-child|-of-range|-of-type|-before|-after|-hover|-letter|-line|-range|-target|-only|-write)?)(?=[-|_])/,
+	 	match:/(^--(?!n)[a-z0-9]+(-child|-scrollbar|-scrollbar-thumb|-scrollbar-track|-of-range|-of-type|-before|-after|-hover|-letter|-line|-range|-target|-only|-write)?)(?=[-|_])/,
 	 	callFunction:pseduoFullFlag
 	 },
 	 pseduoNot:{
@@ -27,7 +27,7 @@ let matchAndCall={
 	 	callFunction:pseduoShortNth,
 	 },
 	 pseduoShort:{
-	 	match:/^(-(a|af|afh|bf|bfh|ch|de|di|em|en|fc|fl|fln|fot|fo|h|haf|abf|htg|ir|ind|inv|lc|lot|ln|oot|oc|oor|ph|ro|rw|r|rt|s|tg|v|vi))(?=[-|_])/,
+	 	match:/^(-(a|af|sb|stm|st|afh|bf|bfh|ch|de|di|em|en|fc|fl|fln|fot|fo|h|haf|abf|htg|ir|ind|inv|lc|lot|ln|oot|oc|oor|ph|ro|rw|r|rt|s|tg|v|vi))(?=[-|_])/,
 	 	callFunction:pseduoShort,
 	 }
 

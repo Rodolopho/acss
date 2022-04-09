@@ -1,7 +1,5 @@
 import color from './color.js';
 export default function gradient(grad, data,customColor){
-
-	console.log(grad, data);
 	
 let gradientFunc="";
 let holder="";
@@ -30,11 +28,10 @@ if(alias.hasOwnProperty(grad)){
 	}
 	
 	 data=data.replace(/_/g, " ").replace(/-/g,",");
-	 console.log(data);
+
 	 data=data.replace(/[,][A-Za-z0-9]+/g,function(mch){
-	 	console.log(mch);
 	 	let proccessedColor=color(mch.replace(/[,]/,""),customColor)
-	 	return proccessedColor?", "+proccessedColor:mch;
+	 	return proccessedColor?", "+proccessedColor:m;
 	 });
 
 
@@ -93,13 +90,13 @@ let alias={
 	"lb":"left bottom",
 
 	"tr":"to right",
-	"to-right":"to right",
-	"to-bottom":"to bottom",
+	"right":"to right",
+	"bottom":"to bottom",
 	"tb":"to bottom",
 	"tt":"to top",
-	"to-top":"to top",
+	"top":"to top",
 	"tl":"to left",
-	"to-left":"to left",
+	"letf":"to left",
 	"to-top-left":"to top left",
 	"to-top-right":"to top right",
 	"to-bottom-right":"to bottom right",

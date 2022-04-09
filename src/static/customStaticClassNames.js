@@ -1,25 +1,5 @@
 
 export let customStaticClassNames={//Extras
-//------layouts(ref:getbootstrap.com)
-bf0:"-webkit-box-flex:0",
-bf1:"-webkit-box-flex:1",
-bog0:"-webkit-ordinal-group:0",
-bog1:"-webkit-ordinal-group:1",
-bog2:"-webkit-ordinal-group:2",
-bog3:"-webkit-ordinal-group:3",
-bog4:"-webkit-ordinal-group:4",
-bog5:"-webkit-ordinal-group:5",
-bog6:"-webkit-ordinal-group:6",
-bog7:"-webkit-ordinal-group:7",
-bog8:"-webkit-ordinal-group:8",
-bog9:"-webkit-ordinal-group:9",
-bog10:"-webkit-ordinal-group:10",
-bog11:"-webkit-ordinal-group:11",
-bog12:"-webkit-ordinal-group:12",
-bog13:"-webkit-ordinal-group:13",
-bog14:"-webkit-ordinal-group:14",
-
-
 //----------------------col unit
 ml1col :"margin-left: 8.333333%",
 ml2col :"margin-left: 16.666667%",

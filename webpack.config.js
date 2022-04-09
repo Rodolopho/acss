@@ -2,7 +2,6 @@
 const path=require("path");
 const webpack = require('webpack');
 const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
-const fs=require("fs");
 
 
 const serverConfig = {
@@ -15,7 +14,7 @@ const serverConfig = {
   
 };
 
-const clientConfig = {
+const prodConfig = {
   target: 'web', // <=== can be omitted as default is 'web'
   
   entry:"./build.js",
@@ -36,5 +35,19 @@ const clientConfig = {
     ]
   //…
 };
-
-module.exports = [ serverConfig, clientConfig ];
+//prod
+const clientConfig = {
+  mode: 'production',
+  
+  entry:"./build.js",
+  output:{
+    path:path.resolve(__dirname,"dist"),
+    filename:"acss.min.js"
+  },
+  
+  plugins: [
+        new UnminifiedWebpackPlugin()
+    ]
+  //…
+};
+module.exports = [ serverConfig, clientConfig,prodConfig ];
