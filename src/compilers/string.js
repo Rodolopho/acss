@@ -2,8 +2,11 @@ export default function string(str) {
 
 	//hello_word = "hello world", hello-world=>hello-word
 	//hello--worlf=
+	console.log(str);
+	
 
-return str.replace(/--/g,",")
+return str.replace(/^[-]/,'')
+			replace(/--/g,",")
 			.replace(/_/g," ");
 
     

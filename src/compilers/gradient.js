@@ -9,7 +9,7 @@ export default function gradient(datas, customColor) {
         let matched = data.match(/[-]?(((repeating-)?(conic|linear|radial)-gradient)|(rrg|rg|lg|rcg|cg|rcg|rlg))([\w_-]+)/);
 
 
-        console.warn(matched, data);
+        // console.warn(matched, data);
         let grad = matched[1];
 
 
@@ -40,9 +40,9 @@ export default function gradient(datas, customColor) {
             }
 
             data = data.replace(/_/g, " ").replace(/-/g, ",");
-            console.log(data);
+            // console.log(data);
             data = data.replace(/[,][A-Za-z0-9]+/g, function(mch) {
-                console.log(mch);
+                // console.log(mch);
                 let proccessedColor = color(mch.replace(/[,]/, ""), customColor)
                 return proccessedColor ? ", " + proccessedColor : mch;
             });

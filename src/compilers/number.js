@@ -1,7 +1,7 @@
 
 export default function number(str,custom){
-	if(typeof custom === "object"){
-		if(custom.hasOwnProperty(str)) return custom[str];
+	if(typeof custom.string === "object"){
+		if(custom.string.hasOwnProperty(str)) return custom.string[str];
 	}
  return str.replace(/by/g, ' / ')
  			.replace(/(span)/g, "$1 ")

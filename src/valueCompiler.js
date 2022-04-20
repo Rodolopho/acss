@@ -12,8 +12,8 @@ import url from './compilers/url.js';
 import filter from './compilers/filter.js';
 import timingFunction from './compilers/timingFunction.js';
 import grid from './compilers/grid.js';
-import string from './compilers/grid.js';
-import content from './compilers/grid.js';
+import string from './compilers/string.js';
+import content from './compilers/content.js';
 
 export default function valueCompiler(classname, compiler, valuePortion,custom) {
 
@@ -25,8 +25,10 @@ export default function valueCompiler(classname, compiler, valuePortion,custom) 
             //try to match
             if (compilers[compiler[i]].match.test(valuePortion)) {
                 value = compilers[compiler[i]].call(valuePortion, custom);
+                // console.log(compiler[i]);
                 break;
             }
+            // console.log(compilers[compiler[i]].match,valuePortion);
 
         } else {
             console.log('invalid value compiler:-' + compiler[i])
@@ -97,7 +99,7 @@ let compilers = {
         call: timingFunction,
     },
     string: {
-        match: /[-_]? /,
+        match: /[-_]?/,
         call: string
     },
     content: {

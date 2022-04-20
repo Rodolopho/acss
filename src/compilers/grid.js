@@ -1,5 +1,6 @@
 //import color from './color.js';
 export default function grid( str,custom){
+	str=str.replace(/^[-]/,'');
 	let result = "";
 
     str.split('--').forEach((each) => {
@@ -11,7 +12,7 @@ export default function grid( str,custom){
         }
     })
 
-    return result.replace(/[\s]dot/g, " . ");
+    return result.replace(/[\s]dot/g, " . ").replace(/([0-9])by/g,"$1 / ").replace(/span([0-9])/g,'span $1');
 }
 
 

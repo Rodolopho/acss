@@ -2806,8 +2806,8 @@ return length.match(/[-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|fr|vh|vmin|vmax|c
 // CONCATENATED MODULE: ./src/compilers/number.js
 
 function number(str,custom){
-	if(typeof custom === "object"){
-		if(custom.hasOwnProperty(str)) return custom[str];
+	if(typeof custom.string === "object"){
+		if(custom.string.hasOwnProperty(str)) return custom.string[str];
 	}
  return str.replace(/by/g, ' / ')
  			.replace(/(span)/g, "$1 ")
@@ -3104,7 +3104,7 @@ function gradient(datas, customColor) {
         let matched = data.match(/[-]?(((repeating-)?(conic|linear|radial)-gradient)|(rrg|rg|lg|rcg|cg|rcg|rlg))([\w_-]+)/);
 
 
-        console.warn(matched, data);
+        // console.warn(matched, data);
         let grad = matched[1];
 
 
@@ -3135,9 +3135,9 @@ function gradient(datas, customColor) {
             }
 
             data = data.replace(/_/g, " ").replace(/-/g, ",");
-            console.log(data);
+            // console.log(data);
             data = data.replace(/[,][A-Za-z0-9]+/g, function(mch) {
-                console.log(mch);
+                // console.log(mch);
                 let proccessedColor = color(mch.replace(/[,]/, ""), customColor)
                 return proccessedColor ? ", " + proccessedColor : mch;
             });
@@ -3417,6 +3417,7 @@ let timingFunction_func={
 // CONCATENATED MODULE: ./src/compilers/grid.js
 //import color from './color.js';
 function grid( str,custom){
+	str=str.replace(/^[-]/,'');
 	let result = "";
 
     str.split('--').forEach((each) => {
@@ -3428,7 +3429,7 @@ function grid( str,custom){
         }
     })
 
-    return result.replace(/[\s]dot/g, " . ");
+    return result.replace(/[\s]dot/g, " . ").replace(/([0-9])by/g,"$1 / ").replace(/span([0-9])/g,'span $1');
 }
 
 
@@ -3451,6 +3452,65 @@ function grid( str,custom){
 //                        grid-template-areas: "a b b"
 //                        "a b b";
 
+// CONCATENATED MODULE: ./src/compilers/string.js
+function string_string(str) {
+
+	//hello_word = "hello world", hello-world=>hello-word
+	//hello--worlf=
+	console.log(str);
+	
+
+return str.replace(/^[-]/,'')
+			replace(/--/g,",")
+			.replace(/_/g," ");
+
+    
+
+    // let result = "";
+
+    // str.split('--').forEach((each) => {
+
+    //     if (each.match(/[_]/)) {
+    //         result += '"'+ each.replace(/[_]/g, " ") + '"';
+    //     } else {
+    //         result += " "+each;
+    //     }
+    // })
+
+    // return result.replace(/[\s]dot/g, " . ");
+
+}
+// CONCATENATED MODULE: ./src/compilers/content.js
+function content(str) {
+    //for content attr
+    str=str.replace(/^[-]/,'');
+    let data = str.match(/^(attr|counter)?[-_]([\w-]+)/);
+    if(data){
+
+        if (data[1] === "attr") {
+            return "attr(" + data[2] + ")";
+        }
+        if (data[1] === "counter") {
+            return "counter(" + data[2] + ")";
+        }
+     }
+    
+
+
+    return '"'+str.replace(/[_]/g, " ") + '"';
+
+    // str.split('--').forEach((each) => {
+
+    //     if (each.match(/[_]/)) {
+    //         result += '"' + each.replace(/[_]/g, " ") + '"' ;
+    //     } else {
+    //         result += '"'+each+'"';
+    //     }
+    // })
+
+    // return result.replace(/[\s]dot/g, " . ");
+
+}
 // CONCATENATED MODULE: ./src/valueCompiler.js
 
 
@@ -3479,8 +3539,10 @@ function valueCompiler(classname, compiler, valuePortion,custom) {
             //try to match
             if (compilers[compiler[i]].match.test(valuePortion)) {
                 value = compilers[compiler[i]].call(valuePortion, custom);
+                // console.log(compiler[i]);
                 break;
             }
+            // console.log(compilers[compiler[i]].match,valuePortion);
 
         } else {
             console.log('invalid value compiler:-' + compiler[i])
@@ -3551,12 +3613,12 @@ let compilers = {
         call: timingFunction,
     },
     string: {
-        match: /[-_]? /,
-        call: grid
+        match: /[-_]?/,
+        call: string_string
     },
     content: {
         match: /[-_]?(url|attr)?[-_]([\w-]+)/,
-        call: grid
+        call: content
 
     },
 
@@ -3902,7 +3964,7 @@ let propertyAlias={
 		'border-image-outset':["length"],
 		
 
-		'border-image-slice':["length","number"],
+		'border-image-slice':["number","length"],
 		
 
 		'border-image-width':["length"],
@@ -3945,7 +4007,7 @@ let propertyAlias={
 		
 		"flex-basis":["length"],
 		
-		"font-size":["length","number"],
+		"font-size":["number","length"],
 
 		//Grid
 		"grid-gap":["length"],
@@ -3964,15 +4026,15 @@ let propertyAlias={
 		
 		"grid-auto-rows":["length"],
 		
-		"grid-column":["number"],
+		"grid-column":["grid","number"],
 		
-		"grid-row":["number"],
+		"grid-row":["grid","number"],
 		
 		
-		"grid-template-columns":["length","string"],
+		"grid-template-columns":["grid","length"],
 		
 
-		"grid-template-rows":["length", "string"],
+		"grid-template-rows":[ "grid","length"],
 		
 
 
@@ -3982,9 +4044,9 @@ let propertyAlias={
 		
 		"left"  :["length"],
 		
-		"letter-spacing"  :["length","number"],//--------
+		"letter-spacing"  :["number","length"],//--------
 		
-		"line-height"  :["length","number"],
+		"line-height"  :["number","length"],
 		
 		"margin"  :["length"],
 		// "ma" :["margin","length"],
@@ -4007,7 +4069,7 @@ let propertyAlias={
 		
 		"outline-width"  :["length"],//--------
 		
-		"object-position":["length","number"],//-----------
+		"object-position":["number","length"],//-----------
 
 		"padding"  :["length"],
 		
@@ -4063,14 +4125,14 @@ let propertyAlias={
 		
 		"flex-shrink":["number"],
 
-		"grid-column-start":["number","string"],
+		"grid-column-start":["grid","number"],
 		
-		"grid-column-end":["number","string"],
+		"grid-column-end":["grid","number"],
 		
 
-		"grid-row-start":["number","string"],
+		"grid-row-start":["grid","number"],
 		
-		"grid-row-end":["number","string"],
+		"grid-row-end":["grid","number"],
 		
 
 		
@@ -4135,11 +4197,11 @@ let propertyAlias={
 
 	//gradient and url
 	
-	"background-image":["gradient", "url"],
+	"background-image":[ "url","gradient"],
 	
-	"background":["gradient","url"],
+	"background":["url","gradient"],
 
-	"border-image-source":["gradient","url"],
+	"border-image-source":["url","gradient"],
 	
 	//Shadow
 	

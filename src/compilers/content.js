@@ -1,5 +1,6 @@
 export default function content(str) {
     //for content attr
+    str=str.replace(/^[-]/,'');
     let data = str.match(/^(attr|counter)?[-_]([\w-]+)/);
     if(data){
 

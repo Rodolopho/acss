@@ -36,7 +36,7 @@
 		'border-image-outset':["length"],
 		
 
-		'border-image-slice':["length","number"],
+		'border-image-slice':["number","length"],
 		
 
 		'border-image-width':["length"],
@@ -79,7 +79,7 @@
 		
 		"flex-basis":["length"],
 		
-		"font-size":["length","number"],
+		"font-size":["number","length"],
 
 		//Grid
 		"grid-gap":["length"],
@@ -98,15 +98,15 @@
 		
 		"grid-auto-rows":["length"],
 		
-		"grid-column":["number"],
+		"grid-column":["grid","number"],
 		
-		"grid-row":["number"],
+		"grid-row":["grid","number"],
 		
 		
-		"grid-template-columns":["length","string"],
+		"grid-template-columns":["grid","length"],
 		
 
-		"grid-template-rows":["length", "string"],
+		"grid-template-rows":[ "grid","length"],
 		
 
 
@@ -116,9 +116,9 @@
 		
 		"left"  :["length"],
 		
-		"letter-spacing"  :["length","number"],//--------
+		"letter-spacing"  :["number","length"],//--------
 		
-		"line-height"  :["length","number"],
+		"line-height"  :["number","length"],
 		
 		"margin"  :["length"],
 		// "ma" :["margin","length"],
@@ -141,7 +141,7 @@
 		
 		"outline-width"  :["length"],//--------
 		
-		"object-position":["length","number"],//-----------
+		"object-position":["number","length"],//-----------
 
 		"padding"  :["length"],
 		
@@ -197,14 +197,14 @@
 		
 		"flex-shrink":["number"],
 
-		"grid-column-start":["number","string"],
+		"grid-column-start":["grid","number"],
 		
-		"grid-column-end":["number","string"],
+		"grid-column-end":["grid","number"],
 		
 
-		"grid-row-start":["number","string"],
+		"grid-row-start":["grid","number"],
 		
-		"grid-row-end":["number","string"],
+		"grid-row-end":["grid","number"],
 		
 
 		
@@ -269,11 +269,11 @@
 
 	//gradient and url
 	
-	"background-image":["gradient", "url"],
+	"background-image":[ "url","gradient"],
 	
-	"background":["gradient","url"],
+	"background":["url","gradient"],
 
-	"border-image-source":["gradient","url"],
+	"border-image-source":["url","gradient"],
 	
 	//Shadow
 	
