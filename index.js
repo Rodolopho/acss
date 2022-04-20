@@ -170,6 +170,10 @@ let acssCompiler={
 		
 		if(this.input && this.output){
 		this.input=fg.sync(this.input,{ dot: true });
+		 if(this.input.length==0){
+		 	console.error('Not a Valid input: No files found wtih the given input: Please Check your input @congif file');
+		 	return;
+		 }
 		//case 1: if its array
 		if(Array.isArray(this.input)){
 			this.input.forEach((entry)=>{

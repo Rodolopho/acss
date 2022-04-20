@@ -1,11 +1,14 @@
-export default function font(str,font){
-	
+export default function font(str,custom){
+	custom=custom.font;
 	if(typeof custom === "object"){
 		if(custom.hasOwnProperty(font)) return custom[font];
 	}
 	let holder="";
 
-	str.split(/--/).forEach((e)=>{
+
+
+	str.replace(/^[-_]/, "")
+	.split(/--/).forEach((e)=>{
 		if(e.search(/_/)!==-1){
 			holder+="\""+e.replace(/_/g," ")+"\" ,";
 		}else{

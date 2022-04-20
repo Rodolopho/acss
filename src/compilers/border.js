@@ -1,8 +1,14 @@
 import color from './color.js';
-export default function border(l,s,c,customColor){
-let col=color(c,customColor);
+import length from './length.js';
+export default function border(data,custom){
+	
+	let [l,s,c]=data.split("-");
+let col=color(c,custom);
 let sty=style.hasOwnProperty(s)?style[s]:'';
-let len=l.replace(/d/,".");
+
+
+
+ let len=length(l,custom);//.replace(/d/,".");
 
 
 return len+" "+sty+" "+col;

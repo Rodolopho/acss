@@ -55,13 +55,16 @@ if(argv.indexOf("--watch")!=-1){
  		}
 
  		//Add custome color and length unit i.e primary , 1col
- 		if(config.hasOwnProperty('custom')){
- 			if(config.custom.hasOwnProperty('color')){
- 				acssCompiler.statementMaker.addCustom('color',config.custom.color);
- 			}
- 			if(config.custom.hasOwnProperty('length')){
- 				acssCompiler.statementMaker.addCustom('length',config.custom.length);
- 			}
+ 		if(config.hasOwnProperty('custom') && (typeof config.custom=='object')){
+ 			Object.keys(config.custom).forEach(key=>{
+ 				acssCompiler.statementMaker.addCustom(key, config.custom[key])
+ 			});
+ 			// if(config.custom.hasOwnProperty('color')){
+ 			// 	acssCompiler.statementMaker.addCustom('color',config.custom.color);
+ 			// }
+ 			// if(config.custom.hasOwnProperty('length')){
+ 			// 	acssCompiler.statementMaker.addCustom('length',config.custom.length);
+ 			// }
  		}
 
  		// extend your classname as you like eg box-shadow-grey:'box-shadow:1px 1px 1px solid'

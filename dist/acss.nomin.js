@@ -2743,7 +2743,7 @@ usu:'user-select: unset',
 // CONCATENATED MODULE: ./src/compilers/color.js
 function color(color,custom){
 	if(color.match(/[-_]/)) color=color.split(/[_-]/)[1];
-	
+	 custom=custom.color;
 	if(typeof custom === "object"){
 		if(custom.hasOwnProperty(color)) return custom[color];
 	}
@@ -2787,12 +2787,14 @@ function color(color,custom){
 }
 // CONCATENATED MODULE: ./src/compilers/length.js
 function length_length(length,custom){
+	if(custom) custom=custom.length;
+	
 
 	if(typeof custom === "object"){
 		if(custom.hasOwnProperty(length)) return custom[length];
 	}
 //-100px100px-100px100px
-return length.match(/[-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|fr|vh|vmin|vmax|cm|mm|in|pt|pc)/g)
+return length.match(/[-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|fr|vh|vmin|vmax|cm|mm|in|pt|pc|cv)/g)
 			.toString()
 			.replace(/p(,)|p$/g,"%$1")
 			.replace(/d/g,".")
@@ -2807,7 +2809,11 @@ function number(str,custom){
 	if(typeof custom === "object"){
 		if(custom.hasOwnProperty(str)) return custom[str];
 	}
- return str.replace(/d/,".");
+ return str.replace(/by/g, ' / ')
+ 			.replace(/(span)/g, "$1 ")
+		 .replace(/d/,".");
+
+
 
 }
 
@@ -2826,14 +2832,17 @@ function number(str,custom){
 // 			  }
 // 			},
 // CONCATENATED MODULE: ./src/compilers/font.js
-function font(str,font){
-	
+function font(str,custom){
+	custom=custom.font;
 	if(typeof custom === "object"){
 		if(custom.hasOwnProperty(font)) return custom[font];
 	}
 	let holder="";
 
-	str.split(/--/).forEach((e)=>{
+
+
+	str.replace(/^[-_]/, "")
+	.split(/--/).forEach((e)=>{
 		if(e.search(/_/)!==-1){
 			holder+="\""+e.replace(/_/g," ")+"\" ,";
 		}else{
@@ -2883,6 +2892,7 @@ function transform(data){
 
 }
 function transformEach(data){
+	console.log('transform:',data);
 	
 	
 	let match=/([a-zA-z]+(3d)?)(([-]?[0-9]+[d]?[0-9]*[a-z]*))+/;
@@ -3023,10 +3033,16 @@ let func={
 
 // CONCATENATED MODULE: ./src/compilers/border.js
 
-function border(l,s,c,customColor){
-let col=color(c,customColor);
+
+function border(data,custom){
+	
+	let [l,s,c]=data.split("-");
+let col=color(c,custom);
 let sty=style.hasOwnProperty(s)?style[s]:'';
-let len=l.replace(/d/,".");
+
+
+
+ let len=length_length(l,custom);//.replace(/d/,".");
 
 
 return len+" "+sty+" "+col;
@@ -3078,141 +3094,165 @@ let style={
 // 			};
 // CONCATENATED MODULE: ./src/compilers/gradient.js
 
-function gradient(grad, data,customColor){
 
-	console.log(grad, data);
-	
-let gradientFunc="";
-let holder="";
-//data=45deg-color_position-color_position
-data=data.replace(/^[-]([a-z])/, "$1")
-if(gradient_alias.hasOwnProperty(grad)){
-	//set gradient to grdeint fucn e.g lineargradient()
-	gradientFunc=gradient_alias[grad];
+function gradient(datas, customColor) {
+    datas = datas.replace(/^[-]/, "");
+    let masterHolder = "";
+    datas.split('--').forEach((data) => {
 
 
-   //setting  direction/angle/position/shape e.g right/45deg/center/circle
-	let m1=/^[-]?[0-9]+[d]?[0-9]*(deg|grad|rad|turn)/;
-	let m2=/^((to-)?(right|left|top|bottom)?[-]?(right|left|top|bottom))|([t]?[rltb]?[rltb])(?=[0-9-])/;
-	if(m1.test(data)){
-		let m=m1.exec(data);
-		holder+=m[0].replace(/[d](?=[0-9])/,".")+", ";
-		data=data.replace(m[0],"");
-	}else if(m2.test(data)){
-		let m=m2.exec(data);
-		// console.log(m2.match()[1]);
-		if(gradient_alias.hasOwnProperty(m[0])){
-			holder+=gradient_alias[m[0]]+", ";
-		}
-		data=data.replace(m[0],"");
-
-	}
-	
-	 data=data.replace(/_/g, " ").replace(/-/g,",");
-	 console.log(data);
-	 data=data.replace(/[,][A-Za-z0-9]+/g,function(mch){
-	 	console.log(mch);
-	 	let proccessedColor=color(mch.replace(/[,]/,""),customColor)
-	 	return proccessedColor?", "+proccessedColor:mch;
-	 });
+        let matched = data.match(/[-]?(((repeating-)?(conic|linear|radial)-gradient)|(rrg|rg|lg|rcg|cg|rcg|rlg))([\w_-]+)/);
 
 
-		 data=data.replace(/(?<=[0-9])[p](?=[\W]|$)/g,"%").replace(/(?<=[\W]([0-9])+)[d](?=[0-9])/g,".");
-		 holder+=data.replace(/^[,]/,"").replace(/[_]/g,"");
+        console.warn(matched, data);
+        let grad = matched[1];
+
+
+        let gradientFunc = "";
+        let holder = "";
+        //data=45deg-color_position-color_position
+        data = matched[6].replace(/^[-]([a-z])/, "$1")
+        if (gradient_alias.hasOwnProperty(grad)) {
+            //set gradient to grdeint fucn e.g lineargradient()
+            gradientFunc = gradient_alias[grad];
+
+
+            //setting  direction/angle/position/shape e.g right/45deg/center/circle
+            let m1 = /^[-]?[0-9]+[d]?[0-9]*(deg|grad|rad|turn)/;
+            let m2 = /^((to-)?(right|left|top|bottom)?[-]?(right|left|top|bottom))|([t]?[rltb]?[rltb])(?=[0-9-])/;
+            if (m1.test(data)) {
+                let m = m1.exec(data);
+                holder += m[0].replace(/[d](?=[0-9])/, ".") + ", ";
+                data = data.replace(m[0], "");
+            } else if (m2.test(data)) {
+                let m = m2.exec(data);
+                // console.log(m2.match()[1]);
+                if (gradient_alias.hasOwnProperty(m[0])) {
+                    holder += gradient_alias[m[0]] + ", ";
+                }
+                data = data.replace(m[0], "");
+
+            }
+
+            data = data.replace(/_/g, " ").replace(/-/g, ",");
+            console.log(data);
+            data = data.replace(/[,][A-Za-z0-9]+/g, function(mch) {
+                console.log(mch);
+                let proccessedColor = color(mch.replace(/[,]/, ""), customColor)
+                return proccessedColor ? ", " + proccessedColor : mch;
+            });
+
+
+            data = data.replace(/(?<=[0-9])[p](?=[\W]|$)/g, "%").replace(/(?<=[\W]([0-9])+)[d](?=[0-9])/g, ".");
+            holder += data.replace(/^[,]/, "").replace(/[_]/g, "");
 
 
 
-		return gradientFunc+"( "+holder.replace(/,$/,"")+ " )";
+            // return gradientFunc + "( " + holder.replace(/,$/, "") + " )";
+            masterHolder+= gradientFunc + "( " + holder.replace(/,$/, "") + " ) ,";
 
-}else{
-	return null;
+        } else {
+            return null;
+        }
+    });
+
+    return masterHolder.replace(/,$/, "");
+
+
 }
 
+let gradient_alias = {
+    //gradient
+    cg: "conic-gradient",
+    rcg: "repeating-conic-gradient",
+    "repeating-conic-gradient": "repeating-conic-gradient",
+    "conic-gradient": "conic-gradient",
 
-}
+    lg: "linear-gradient",
+    "linear-gradient": "linear-gradient",
+    rg: "radial-gradient",
+    "radial-gradient": "radial-gradient",
+    rlg: "repeating-linear-gradient",
+    "repeating-linear-gradient": "repeating-linear-gradient",
+    rrg: "repeating-radial-gradient",
+    "repeating-radial-gradient": "repeating-radial-gradient",
+    //direction ((to-)?(right|left|top|bottom)?(right|left|top|bottom))|([t]?[rltb]?[rltb])(?=[0-9-])
+    "r": "right",
+    "right": "right",
+    "bottom": "bottom",
+    "b": "bottom",
+    "t": "top",
+    "top": "top",
+    "l": "left",
+    "left": "left",
 
-let gradient_alias={
-	//gradient
-	cg:"conic-gradient",
-	"conic-gradient":"conic-gradient",
-	lg:"linear-gradient",
-	"linear-gradient":"linear-gradient",
-	rg:"radial-gradient",
-	"radial-gradient":"radical-gradient",
-	rlg:"repeating-linear-gradient",
-	"repeating-linear-gradient":"repeating-linear-gradient",
-	rrg:"repeating-radial-gradient",
-	"repeating-radial-gradient":"radical-gradient",
-	//direction ((to-)?(right|left|top|bottom)?(right|left|top|bottom))|([t]?[rltb]?[rltb])(?=[0-9-])
-	"r":"right", 
-	"right":"right",
-	"bottom":"bottom",
-	"b":"bottom",
-	"t":"top",
-	"top":"top",
-	"l":"left",
-	"left":"left",
+    "top-left": "top left",
+    "top-right": "top rigth",
+    "bottom-right": "bottom right",
+    "bottom-left": "bottom left",
+    "left-top": "left top",
+    "right-top": "rigth top",
+    "right-bottom": "right bottom",
+    "left-bottom": "left bottom",
 
-	"top-left":"top left",
-	"top-right":"top rigth",
-	"bottom-right":"bottom right",
-	"bottom-left":"bottom left",
-	"left-top":"left top",
-	"right-top":"rigth top",
-	"right-bottom":"right bottom",
-	"left-bottom":"left bottom",
+    "tl": "top left",
+    "tr": "top right",
+    "br": "bottom right",
+    "bl": "bottom left",
+    "lt": "left top",
+    "rt": "rigth top",
+    "rb": "right bottom",
+    "lb": "left bottom",
 
-	"tl":"top left",
-	"tr":"top right",
-	"br":"bottom right",
-	"bl":"bottom left",
-	"lt":"left top",
-	"rt":"rigth top",
-	"rb":"right bottom",
-	"lb":"left bottom",
-
-	"tr":"to right",
-	"to-right":"to right",
-	"to-bottom":"to bottom",
-	"tb":"to bottom",
-	"tt":"to top",
-	"to-top":"to top",
-	"tl":"to left",
-	"to-left":"to left",
-	"to-top-left":"to top left",
-	"to-top-right":"to top right",
-	"to-bottom-right":"to bottom right",
-	"to-bottom-left":"to bottom left",
-	"to-left-top":"to left top",
-	"to-right-top":"to right top",
-	"to-right-bottom":"to right bottom",
-	"to-left-bottom":"to left bottom",
-	//shr
-	"ttl":"to top left",
-	"ttr":"to top right",
-	"tbr":"to bottom right",
-	"tbl":"to bottom left",
-	"tlt":"to left top",
-	"trt":"to  right top",
-	"trb":"to right bottom",
-	"tlb":"to left bottom",
+    "tr": "to right",
+    "to-right": "to right",
+    "to-bottom": "to bottom",
+    "tb": "to bottom",
+    "tt": "to top",
+    "to-top": "to top",
+    "tl": "to left",
+    "to-left": "to left",
+    "to-top-left": "to top left",
+    "to-top-right": "to top right",
+    "to-bottom-right": "to bottom right",
+    "to-bottom-left": "to bottom left",
+    "to-left-top": "to left top",
+    "to-right-top": "to right top",
+    "to-right-bottom": "to right bottom",
+    "to-left-bottom": "to left bottom",
+    //shr
+    "ttl": "to top left",
+    "ttr": "to top right",
+    "tbr": "to bottom right",
+    "tbl": "to bottom left",
+    "tlt": "to left top",
+    "trt": "to  right top",
+    "trb": "to right bottom",
+    "tlb": "to left bottom",
 }
 // CONCATENATED MODULE: ./src/compilers/shadow.js
 
 
 
 
-function shadow(data,customColor){
-	
-	let m=/(([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc))+)[-_]([\w-]+)/;
+function shadow(data,custom){
 	let holder="";
+	
+	// if(data.match(/^[-]?(i|inset)/)){
+	// 		holder+="inset ";
+	// }
+	
+	let m=/(([-]?(i|inset)?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc))+)[-_]([\w-]+)/;
+	
 data.split(/--/).forEach((e)=>{
 	if(m.test(e)){
-		if(e.match(/^(i|inset)/)){holder+="inset "};
+		if(e.match(/^[-]?(i|inset)/)){
+			holder+="inset "
+		};
 
 		let result=m.exec(e);
-		let col=color(result[4],customColor);
-		let len=length_length(result[1]);
+		let col=color(result[5],custom);
+		let len=length_length(result[1],custom);
 
 		holder+=len +" "+col+",";
 	}
@@ -3224,29 +3264,7 @@ data.split(/--/).forEach((e)=>{
 
 
 
-		// filter:{match:/^fl([b|c|g|h|i|o|s][l|r|e]?)[0-9]+/,
-		// 	callFunction:function(each){
-
-		// 		getProperty='filter';
-		// 		var funcAlias={bl:'blur',b:'brightness',c:'contrast',g:'grayscale',
-		// 			hr:'hue-rotate',i:'invert',o:'opacity',s:'saturate',se:'sepia'};
-		// 		if(each.match(/[d]?[0-9]$/)){
-
-		// 			funcValue=each.match(/([0-9]*[d]?[0-9]+)/)[0].replace('d', '.');
-
-		// 		}else if(each.match(/flhr[0-9]+/)){
-		// 			funcValue=compiler.angleTimeFrequencyResolutionProcessor(each);
-		// 		}else{
-
-		// 			funcValue=compiler.lengthProcessor(each)?compiler.lengthProcessor(each):0;
-
-		// 		}
-		// 		getValue=funcAlias[each.match(this.match)[1]] + "(" +funcValue +")";
-		// 		return 	[getProperty,getValue];
-
-		// 	}
-
-		// 	},
+		
 // CONCATENATED MODULE: ./src/compilers/url.js
 function url(data){
 				let holder=""
@@ -3398,10 +3416,42 @@ let timingFunction_func={
 // 		},
 // CONCATENATED MODULE: ./src/compilers/grid.js
 //import color from './color.js';
-function grid( data,custom){
-	return;
+function grid( str,custom){
+	let result = "";
+
+    str.split('--').forEach((each) => {
+
+        if (each.match(/[_]/)) {
+            result += '"'+ each.replace(/[_]/g, " ") + '"';
+        } else {
+            result += " "+each;
+        }
+    })
+
+    return result.replace(/[\s]dot/g, " . ");
 }
-// CONCATENATED MODULE: ./src/matcher.js
+
+
+
+// match:
+// 				grid-area
+// 				grid-template-areas
+
+// 				grid-template-columns 150px 150px 150px   name name name
+// 				grid-template-rows has 
+
+
+// 				grid-template-areas: "logo stats"
+//                        "score stats"
+//                        "board board"
+//                        "... controls";
+
+
+
+//                        grid-template-areas: "a b b"
+//                        "a b b";
+
+// CONCATENATED MODULE: ./src/valueCompiler.js
 
 
 
@@ -3416,172 +3466,110 @@ function grid( data,custom){
 
 
 
-// import keyframes from './compilers/keyframes.js';
-
-let matcher={
-	// device:{match:/^(mob|tab|lab|desk|hd|print|xs|sm|md|lg|xl)(?=[-|_])/, call:function(str){return this.match.exec(str)[1];}},
-	// selector:{match:/^([-|_])/,call:null},
-	//------------------------property and value compilers
-	compilers:{
-		color:{
-			match:/^((background-color|fill|stroke|border(-(right|left|top|bottom|text-decoration|text-shadow))?-color|outline-color|color|text)|(bgc|b[rltb]?c|oc|c|txsc|tdc))[-_]/,
-			call:(data,custom,classname)=>color(classname.replace(data[0],""), custom.color)
-		},
-		length:{//cv is custome value for user 
-			match:/^(([-]?[a-z])+)(([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|fr|cv))+)/,
-			call:(data,custom)=>length_length(data[3],custom.length),
-		},
-
-		number:{
-			match:/^(aic|animation-iteration-count|border-image-slice|text-shadow-radius|txsr|bis|cc|column-count|f|flex|fg|flex-grow|fsk|flex-shrink|grid-column-start|grid-row-start|grid-column-end|grid-row-end|gcs|grs|gce|gre|font-size|fs|o|opacity|fill-opacity|stroke-opacity|ord|order|lh|ls|letter-spacing|line-height|orp|orphans|op|object-position|zi|z-index)([-]?[0-9]+[d]?[0-9]*)$/,
-			call:(data)=>number(data[2]),
-		},
-		font:{
-			match:/^(font-family|ff)[-]([a-zA-Z0-9-_]+)/,
-			call:(data,custom)=>font(data[2],custom.font),
-		},
-		time:{
-			match: /^(adu|animation-duration|adl|animation-delay|tdl|transition-delay|tdu|transition-duration)([-]?[0-9]+[d]?[0-9]*(ms|s))/,
-			call:(data)=>angleTimeFrequencyResolution(data[2]),
-		},
-		transform:{
-			match:/^(tf|transform)(([-](matrix|translate|rotate|skew|scale|perspective))|(m|t|tx|ty|s|sy|sx|r|sk|sky|skx|m3d|t3d|tz|ry|rx|rz|p))/,
-			call:(data,custom,classname)=>transform(classname.replace(data[1],"")),
-		},
-		transition:{
-			match:/^(tn|transition)[-]([a-z-]+)([0-9]+[d]?[0-9]*[m]?[s])([\w-_]*)/,
-			call:(data,custom,classname)=>transiton(classname.replace(data[1],"")),
-		},
-		border:{
-			match:/^(b|border|brt|border-right|bl|border-left|bt|border-top|border-bottom|bb|ol|outline|cr|counter-reset)([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmaxc|m|mm|in|pt|pc|fr|cv))[-]?(n|none|s|solid|r|ridge|o|outset|i|inset|h|hidden|g|groove|db|double|dt|dotted|ds|dashed)[-]([\w]*)/,
-			call:(data,custom)=>border(data[2],data[4],data[5],custom.color)
-		},
-		gradient:{
-			match:/(background|bg|bgi|background-image)[-]?(((repeating-)?(conic|linear|radical)-gradient)|(rrg|rg|lg|cg|rlg))([\w_-]+)/,
-			call:(data,custom)=>gradient(data[2],data[7],custom.color),
-		},
-		shadow:{
-			match:/(bxs|bxsi|txs|box-shadow|box-shadow-inset|text-shadow)([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|fr|cv))+/,//[-_]([\w]+)/,
-			call:shadow
-		},
-		url:{
-			match:/(background-image|border-image-source|bis|background|bgi|bg)[-]?url[-_]([\w-]+)/,
-			call:(data)=>url(data[2]),
-		},
-		filter:{
-			match:/(filter|fl)[-]?(drop-shadow|ds|b|blur|br|brightness|c|contrast|g|grayscale|hr|hue-rotate|i|invert|o|opacity|s|saturate|se|sepia)([-]?[0-9][\w-]+)/,
-			call:(data)=>filter(data[2],data[3]),
-		},
-		timingFunction:{
-			match:/(animation-timing-function|atf|transition-timing-function|ttf)[-_]?(cubic-bezier[_-]?[0-9][\w-]+|cb[-_]?[0-9][\w-]+|e|ease|l|linear|ei|ease-in|eo|ease-out|eio|ease-in-out|ss|step-start|se|step-end)/,
-			call:(data)=>timingFunction(data[2]),
-		},
-		content:{
-			match:/^(con|content|grid-area|ga|grid-template-areas|gtc|grid-template-columns|^gtr|grid-template-rows|gta)[-_]?(url|attr)?[-_]([\w-]+)/,
-			call:(data)=>{
-				//u->url
-				if(data[2]==="url"){
-					return url(data[3]);
-				}else if(data[2]==="attr"){
-					return "attr("+data[3]+")";
-				}
-
-				let result="";
-					
-				  data[3].split('--').forEach((each)=>{
-
-					 if(each.match(/[_]/)){
-					 	result+= "'"+ each.replace(/[_]/g," ")+"' ";
-					 }else{
-					 	result+= each;
-					 }
-				  })
-
-				 return result.replace(/[\s]dot/g, " . ");
-				
-
-			}
-		},
-		animation:{
-			match:/(animation-name|an)[-_]([\w]+)/,
-			call:(data)=>{
-				return data[2];
-			}
-		},
-
-		fontFeatureSettings:{
-			match:/(ffs|font-feature-settings)[-]([\w-_]+)/,
-			call:(data,custom,classname)=>data[2].replace(/--/g,', ').replace(/(\w{4})/g, '"$1" ').replace('-'," "),
-		},
-		grid:{
-			// match:'/yzx(grid-template-column|grid-template-row|gtr|gtc|\
-			// 	grid-auto-rows-minmax|grid-auto-columns-minmax|gacmx|garmx\
-			// 	grid-auto-rows-fit-content|grid-auto-columns-fit-content|gacmx|garmx\
-			// |grid-column-end-span|gces|grid-row-end-span|gres|grid-column|gc|grid-row|gr|grid-area|ga\
-			// )/',//,
-			match:/^(grid-column|gc|ga|grid-area|grid-row|gr)[-]?([\w-]+)/,
-			call:(data)=>{
-				
-				//grid-colums,grid-row, grid-column-start-grid-
-				if(data[2].match(/(span)?[-]?[0-9]+((by)?[-0-9]*([-]?span[0-9]+)?)*/)){
-					return data[2].replace(/[-]?by/g," / ").replace(/[-]?span/g, " span ");
-				}
-					//1fr1fr1fr1fr
-					//repeat3_1fr2fr
-					//repeat-auto-fill-minmax200px1fr
-					//repeat-auto-fill-minmax200px-autofill
-					//
 
 
 
-					//1by2
-					//1by-1
-					//1by2by4by4
-					//1byspan3 or 1by-span3
-					//1byspan3by1byspan5 or 1by-span3by-span6
-					//minmax200px1fr
-					//minmax-auto200px
-					//minmax200px-auto
-					//grid-auto-columns: fit-content(400px);
+function valueCompiler(classname, compiler, valuePortion,custom) {
 
-			},
-		}
-// 		grid-template-column:1fr 1fr 1fr //
-// grid-template-column: repeate(3, 1fr) //gtc-r3_1fr3fr
-// grid-template-column: repeate(3, 1fr 2fr)
-// grid-template-column: repeate(auto-fill, 200px)  //raf200px30px
-// grid-template-column: repeate(auto-fill, minmax(200px, 1fr));//rafmx200px1fr
-// grid-template-column:  minmax(200px, 1fr);m200px1fr
-// grid-template-column:  minmax(200px, 1fr);
+    let value;
 
-// grid-auto-rows:200px
+    for (var i = compiler.length - 1; i >= 0; i--) {
+        //if it has given compiler
+        if (compilers.hasOwnProperty(compiler[i])) {
+            //try to match
+            if (compilers[compiler[i]].match.test(valuePortion)) {
+                value = compilers[compiler[i]].call(valuePortion, custom);
+                break;
+            }
 
-// grid-auto-rows: minmax(100px, auto)
-// grid-auto-rows: minmax(100px, 400px)
+        } else {
+            console.log('invalid value compiler:-' + compiler[i])
+        }
+
+    }
+
+    // console.log("%c"+classname, "color:red");
+    // console.log(value);
+    return value;
 
 
-// grid-column-start:1
-// grid-column-end:4
-
-// grid-column:1/4 gc1by4  gc1by-1 gc1by-span3  
-// grid-column:1  //1/ span 1 equevalent
-// grid-column:1 / span 3 
-// grid-column:1 / -1 //full stretch to colum
-// gap:1rm
-// gap:1em 20px
-// column-gap:20px
-
-// grid-area: 1/2/3/4 ga1by2by3by4    1byspan3by2byspan4
-
-// grid-area: grid-row-start/grid-column-start/grid-row-end/grid-colum-end
-
-
-	}
-
-	// -------------for property and value-----------
 }
-// let t=/(background-color|border(-(right|left|top|bottom))?-color|outline-color|color)|(bgc|b[rltb]?c|c)/,
 
+let compilers = {
+
+    color: {
+        match: /^[-_]/,
+        call: color
+    },
+    length: { //cv is custome value for user 
+        match: /^(([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|fr|cv))+)/,
+        call: length_length
+    },
+
+    number: {
+        match: /^[-]?[0-9]+[d]?[0-9]*$/,
+        call: number
+    },
+    font: {
+        match: /^[-]([a-zA-Z0-9-_]+)/,
+        call: font,
+    },
+    time: {
+        match: /^([-]?[0-9]+[d]?[0-9]*(ms|s))/,
+        call: angleTimeFrequencyResolution,
+    },
+    transform: {
+        match: /^([-]?(matrix|translate|rotate|skew|scale|perspective|m|t|tx|ty|s|sy|sx|r|sk|sky|skx|m3d|t3d|tz|ry|rx|rz|p))/,
+        call: transform,
+    },
+    transition: {
+        match: /^[-]([a-z-]+)([0-9]+[d]?[0-9]*[m]?[s])([\w-_]*)/,
+        call: transiton
+    },
+    border: {
+        match: /^([-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmaxc|m|mm|in|pt|pc|fr|cv))[-]?(n|none|s|solid|r|ridge|o|outset|i|inset|h|hidden|g|groove|db|double|dt|dotted|ds|dashed)[-]([\w]*)/,
+        call: border
+    },
+    gradient: {
+        match: /[-]?(((repeating-)?(conic|linear|radial)-gradient)|(rrg|rg|lg|cg|rcg|rlg))([\w_-]+)/,
+        call: gradient
+    },
+    shadow: {
+        match: /((i|inset)?[-]?[0-9]+[d]?[0-9]*(px|em|p|ex|ch|rem|vw|vh|vmin|vmax|cm|mm|in|pt|pc|fr|cv))+/, //[-_]([\w]+)/,
+        call: shadow
+    },
+    url: {
+        match: /[-]?url[-_]([\w-]+)/,
+        call: url,
+    },
+    filter: {
+        match: /[-]?(drop-shadow|ds|b|blur|br|brightness|c|contrast|g|grayscale|hr|hue-rotate|i|invert|o|opacity|s|saturate|se|sepia)([-]?[0-9][\w-]+)/,
+        call: filter,
+    },
+    timingFunction: {
+        match: /[-_]?(cubic-bezier[_-]?[0-9][\w-]+|cb[-_]?[0-9][\w-]+|e|ease|l|linear|ei|ease-in|eo|ease-out|eio|ease-in-out|ss|step-start|se|step-end)/,
+        call: timingFunction,
+    },
+    string: {
+        match: /[-_]? /,
+        call: grid
+    },
+    content: {
+        match: /[-_]?(url|attr)?[-_]([\w-]+)/,
+        call: grid
+
+    },
+
+
+    fontFeatureSettings: {
+        match: /(ffs|font-feature-settings)[-]([\w-_]+)/,
+        call: (data, custom, classname) => data[2].replace(/--/g, ', ').replace(/(\w{4})/g, '"$1" ').replace('-', " "),
+    },
+    grid: {
+        match: /^[-]?([\w-]+)/,
+        call: grid,
+    }
+};
 // CONCATENATED MODULE: ./src/static/propertyAlias.js
 let propertyAlias={
 	//color
@@ -3842,11 +3830,9 @@ let propertyAlias={
 	"text-decoration-color":"text-decoration-color",
 	"tdc":"text-decoration-color",
 	"bxs":"box-shadow",
-	"bxsi":"box-shadow-inset",
 	"text":"color",
 	// "bs":"box-shadow",
 	"box-shadow":"box-shadow",
-	"box-shadow-inset":"box-shadow-inset",
 	"filter":'filter',
 	// "f":'filter',
 	"fl":'filter',
@@ -3865,13 +3851,342 @@ let propertyAlias={
 	//animation
 	'animation-name':"animation-name",
 	an:"animation-name",
-	kf:"@keyframes",
-	keyfames:"keyframes",
-	k:"@keyframes",
-	at:"@keframes"
+
+	"counter-increment":"counter-increment",
+	"ci":"counter-increment",
+	// kf:"@keyframes",
+	// keyframes:"keyframes",
+	// k:"@keyframes",
+	// at:"@keframes"
 
 //
 	//"":"",
+	
+}
+// CONCATENATED MODULE: ./src/static/propertyAliasCompiler.js
+ let propertyAliasCompiler={
+
+ 	//property:'compiler' or [multiple,compile]
+	//color
+	"color":["color"],
+	
+	"background-color":["color"],
+	
+	"border-color":["color"],
+	
+	"border-right-color":["color"],
+	
+	"border-left-color":["color"],
+	
+	"border-top-color":["color"],
+	
+	"border-bottom-color":["color"],
+	
+	"fill":["color"],
+
+	"stroke":["color"],
+
+	"outline-color":["color"],
+
+	"text-shadow-color":["color"],
+
+	"text-decoration-color":["color"],
+	
+
+
+
+	//length
+		"border-radius":["length"],
+		
+
+		'border-image-outset':["length"],
+		
+
+		'border-image-slice':["length","number"],
+		
+
+		'border-image-width':["length"],
+		
+
+		
+		"border-bottom-left-radius":["length"],
+
+		
+		"border-bottom-right-radius": ["length"],
+
+		
+		"border-top-right-radius": ["length"],
+		
+		"border-top-left-radius":["length"],
+		
+		"border-width"  :["length"],
+		
+		"border-right-width"  :["length"],
+		
+		"border-top-width"  :["length"],
+		
+		"border-left-width"  :["length"],
+		
+		"border-bottom-width"  :["length"],
+		
+		"bottom"  :["length"],//-----------------------#
+		
+		"background-position"  :["length"],//----------
+		
+		"background-size":["length"],//-----------
+		
+		"border-spacing"  :["length"],
+		
+		"column-gap":["length"],
+		
+		"column-rule-width":["length"],//#
+		
+		"column-width":["length"],
+		
+		"flex-basis":["length"],
+		
+		"font-size":["length","number"],
+
+		//Grid
+		"grid-gap":["length"],
+
+		"gap":["length"],
+		
+		
+		"grid-row-gap":["length"],
+		
+	
+		"row-gap":["length"],
+		
+		"grid-column-gap":["length"],
+		
+		"grid-auto-columns":["length"],
+		
+		"grid-auto-rows":["length"],
+		
+		"grid-column":["number"],
+		
+		"grid-row":["number"],
+		
+		
+		"grid-template-columns":["length","string"],
+		
+
+		"grid-template-rows":["length", "string"],
+		
+
+
+
+		
+		"height":["length"],
+		
+		"left"  :["length"],
+		
+		"letter-spacing"  :["length","number"],//--------
+		
+		"line-height"  :["length","number"],
+		
+		"margin"  :["length"],
+		// "ma" :["margin","length"],
+		
+		"margin-bottom"  :["length"],
+		
+		"min-height"  :["length"],
+		
+		"margin-left"  :["length"],
+		
+		"marker-offset"  :["length"],
+		
+		"margin-right"  :["length"],
+		
+		"margin-top"  :["length"],
+		
+		"min-width"  :["length"],
+		
+		"outline-offset":["length"],//---------
+		
+		"outline-width"  :["length"],//--------
+		
+		"object-position":["length","number"],//-----------
+
+		"padding"  :["length"],
+		
+		"padding-bottom"  :["length"],
+		
+		"perspective":["length"],//--------
+		
+		"perspective-origin":["length"],
+		
+		"padding-left"  :["length"],
+		 
+		"padding-right"  :["length"],
+		 
+		"padding-top"  :["length"],
+		 
+		"right"  :["length"],
+
+		"stroke-width":["length"],
+
+		"stroke-dasharray":["length"],
+
+		"stroke-dashoffset":["length"],
+
+		 
+		"top"  :["length"],
+		 
+		"transform-origin":["length"],//--------
+		 
+		"text-indent" : ["length"],
+		 
+		"vertical-align":["length"	],
+		 
+		"width" :["length"],
+		 
+		"word-spacing":["length"],
+		 
+		"max-height"  :["length"],//------
+		 
+		"max-width"  :["length"],//----------------
+
+		
+
+		//Number
+		
+		"animation-iteration-count":["number"],
+
+		
+		"column-count":["number"],
+		
+		"flex":["number"],
+		
+		"flex-grow":["number"],
+		
+		"flex-shrink":["number"],
+
+		"grid-column-start":["number","string"],
+		
+		"grid-column-end":["number","string"],
+		
+
+		"grid-row-start":["number","string"],
+		
+		"grid-row-end":["number","string"],
+		
+
+		
+		"order":["number"],//-------
+		
+		"opacity":["number"],
+
+		"stroke-opacity":["number"],
+
+		"fill-opacity":["number"],
+		
+		"orphans":["number"],
+		
+		"z-index":["number"],
+
+
+		//Font-family
+		
+		"font-family":["font"],
+
+		//font-feature-setting
+
+		"font-feature-settings":["fontFeatureSetting"],
+		
+		//Time
+		
+		"animation-delay":["time"],
+		
+		"animation-duration":["time"],
+		
+		"transition-delay":["time"],
+		
+		"transition-duration":["time"],
+
+
+		
+		//transform
+		
+		'transform':["transform"],
+		
+		//transition
+
+		'transition':["transition"],
+
+		//border
+			
+		"border":["border"],
+		
+		"border-right":[,"border"],
+		
+		"border-left":["border"],
+		
+		"border-top":["border"],
+		
+		"border-bottom":["border"],
+		
+		"outline":["border"],
+
+		//Miscelineous
+		
+		
+
+	//gradient and url
+	
+	"background-image":["gradient", "url"],
+	
+	"background":["gradient","url"],
+
+	"border-image-source":["gradient","url"],
+	
+	//Shadow
+	
+	"text-shadow":["shadow"],
+	
+	"text-shadow-radius":["length"],
+	
+	// "bs":["box-shadow","shadow"],
+	"box-shadow":["shadow"],
+
+	// "box-shadow-inset":["box-shadow-inset","shadow"],
+
+
+
+	//Filter
+
+	"filter":["filter"],
+	
+	//timing function
+	
+	'animation-timing-function':["timingFunction"],
+	
+	'transition-timing-function':["timingFunction"],
+
+
+	//string
+	
+	content:["content","url"],
+	
+
+	"counter-reset":["string"],
+
+	'counter-increment':["string"],//counter-increment-listIndex_-1
+
+	
+	//animation
+	'animation-name':["string"],
+
+	//grid
+	'grid-template-areas':["grid"],
+
+	'grid-area':["grid" ,"number"],
+
+
+
+	
+
 	
 }
 // CONCATENATED MODULE: ./src/static/customStaticClassNames.js
@@ -4064,130 +4379,223 @@ mw12col :"min-width: 100%",
 }
 // CONCATENATED MODULE: ./src/provertyAndValue.js
 
+// import {matcher} from "./matcher.js";
 
 
 
 
-function matchAndCall(classname,match,custom){
 
-let data=matcher.compilers[match].match.exec(classname);
+// function matchAndCall(classname,match,custom){
 
-		let property=propertyAlias[data[1]];
+// let data=matcher.compilers[match].match.exec(classname);
 
+// 		let property=propertyAlias[data[1]];
+
+// 		if(property){
+// 			let value=matcher.compilers[match].call(data,custom,classname);
+// 			if(value){
+// 				return property+":"+value;
+// 			}else{
+// 				console.log('\x1b[35m',`Cannot find  value for classname: '${classname} @ ${match}' `);
+// 				return null;
+// 				}
+// 		}else{
+// 			console.log('\x1b[35m',`Cannot find property  for classname: '${classname} @ ${match}' `);
+// 			return null;
+// 		}
+
+// }
+function propertyAndValue(classname,custom,events){
+	// console.info("%c"+classname+":",'color:red')
+	
+	if(!custom) custom={};
+
+	// 1.STATICCLASSNAMES
+
+	if(staticClassNames.hasOwnProperty(classname)){
+		return staticClassNames[classname];
+	}
+
+	//2.CustomStaticClassNAme
+
+	if(customStaticClassNames.hasOwnProperty(classname)){
+		return customStaticClassNames[classname];
+	}
+
+	//3. CSS Variable Classname 
+	if(/--var--/.test(classname)){
+		let pnv=classname.split('--var--');
+		let property=propertyAlias[pnv[0]];
 		if(property){
-			let value=matcher.compilers[match].call(data,custom,classname);
-			if(value){
-				return property+":"+value;
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname} @ ${match}' `);
-				return null;
-				}
+			return property +": var(--"+pnv[1]+")";
 		}else{
-			console.log('\x1b[35m',`Cannot find property  for classname: '${classname} @ ${match}' `);
+			console.log('unable to retrieve property:' + pnv[0])
 			return null;
 		}
 
-}
-function propertyAndValue(classname,custom){
-	if(!custom) custom={};
-	// if(classList.hasOwnProperty(classname)) return classname[classname];
-	if(staticClassNames.hasOwnProperty(classname)){
-		return staticClassNames[classname];
-	}else if(customStaticClassNames.hasOwnProperty(classname)){
-		return customStaticClassNames[classname];
-	//
-	}//End of static Classname defination
-
-	// --------------------------
-	//---------Dyanamic-Classname--
-	//-----------------------------------
-
-	//1.color
-	//2.text
-		//font content aniname
-	//3.number
-	//4.
-
-	//FontFeatures
-	 if(matcher.compilers.fontFeatureSettings.match.test(classname)){
-
-	 	return matchAndCall(classname,'fontFeatureSettings');
-
-	//content
 	}
-	else if(matcher.compilers.content.match.test(classname)){
-		return matchAndCall(classname,'content');
 
-	//timingFunction	
-	}else if(matcher.compilers.timingFunction.match.test(classname)){
-		return matchAndCall(classname,'timingFunction');
+	//4. Dyanamic ClassName
 
-	//filter
-	}else if(matcher.compilers.filter.match.test(classname)){
-		return matchAndCall(classname,'filter');
 
-	//color->only check for property 
-	}else if(matcher.compilers.color.match.test(classname)){
+	//----EXTRACT AND VALIDATE PROPERTYALIAS
+		let extracttPossiblePropertyPortion=classname.match(/^[a-z-]+/);
 
-		return matchAndCall(classname,'color',custom);
+		//Not a valid Acss classname
+		if(!extracttPossiblePropertyPortion) return;
+
+		let propertyPortion=extracttPossiblePropertyPortion[0].replace(/-$/,'').trim();
+
 		
-	//url
-	}else if(matcher.compilers.url.match.test(classname)){
-		return matchAndCall(classname,'url');
-		//shadow
-	}else if(matcher.compilers.shadow.match.test(classname)){
-		let data=matcher.compilers.shadow.match.exec(classname);
-		let property=propertyAlias[data[1]];
-		if(property){
-			let value=matcher.compilers.shadow.call(classname.replace(data[1],""),custom.color);
-			if(value){
-				return (property+":"+value).replace("-inset:", ":inset ");
-			}else{
-				console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @shadow `);
-			}
+
+	// ---------------------------------------------
+	//----Process Dyanamic Classnane-------------------
+	//--------------------------------------------------
+
+	//Step 1. Retrive propertyAlias and property
+
+		let propertyHolder;
+
+		//try to match whole portion with property alias
+		if(propertyAlias.hasOwnProperty(propertyPortion)){
+
+			propertyHolder=propertyAlias[propertyPortion];
+			// console.log(classname,0);
+
 		}else{
-			console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @shadow `);
+			while( /[-][a-z]+$/.test(propertyPortion)){
+				propertyPortion=propertyPortion.replace(/[-][a-z]+$/,"");
+
+				if(propertyAlias.hasOwnProperty(propertyPortion)){
+					propertyHolder=propertyAlias[propertyPortion];
+					// console.log(classname,1);
+					break;
+				}
+
+				// console.log(classname, 2);
+			}
 		}
-		//border
-	}else if(matcher.compilers.border.match.test(classname)){
-		return matchAndCall(classname,'border',custom);
-		//transform
-	}else if(matcher.compilers.transform.match.test(classname)){
-		return matchAndCall(classname,'transform');
-		//transition
-	}else if(matcher.compilers.transition.match.test(classname)){
-		return matchAndCall(classname,'transition');
-	//ms s
-	}else if(matcher.compilers.time.match.test(classname)){
-		return matchAndCall(classname,'time');
-		//length
-	}else if(matcher.compilers.length.match.test(classname)){
-		return matchAndCall(classname,'length',custom);
+
+
+
+		if(!propertyHolder) return;
 		
-	//number	
-	}else if(matcher.compilers.number.match.test(classname)){
-		return matchAndCall(classname,'number');
+
+		let propertyAliasDetails=propertyAliasCompiler[propertyHolder];
+
 		
-	//Font	
-	}else if(matcher.compilers.font.match.test(classname)){
-		return matchAndCall(classname,'font',custom);
+
+
+	//Step 2. Retrive Value
+
+		let valueProtion=classname.replace(new RegExp("^"+propertyPortion),"");
+
+		// console.log(classname,":" ,valueProtion);
+
+		// return
+		let value;
+
+		value=valueCompiler(classname,propertyAliasDetails,valueProtion,custom);
+
+		// return;
+	//Step 3. Return properyAndValue	
+
+		if(value){
+			return propertyHolder+":"+ value;
+		}else{
+			console.log('\x1b[35m',`Cannot find  value for classname: '${classname} @ ${propertyAliasDetails}' `);
+			return null;
+		}
+
+
+
+
+	// // --------------------------
+	// //---------Dyanamic-Classname--
+	// //-----------------------------------
+
 	
-	//gradient
-	}else if(matcher.compilers.gradient.match.test(classname)){
-		return matchAndCall(classname,'gradient',custom);
 
-	//animation
-	}else if(matcher.compilers.animation.match.test(classname)){
-		return matchAndCall(classname,'animation');
-	//grid
-	}else if(matcher.compilers.grid.match.test(classname)){
-		return matchAndCall(classname,'grid');
+	// //FontFeatures
+	//  if(matcher.compilers.fontFeatureSettings.match.test(classname)){
 
-	}
-	else{
-		//console.log('\x1b[35m',`Cannot find property and value for classname: '${classname}' `);
-		return null;
-	}//ifelse
+	//  	return matchAndCall(classname,'fontFeatureSettings');
+
+	// //content
+	// }
+	// else if(matcher.compilers.content.match.test(classname)){
+	// 	return matchAndCall(classname,'content');
+
+	// //timingFunction	
+	// }else if(matcher.compilers.timingFunction.match.test(classname)){
+	// 	return matchAndCall(classname,'timingFunction');
+
+	// //filter
+	// }else if(matcher.compilers.filter.match.test(classname)){
+	// 	return matchAndCall(classname,'filter');
+
+	// //color->only check for property 
+	// }else if(matcher.compilers.color.match.test(classname)){
+
+	// 	return matchAndCall(classname,'color',custom);
+		
+	// //url
+	// }else if(matcher.compilers.url.match.test(classname)){
+	// 	return matchAndCall(classname,'url');
+	// 	//shadow
+	// }else if(matcher.compilers.shadow.match.test(classname)){
+	// 	let data=matcher.compilers.shadow.match.exec(classname);
+	// 	let property=propertyAlias[data[1]];
+	// 	if(property){
+	// 		let value=matcher.compilers.shadow.call(classname.replace(data[1],""),custom.color);
+	// 		if(value){
+	// 			return (property+":"+value).replace("-inset:", ":inset ");
+	// 		}else{
+	// 			console.log('\x1b[35m',`Cannot find  value for classname: '${classname}' @shadow `);
+	// 		}
+	// 	}else{
+	// 		console.log('\x1b[35m',`Cannot find property for classname: '${classname}' @shadow `);
+	// 	}
+	// 	//border
+	// }else if(matcher.compilers.border.match.test(classname)){
+	// 	return matchAndCall(classname,'border',custom);
+	// 	//transform
+	// }else if(matcher.compilers.transform.match.test(classname)){
+	// 	return matchAndCall(classname,'transform');
+	// 	//transition
+	// }else if(matcher.compilers.transition.match.test(classname)){
+	// 	return matchAndCall(classname,'transition');
+	// //ms s
+	// }else if(matcher.compilers.time.match.test(classname)){
+	// 	return matchAndCall(classname,'time');
+	// 	//length
+	// }else if(matcher.compilers.length.match.test(classname)){
+	// 	return matchAndCall(classname,'length',custom);
+		
+	// //number	
+	// }else if(matcher.compilers.number.match.test(classname)){
+	// 	return matchAndCall(classname,'number');
+		
+	// //Font	
+	// }else if(matcher.compilers.font.match.test(classname)){
+	// 	return matchAndCall(classname,'font',custom);
+	
+	// //gradient
+	// }else if(matcher.compilers.gradient.match.test(classname)){
+	// 	return matchAndCall(classname,'gradient',custom);
+
+	// //animation
+	// }else if(matcher.compilers.animation.match.test(classname)){
+	// 	return matchAndCall(classname,'animation');
+	// //grid
+	// }else if(matcher.compilers.grid.match.test(classname)){
+	// 	return matchAndCall(classname,'grid');
+
+	// }
+	// else{
+	// 	//console.log('\x1b[35m',`Cannot find property and value for classname: '${classname}' `);
+	// 	return null;
+	// }//ifelse
 }//
 
 
@@ -4388,7 +4796,7 @@ let flags={
 
 const selectorMatch=/^([-|_])/;
 
-let selector_matchAndCall={
+let matchAndCall={
 	 element:{
 	 	match:/^_[_]?[A-Za-z0-9_]+(?=[_|-])/,
 	 	callFunction:elementHandler,
@@ -4420,7 +4828,7 @@ let selector_matchAndCall={
 
 function pseduoFullFlag(classname){
 	
-		let alias=classname.match(selector_matchAndCall.pseduoFullFlag.match)[0];
+		let alias=classname.match(matchAndCall.pseduoFullFlag.match)[0];
 			if(flags.hasOwnProperty(alias)){
 				classname=classname.replace(alias,"");
 				return [classname, flags[alias]];
@@ -4432,7 +4840,7 @@ function pseduoFullFlag(classname){
 }
 function pseduoHandlerNthChild (classname){
 			let pseduo="";
-			let m=classname.match(selector_matchAndCall.pseduoNthChild.match);
+			let m=classname.match(matchAndCall.pseduoNthChild.match);
 			let alias=m[1];
 			let classnamepre=m[0];
 			let n=m[3];
@@ -4445,8 +4853,8 @@ function pseduoHandlerNthChild (classname){
 		return [classname, pseduo];
 }
 function pseduoHandlerNot (classname){
-			let alias=classname.match(selector_matchAndCall.pseduoNot.match)[0];
-			 let pseduo=":not("+classname.match(selector_matchAndCall.pseduoNot.match)[2]+")";
+			let alias=classname.match(matchAndCall.pseduoNot.match)[0];
+			 let pseduo=":not("+classname.match(matchAndCall.pseduoNot.match)[2]+")";
  			classname=classname.replace(alias,"");
 
  			return [classname, pseduo]
@@ -4454,7 +4862,7 @@ function pseduoHandlerNot (classname){
 			
 }
 function pseduoShortNth(classname){
-	let match=classname.match(selector_matchAndCall.pseduoShortNth.match);
+	let match=classname.match(matchAndCall.pseduoShortNth.match);
 			 if(flags.hasOwnProperty(match[1])){
 			 	return [classname.replace(match[0],''), flags[match[1]]+"("+match[3]+")"];
 			 }
@@ -4463,7 +4871,7 @@ function pseduoShortNth(classname){
  			return [classname, ""];
 } 
 function pseduoShort(classname){
-	let match=classname.match(selector_matchAndCall.pseduoShort.match);
+	let match=classname.match(matchAndCall.pseduoShort.match);
 			 if(flags.hasOwnProperty(match[1])){
 			 	return [classname.replace(match[0],''), flags[match[1]]];
 			 }
@@ -4472,7 +4880,7 @@ function pseduoShort(classname){
  			return [classname, ""];
 } 
  function elementHandler(classname){
-	let alias=classname.match(selector_matchAndCall.element.match)[0];
+	let alias=classname.match(matchAndCall.element.match)[0];
 	if(alias){
 		  let elfy=alias.replace(/____/g," ~ ")
 						.replace(/___/g," + ")
@@ -4494,10 +4902,10 @@ function whileMatchNCall(classname){
 	
 	while(classname){
 		let match=false;
-		for(let key in selector_matchAndCall){
-			if(classname.match(selector_matchAndCall[key].match)){
+		for(let key in matchAndCall){
+			if(classname.match(matchAndCall[key].match)){
 				match=true;
-				let result=selector_matchAndCall[key].callFunction(classname);
+				let result=matchAndCall[key].callFunction(classname);
 				if(!result[1]){
 					match=false; 
 				} 
@@ -4527,35 +4935,119 @@ function whileMatchNCall(classname){
 
 // CONCATENATED MODULE: ./src/keyframes.js
 
-function keyframes(data, name,propertyValue){
+ function keyframes(data, name, propertyValue,custom){
+ 	 // photo-click=>kf-namees-10p20p30p-bg-lg-blue-red---tf-r10deg--s2__40p50p80p-bgc-green atfeio ada  aici adu1s
 //keyframe-name- already extracted
 //[from|to|20p]-classname--classname--classname__[to|20p]-classname--classname__[to|100p]
 let statement="@keyframes "+ name +"{\n";
  let splits=data.split('__');
   splits.forEach(each=>{
-  	let result=at(each,propertyValue);
+  	let result=at(each,propertyValue,custom);
   	if(result!==false) statement+='\t'+result;
   });
 
   return statement+"}";
 }
 
-function at(data, propertyValue){
-	if(!data.match(/^(from|to|[0-9]+p)/)) return false;
+function at(data, propertyValue,custom){
+	if(!data.match(/^(from|to|[0-9]+[p])/)) return false;
 	let statement="";
-	let when=data.match(/^(from|to|[0-9]+p)/)[0];
+	let when=data.match(/^(from|to|[0-9p]+[p])/)[0];
 	data=data.replace(when+'-','');
 	data.split('---').forEach(e=>{
-		let pnv=propertyValue(e);
+		let pnv=propertyValue(e,custom);
 		if(pnv) statement+="\n\t\t"+pnv+';';
 	});
 
-	if(statement) return when.replace(/p$/,"%")+ "{\n"+statement +"\n\t}\n";
+	if(statement) return when.replace(/p/g,"% ,").replace(/[,]$/,"")+ "{\n"+statement +"\n\t}\n";
 	return false;
 
 
 
 }
+
+// keyframes-name__from-propertyvalue---propertyvalue__to
+// keyframes-name__0px-
+// keyframes-name__0p10p50p-
+
+
+
+// @keyframes bouncing {
+//     0%, 50%, 100% { /* OR from, 50%, to */
+//         top: 0;
+//     }
+//     25%, 75% {
+//         top: 100px;
+//     }
+// }
+
+// keyframes-bouncing-0p50p100p-t0p
+// @keyframes bouncing {
+//     0% {
+//         top: 0;
+//     }
+//     25% {
+//         top: 100px;
+//     }
+//     50% {
+//         top: 0;
+//     }
+//     75% {
+//         top: 100px;
+//     }
+//     100% {
+//         top: 0;
+//     }
+// }
+
+
+// @keyframes jump {
+//     0% {
+//         left: 0; top: 0;
+//     }
+//     50% {
+//         left: 200px; top: -200px;
+//     }
+//     100% {
+//         left: 400px; top: 0;
+//     }
+// }
+
+
+
+// @keyframes bounce {
+//   from {
+//     top: 100px;
+//     animation-timing-function: ease-out;
+//   }
+//   25% {
+//     top: 50px;
+//     animation-timing-function: ease-in;
+//   }
+//   50% {
+//     top: 150px;
+//     animation-timing-function: ease-out;
+//   }
+//   75% {
+//     top: 75px;
+//     animation-timing-function: ease-in;
+//   }
+//   to {
+//     top: 100px;
+//   }
+// }
+
+// @keyframes fall {
+//     from {
+//         transform: rotate(0) translateX(0);
+//         opacity: 1;
+//     }
+//     /* ... */
+//     to {
+//         transform: rotate(90deg) translateX(200px);
+//         opacity: 0;
+//     }
+// }
 // CONCATENATED MODULE: ./src/static/customColor.js
 let customColor_customColor={'primaryDarkest':"hsla(210,43%,24%,1)",
 	'primaryDarker':"hsla(211,59%,29%,1)",
@@ -4676,7 +5168,7 @@ let statementMaker={
 	selector:null,
 	propertyAndValue:null,
 	hasSuffix:null,
-	keyframesMatch:/(keyframes|kf|k)-([\w]+)-/,
+	keyframesMatch:/^(keyframes|kf|k)-([\w]+)[-_]{1,2}/,
 	cache:{
 		propertyAndValue:{}
 	},
@@ -4695,7 +5187,7 @@ let statementMaker={
 	//Handle @keyframe animation
 	//Handle !important !default.....
 	handleSuffix:function(classname){
-		let match=/[-](i|important)$/;
+		let match=/[-](i|-important)$/;
 		if(classname.match(match)) this.hasSuffix=" !important";
 		return classname.replace(match,'');
 
@@ -4716,7 +5208,7 @@ let statementMaker={
 
 		//-----  ---KeyFrames-------------------------------------
 		if(this.keyframesMatch.test(classname)){
-			let extract=classname.match(/(keyframes|kf|k)-([\w]+)-/);
+			let extract=classname.match(/(keyframes|kf|k)-([\w]+)[-_]{1,2}/);
 			// classname=classname.replace(extract[0],'');
 			let $result= keyframes(classname.replace(extract[0],''),extract[2],propertyAndValue);
 			if($result){
@@ -4740,7 +5232,7 @@ let statementMaker={
 		classname=selectorResult[0].replace(/^[_-]/,"");
 
 
-		//------------suffix-flag------ -i,-important
+		//------------suffix-flag------ -i,--important
 		
 			classname=this.handleSuffix(classname);		
 
@@ -4902,6 +5394,7 @@ statementMaker.addCustom('color',static_customColor);
  	unvalidLists:[],
  	classLists:[],
  	styleTagExists:false,
+ 	customCheck:false,
 
 
  	styleTag:null,
@@ -5002,7 +5495,14 @@ statementMaker.addCustom('color',static_customColor);
 
 	},//eomain
 	run:function(el){
+
+		// const event = new Event('acss:init');
+
+
 		let $root=el||document;
+
+		// $root.dispatchEvent(event);
+		$root.dispatchEvent(new CustomEvent('acss:init', { bubbles: true }))
 		
 		//<template> elment
 		Array.prototype.forEach.call($root.querySelectorAll('template'),(template)=>{
@@ -5429,8 +5929,14 @@ closeEditor:function(){
 appendCss:function(str,group){
 	this.classPrinter.appendToStyleTag(this.statementMaker.fromString(str,group));
 },
-addCustom:function(a,b,c){
-this.statementMaker.addCustom(a,b,c);
+addCustom:function(custom){
+	Object.keys(custom).forEach(key=>{
+ 				this.statementMaker.addCustom(key, custom[key])
+ 			});
+
+
+
+
 },
 statementMaker:classPrinterBeta,
 
@@ -5438,15 +5944,19 @@ statementMaker:classPrinterBeta,
 
 //Adding custom color
 // ACSS.addCustom('color',customColor);
-
- window.addEventListener('load',function(){
- 	classPrinter.run();
- });
-
-
 if(!window.ACSS){
 	window.ACSS=build_ACSS;
 }
+
+ window.addEventListener('load',function(){
+ 	build_ACSS.classPrinter.run();
+ 	console.log('ACSS is running');
+ });
+
+
+// if(!window.ACSS){
+// 	window.ACSS=ACSS;
+// }
 // // module.exports=ACSS;
 
 

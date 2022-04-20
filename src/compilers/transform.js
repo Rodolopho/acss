@@ -21,6 +21,7 @@ export default function transform(data){
 
 }
 function transformEach(data){
+	console.log('transform:',data);
 	
 	
 	let match=/([a-zA-z]+(3d)?)(([-]?[0-9]+[d]?[0-9]*[a-z]*))+/;

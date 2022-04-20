@@ -4,6 +4,7 @@
  	unvalidLists:[],
  	classLists:[],
  	styleTagExists:false,
+ 	customCheck:false,
 
 
  	styleTag:null,
@@ -104,7 +105,14 @@
 
 	},//eomain
 	run:function(el){
+
+		// const event = new Event('acss:init');
+
+
 		let $root=el||document;
+
+		// $root.dispatchEvent(event);
+		$root.dispatchEvent(new CustomEvent('acss:init', { bubbles: true }))
 		
 		//<template> elment
 		Array.prototype.forEach.call($root.querySelectorAll('template'),(template)=>{

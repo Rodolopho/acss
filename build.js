@@ -27,8 +27,14 @@ closeEditor:function(){
 appendCss:function(str,group){
 	this.classPrinter.appendToStyleTag(this.statementMaker.fromString(str,group));
 },
-addCustom:function(a,b,c){
-this.statementMaker.addCustom(a,b,c);
+addCustom:function(custom){
+	Object.keys(custom).forEach(key=>{
+ 				this.statementMaker.addCustom(key, custom[key])
+ 			});
+
+
+
+
 },
 statementMaker:statementMaker,
 
@@ -36,15 +42,19 @@ statementMaker:statementMaker,
 
 //Adding custom color
 // ACSS.addCustom('color',customColor);
-
- window.addEventListener('load',function(){
- 	classPrinter.run();
- });
-
-
 if(!window.ACSS){
 	window.ACSS=ACSS;
 }
+
+ window.addEventListener('load',function(){
+ 	ACSS.classPrinter.run();
+ 	console.log('ACSS is running');
+ });
+
+
+// if(!window.ACSS){
+// 	window.ACSS=ACSS;
+// }
 // // module.exports=ACSS;
 
 

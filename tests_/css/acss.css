@@ -1,0 +1,98 @@
+
+/* AliasCSS : These are classnames compiled group in config.js file}*/
+
+
+	.body{
+		color:red;
+	}
+
+	
+/* AliasCSS : These are classnames compiled group in config.js file}*/
+
+ 
+ .container { 
+	padding:15px ;
+	border:1px solid hsla(214,20%,84%,1) ;
+ }
+.row:hover{margin:25% ;}
+ 
+ .row { 
+	color:red ;
+ }
+
+/* AliasCSS : These are classnames compiled  from index.html*/
+
+._li-aic li{align-items: center ;}
+._li-df li{display: flex ;}
+._li-h50px li{height:50px ;}
+._li-jcc li{justify-content: center ;}
+._li-m20px li{margin:20px ;}
+._li-w100px li{width:100px ;}
+._ul-lsn ul{list-style: none ;}
+.bgc-danger{background-color:hsla(3,69%,51%,1) ;}
+.bgc-dangerDark{background-color:hsla(4,75%,40%,1) ;}
+.bgc-dangerDarker{background-color:hsla(3,71%,31%,1) ;}
+.bgc-dangerDarkest{background-color:hsla(2,62%,23%,1) ;}
+.bgc-dangerLight{background-color:hsla(2,67%,63%,1) ;}
+.bgc-dangerLighter{background-color:hsla(2,74%,81%,1) ;}
+.bgc-dangerLightest{background-color:hsla(0,70%,95%,1) ;}
+.bgc-dark{background-color:hsla(218,16%,60%,1) ;}
+.bgc-darker{background-color:hsla(216,13%,43%,1) ;}
+.bgc-darkest{background-color:hsla(218,22%,17%,1) ;}
+.bgc-grey{background-color:hsla(210,19%,77%,1) ;}
+.bgc-info{background-color:hsla(173,42%,48%,1) ;}
+.bgc-infoDark{background-color:hsla(173,46%,39%,1) ;}
+.bgc-infoDarker{background-color:hsla(174,48%,26%,1) ;}
+.bgc-infoDarkest{background-color:hsla(179,50%,18%,1) ;}
+.bgc-infoLight{background-color:hsla(178,55%,65%,1) ;}
+.bgc-infoLighter{background-color:hsla(177,66%,80%,1) ;}
+.bgc-infoLightest{background-color:hsla(177,100%,95%,1) ;}
+.bgc-light{background-color:hsla(214,20%,84%,1) ;}
+.bgc-lighter{background-color:hsla(210,25%,91%,1) ;}
+.bgc-lightest{background-color:hsla(210,17%,98%,1) ;}
+.bgc-primary{background-color:hsla(211,60%,51%,1) ;}
+.bgc-primaryDark{background-color:hsla(211,61%,41%,1) ;}
+.bgc-primaryDarker{background-color:hsla(211,59%,29%,1) ;}
+.bgc-primaryDarkest{background-color:hsla(210,43%,24%,1) ;}
+.bgc-primaryLighter{background-color:hsla(209,84%,82%,1) ;}
+.bgc-primaryLightest{background-color:hsla(206,100%,97%,1) ;}
+.bgc-success{background-color:hsla(135,50%,52%,1) ;}
+.bgc-successDark{background-color:hsla(135,50%,41%,1) ;}
+.bgc-successDarker{background-color:hsla(135,53%,31%,1) ;}
+.bgc-successDarkest{background-color:hsla(149,50%,21%,1) ;}
+.bgc-successLight{background-color:hsla(138,56%,67%,1) ;}
+.bgc-successLighter{background-color:hsla(135,66%,80%,1) ;}
+.bgc-successLightest{background-color:hsla(137,80%,94%,1) ;}
+.bgc-warning{background-color:hsla(46,86%,63%,1) ;}
+.bgc-warningDark{background-color:hsla(48,75%,45%,1) ;}
+.bgc-warningDarker{background-color:hsla(47,100%,27%,1) ;}
+.bgc-warningDarkest{background-color:hsla(47,100%,18%,1) ;}
+.bgc-warningLight{background-color:hsla(47,89%,78%,1) ;}
+.bgc-warningLighter{background-color:hsla(47,91%,91%,1) ;}
+.bgc-warningLightest{background-color:hsla(45,100%,98%,1) ;}
+.c-000{color:#000 ;}
+.c-fff{color:#fff ;}
+.df{display: flex ;}
+
+/* AliasCSS : These are classnames compiled  from index2.html*/
+
+.--hover-color-test:hover{color: blue; ;}
+.b0{border:0 ;}
+.bgc-ccc{background-color:#ccc ;}
+.bgc-paul{background-color:pinky ;}
+.bgc-red-i{background-color:red !important ;}
+.color--var--main-body{color: var(--main-body) ;}
+@keyframes hello{
+}
+ .kf-hello-dsfsfasfadsfsd{animation-name: hello}
+.p5px15px{padding:5px 15px ;}
+ 
+ .test { 
+	background-color:pinky ;
+ }
+ 
+ .button { 
+	border:0 ;
+	padding:5px 15px ;
+	background-color:#ccc ;
+ }

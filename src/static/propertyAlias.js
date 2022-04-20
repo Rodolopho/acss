@@ -257,11 +257,9 @@ export let propertyAlias={
 	"text-decoration-color":"text-decoration-color",
 	"tdc":"text-decoration-color",
 	"bxs":"box-shadow",
-	"bxsi":"box-shadow-inset",
 	"text":"color",
 	// "bs":"box-shadow",
 	"box-shadow":"box-shadow",
-	"box-shadow-inset":"box-shadow-inset",
 	"filter":'filter',
 	// "f":'filter',
 	"fl":'filter',
@@ -280,10 +278,13 @@ export let propertyAlias={
 	//animation
 	'animation-name':"animation-name",
 	an:"animation-name",
-	kf:"@keyframes",
-	keyfames:"keyframes",
-	k:"@keyframes",
-	at:"@keframes"
+
+	"counter-increment":"counter-increment",
+	"ci":"counter-increment",
+	// kf:"@keyframes",
+	// keyframes:"keyframes",
+	// k:"@keyframes",
+	// at:"@keframes"
 
 //
 	//"":"",

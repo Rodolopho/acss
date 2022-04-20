@@ -1,6 +1,6 @@
 export default function color(color,custom){
 	if(color.match(/[-_]/)) color=color.split(/[_-]/)[1];
-	
+	 custom=custom.color;
 	if(typeof custom === "object"){
 		if(custom.hasOwnProperty(color)) return custom[color];
 	}

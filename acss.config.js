@@ -2,12 +2,12 @@ module.exports={
 
 	//input glob patterns, can be array of folder or files or both,
 
-	input: ['test/*.html'],
+	input: 'tests_/*.html',
 	 //Old-Ref:- input:'path/to/folderORFile',// can be array of folder or files or both, 
 	
 
 	//File mus be created manually
-	output:'test/css/acss.css', 
+	output:'tests_/css/acss.css', 
 
 		//Ignoring test as we have golb pattern now
 	// test:/(html)$/,///(html|htm|acss|php|template)$/,//test  file extention 
@@ -15,6 +15,7 @@ module.exports={
 	custom:{
 		color:{
 			'extreme':"olive",
+			'paul':'pinky'
 
 		},
 		length:{

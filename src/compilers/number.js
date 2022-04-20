@@ -3,7 +3,11 @@ export default function number(str,custom){
 	if(typeof custom === "object"){
 		if(custom.hasOwnProperty(str)) return custom[str];
 	}
- return str.replace(/d/,".");
+ return str.replace(/by/g, ' / ')
+ 			.replace(/(span)/g, "$1 ")
+		 .replace(/d/,".");
+
+
 
 }
 

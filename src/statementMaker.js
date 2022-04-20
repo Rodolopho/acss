@@ -16,7 +16,7 @@ export let statementMaker={
 	selector:null,
 	propertyAndValue:null,
 	hasSuffix:null,
-	keyframesMatch:/(keyframes|kf|k)-([\w]+)-/,
+	keyframesMatch:/^(keyframes|kf|k)-([\w]+)[-_]{1,2}/,
 	cache:{
 		propertyAndValue:{}
 	},
@@ -35,7 +35,7 @@ export let statementMaker={
 	//Handle @keyframe animation
 	//Handle !important !default.....
 	handleSuffix:function(classname){
-		let match=/[-](i|important)$/;
+		let match=/[-](i|-important)$/;
 		if(classname.match(match)) this.hasSuffix=" !important";
 		return classname.replace(match,'');
 
@@ -56,7 +56,7 @@ export let statementMaker={
 
 		//-----  ---KeyFrames-------------------------------------
 		if(this.keyframesMatch.test(classname)){
-			let extract=classname.match(/(keyframes|kf|k)-([\w]+)-/);
+			let extract=classname.match(/(keyframes|kf|k)-([\w]+)[-_]{1,2}/);
 			// classname=classname.replace(extract[0],'');
 			let $result= keyframes(classname.replace(extract[0],''),extract[2],propertyAndValue);
 			if($result){
@@ -80,7 +80,7 @@ export let statementMaker={
 		classname=selectorResult[0].replace(/^[_-]/,"");
 
 
-		//------------suffix-flag------ -i,-important
+		//------------suffix-flag------ -i,--important
 		
 			classname=this.handleSuffix(classname);		
 
